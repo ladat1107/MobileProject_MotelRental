@@ -13,10 +13,10 @@
         android:theme="@style/Theme.MobileProject_MotelRental"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".Password_Page_Activity"
             android:exported="false" />
         <activity
-            android:name=".Password_Page_Activity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
