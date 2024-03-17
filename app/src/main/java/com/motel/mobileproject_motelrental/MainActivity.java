@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         setContentView(R.layout.activity_main);
         cbDongY = findViewById(R.id.cbDongY);
         btnTiepTuc = findViewById(R.id.btnTiepTuc);
@@ -22,5 +23,8 @@ public class MainActivity extends AppCompatActivity {
                 btnTiepTuc.setEnabled(isChecked);
             }
         });
+=======
+        setContentView(R.layout.activity_home);
+>>>>>>> 1fe048b (MB03| HomePage)
     }
 }
