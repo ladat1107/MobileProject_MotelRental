@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220dp"
+    android:layout_height="100dp"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/rounded_corner_3"
+    android:backgroundTint="#F4F8FB">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/imgavatar"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:text="Nguyễn Văn A"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:textSize="12dp"
+            android:textColor="#a5a5a5"
+            android:text="12:00 02-03-2024"/>
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="175dp"
+            android:background="@drawable/rounded_corner_3"
+            android:backgroundTint="#0C7094"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.4"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/title_comment"
+        android:layout_width="150dp"
+        android:layout_height="16dp"
+        android:text="Tiêu đề"
+        android:textStyle="bold"
+        android:textSize="13dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="60dp"
+        android:textSize="12dp"
+        android:text="ádlasdlasjdlkasjdkas"/>
+
+</RelativeLayout>

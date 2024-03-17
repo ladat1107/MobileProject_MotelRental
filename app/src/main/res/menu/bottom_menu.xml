@@ -3,21 +3,21 @@
     <item
         android:id="@+id/home"
         android:title="Trang chủ"
-        android:icon="@drawable/imgHome"/>
+        android:icon="@drawable/imghome"/>
     <item
         android:id="@+id/map"
         android:title="Bản đồ"
-        android:icon="@drawable/imgMap"/>
+        android:icon="@drawable/imgmap"/>
     <item
         android:id="@+id/message"
         android:title="Tin nhắn"
-        android:icon="@drawable/imgMessage"/>
+        android:icon="@drawable/imgmessage"/>
     <item
         android:id="@+id/love"
         android:title="Yêu thích"
-        android:icon="@drawable/imgLove2"/>
+        android:icon="@drawable/imglove2"/>
     <item
         android:id="@+id/user"
         android:title="Tài khoản"
-        android:icon="@drawable/imgUser"/>
+        android:icon="@drawable/imguser"/>
 </menu>

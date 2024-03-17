@@ -7,7 +7,7 @@
         android:layout_height="130dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/imgHinhPhong"/>
+        android:src="@drawable/imgphong"/>
     
     <RelativeLayout
         android:layout_width="234dp"
@@ -23,7 +23,7 @@
         <ImageView
             android:layout_width="15dp"
             android:layout_height="13dp"
-            android:src="@drawable/imgLove"
+            android:src="@drawable/imglove1"
             android:layout_marginTop="34dp"/>
 
         <TextView
@@ -72,7 +72,7 @@
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@drawable/imgStar"
+            android:src="@drawable/imgstarr"
             android:layout_marginTop="109dp"/>
         <TextView
             android:id="@+id/txtBinhLuan"
