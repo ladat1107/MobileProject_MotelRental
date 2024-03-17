@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".HomeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/bghome"
+            android:scaleType="fitXY"/>
+
+        <RelativeLayout
+            android:layout_width="320dp"
+            android:layout_height="170dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/rounded_corner"
+            android:elevation="20dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/find" />
+
+            <EditText
+                android:id="@+id/edTextSearch"
+                android:layout_width="240dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="10dp"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="70dp"
+                android:src="@drawable/fillter" />
+
+            <TextView
+                android:id="@+id/txtViewFilter"
+                android:layout_width="240dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="60dp"
+                android:gravity="center_vertical"
+                android:text="Bộ lọc tìm kiếm"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/btnFind"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="110dp"
+                android:background="@drawable/rounded_button"
+                android:text="Tìm thấy 100 kết quả"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/tro"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tìm trọ"
+            android:textStyle="bold"
+            android:layout_marginTop="260dp"
+            android:layout_marginLeft="26dp"/>
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/chungcu"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chung cư"
+            android:textStyle="bold"
+            android:layout_marginTop="260dp"
+            android:layout_marginLeft="109dp"/>
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/oghep"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ở ghép"
+            android:textStyle="bold"
+            android:layout_marginTop="260dp"
+            android:layout_marginLeft="205dp"/>
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="285dp"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/dangtro"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng trọ"
+            android:textStyle="bold"
+            android:layout_marginTop="260dp"
+            android:layout_marginLeft="285dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="280dp">
+
+        <TextView
+            android:id="@+id/btnViewPhoBien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Phổ biến"/>
+
+        <TextView
+            android:id="@+id/btnViewYeuThich"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="130dp"
+            android:layout_marginTop="7dp"
+            android:textSize="15dp"
+            android:text="Được yêu thích"/>
+
+        <TextView
+            android:id="@+id/btnViewDanhGia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="260dp"
+            android:layout_marginTop="7dp"
+            android:textSize="15dp"
+            android:text="Đánh giá cao"/>
+
+        <ImageView
+            android:id="@+id/imgViewLine"
+            android:layout_width="80dp"
+            android:layout_height="5dp"
+            android:background="@drawable/rounded_button"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="330dp"
+        android:layout_marginBottom="70dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="730dp">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="68dp"
+            android:layout_marginTop="2dp"
+            app:labelVisibilityMode="labeled"
+            android:background="@color/white"
+            app:menu="@menu/bottom_menu"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#a5a5a5"/>
+    </RelativeLayout>
+</RelativeLayout>
