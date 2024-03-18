@@ -34,10 +34,10 @@
             android:layout_gravity="center"
             android:text="Đổi Mật Khẩu"
             android:textColor="@color/white"
-            android:textSize="30dp"
+            android:textSize="24dp"
             android:textStyle="bold"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:id="@+id/tvDoiMatKhau"/>
     </RelativeLayout>
 
@@ -58,7 +58,8 @@
             android:layout_width="280dp"
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
-            android:hint="nhập mật khẩu cũ" />
+            android:hint="nhập mật khẩu cũ"
+            android:textColor="@color/black"/>
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -91,7 +92,8 @@
             android:layout_width="280dp"
             android:layout_height="60dp"
             android:layout_marginTop="130dp"
-            android:hint="nhập mật khẩu mới" />
+            android:hint="nhập mật khẩu mới"
+            android:textColor="@color/black"/>
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -125,7 +127,8 @@
             android:layout_width="280dp"
             android:layout_height="60dp"
             android:layout_marginTop="230dp"
-            android:hint="Xác nhận mật khẩu" />
+            android:hint="Xác nhận mật khẩu"
+            android:textColor="@color/black"/>
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -154,5 +157,6 @@
         android:text="Thay đổi"
         android:textStyle="bold"
         android:textSize="15dp"
+        android:textColor="@color/white"
         android:id="@+id/btnThayDoiMatKhau"/>
 </RelativeLayout>

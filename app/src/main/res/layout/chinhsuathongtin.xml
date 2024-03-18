@@ -1,6 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ThayDoiMatKhau"
+    android:background="@color/white">
+    <RelativeLayout
+        android:layout_width="360dp"
+        android:layout_height="65dp"
+        android:background="#FF5C6C">
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="14dp">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/back" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                android:text="."
+                android:id="@+id/btnBack"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tvChinhSuaThongTin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="17dp"
+            android:text="Chinh Sửa Thông Tin"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="360dp"
+        android:layout_height="650dp"
+        android:layout_marginTop="65dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:text="Họ và tên: "
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Nguyễn Văn A"
+            android:textColor="@color/black"
+            android:id="@+id/etHoTen"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="30dp"
+            android:text="Số điện thoại: "
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="155dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Bao gồm 10 chữ số"
+            android:id="@+id/etSDT"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_marginTop="225dp"
+            android:layout_marginLeft="30dp"
+            android:text="Giới tính: "
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="260dp">
+            <RadioButton
+                android:id="@+id/rbNam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:text="Nam"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+            <RadioButton
+                android:id="@+id/rbNu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:text="Nữ"
+                android:textColor="@color/black"
+                android:textSize="18dp"/>
+        </RadioGroup>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_marginTop="330dp"
+            android:layout_marginLeft="30dp"
+            android:text="Địa chỉ: "
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+        <Spinner
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="365dp"
+            android:layout_marginLeft="30dp"
+            android:background="#00ffffff"
+            android:id="@+id/spTinhThanhPho"/>
+        <Spinner
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="425dp"
+            android:layout_marginLeft="30dp"
+            android:background="#00ffffff"
+            android:id="@+id/spQuanHuyen"/>
+        <Spinner
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="485dp"
+            android:layout_marginLeft="30dp"
+            android:background="#00ffffff"
+            android:id="@+id/spXaPhuong"/>
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="545dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Số nhà"
+            android:textColor="@color/black"
+            android:id="@+id/etSoNha"/>
+    </RelativeLayout>
+    <Button
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="742dp"
+        android:backgroundTint="#F44336"
+        android:text="Chỉnh sửa"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:id="@+id/btnChinhSuaThongTin"/>
+</RelativeLayout>
