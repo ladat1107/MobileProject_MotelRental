@@ -34,10 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="Thay Đổi Avatar"
             android:textColor="@color/white"
-            android:textSize="30dp"
+            android:textSize="24dp"
             android:textStyle="bold" />
     </RelativeLayout>
     <RelativeLayout
@@ -81,7 +81,7 @@
             android:backgroundTint="#00ffffff"
             android:textColor="#67BDCA"
             android:id="@+id/btnChonTuThuVien"/>
-        <ImageView
+        <View
             android:layout_width="300dp"
             android:layout_height="1dp"
             android:layout_marginLeft="30dp"
@@ -104,7 +104,6 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/delete"/>
         </RelativeLayout>
-
     </RelativeLayout>
     <Button
         android:layout_width="340dp"
@@ -115,5 +114,6 @@
         android:text="Chỉnh sửa"
         android:textStyle="bold"
         android:textSize="15dp"
+        android:textColor="@color/white"
         android:id="@+id/btnDoiAvatar"/>
 </RelativeLayout>
