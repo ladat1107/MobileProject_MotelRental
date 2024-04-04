@@ -27,13 +27,6 @@
             android:name=".OwnerTypeOfRoom"
             android:exported="false" />
         <activity
-            android:name=".DetailRomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BasicInformation"
             android:name=".AddDetailRoomActivity"
             android:exported="false" />
         <activity
@@ -46,7 +39,10 @@
             android:name=".FillterActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Password_Page_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".BasicInformation"
             android:exported="false" />
        
         <activity
