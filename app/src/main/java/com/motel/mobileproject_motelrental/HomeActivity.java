@@ -24,9 +24,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         edtSearch = (EditText)findViewById(R.id.edTextSearch);
         txtFillter=(TextView) findViewById(R.id.txtViewFilter);
-        btnPhoBien=(Button) findViewById(R.id.btnViewPhoBien);
-        btnYeuThich=(Button) findViewById(R.id.btnViewYeuThich);
-        btnDanhGia=(Button) findViewById(R.id.btnViewDanhGia);
+        //btnPhoBien=(Button) findViewById(R.id.btnViewPhoBien);
+        //btnYeuThich=(Button) findViewById(R.id.btnViewYeuThich);
+        //btnDanhGia=(Button) findViewById(R.id.btnViewDanhGia);
         btnFind=(Button) findViewById(R.id.btnFind);
         //setActive(btnPhoBien, btnYeuThich, btnDanhGia);
         btnPhoBien.setOnClickListener(new View.OnClickListener() {

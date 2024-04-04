@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
     <color name="grey">#CCCCCC</color>
+    <color name="ld_color">#077BB4</color>
+    <color name="ld_edittext">#81cffd</color>
 </resources>
