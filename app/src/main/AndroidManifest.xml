@@ -41,16 +41,15 @@
         <activity
             android:name=".Password_Page_Activity"
             android:exported="false" />
-        <activity
-            android:name=".DetailRomeActivity"
-            android:exported="false" />
 
         <activity
             android:name=".BasicInformation"
+            android:exported="false" />
+        <activity
+            android:name=".DetailRomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
