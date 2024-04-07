@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180dp"
+    android:layout_height="190dp"
+    android:background="@drawable/rounded_corner_3"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:elevation="5dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/imgroom" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nhà trọ view sông hồ"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/txtDiaChiMotel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Số 1 Võ Văn Ngân, Linh Chiểu, Thủ Đức"
+        android:textSize="12dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="5dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp">
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/img_love_red"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100 lượt yêu thích."
+            android:layout_marginLeft="20dp"/>
+
+    </RelativeLayout>
+</LinearLayout>

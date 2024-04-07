@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
-        android:title="Trang chủ"
-        android:icon="@drawable/imgHome"/>
-    <item
         android:id="@+id/map"
         android:title="Bản đồ"
-        android:icon="@drawable/imgMap"/>
+        android:icon="@drawable/img_map"/>
     <item
         android:id="@+id/message"
         android:title="Tin nhắn"
-        android:icon="@drawable/imgMessage"/>
+        android:icon="@drawable/img_message"/>
+    <item
+        android:id="@+id/fab"
+        android:title=""
+        android:enabled="false"/>
     <item
         android:id="@+id/love"
         android:title="Yêu thích"
-        android:icon="@drawable/imgLove2"/>
+        android:icon="@drawable/img_love"/>
     <item
         android:id="@+id/user"
         android:title="Tài khoản"
-        android:icon="@drawable/imgUser"/>
+        android:icon="@drawable/img_user"/>
 </menu>

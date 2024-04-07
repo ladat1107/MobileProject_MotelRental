@@ -4,4 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
     <color name="grey">#CCCCCC</color>
+    <color name="bluebutton">#00639C</color>
+    <color name="bgcolor">#F7FCFF</color>
+    <color name="bluecustom">#85d3df</color>
+    <color name="bluesee">#0c7094</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>

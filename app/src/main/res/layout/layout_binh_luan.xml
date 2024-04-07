@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:backgroundTint="@color/bgcolor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/cmtavatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/imgavatar" />
+
+        <TextView
+            android:id="@+id/cmtname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/cmtavatar"
+            android:text="Nguyễn Văn A"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/cmtday"
+            android:layout_toRightOf="@+id/cmtname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:00 02-03-2024"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#a5a5a5"
+            android:textSize="12dp" />
+
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/cmtcontent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="This formula will generate a random paragraph that could be used as a review or feedback based on a rating."
+        android:textSize="12dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/img_like"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hữu ích"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="52dp"
+            android:textColor="#a5a5a5"
+            android:textSize="12dp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+</LinearLayout>

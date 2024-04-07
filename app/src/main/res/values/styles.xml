@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="chipStrokeColor">@color/chip_stroke_color</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MyApp.Floating" parent="">
+        <item name="cornerSize">50%</item> <!-- Điều chỉnh giá trị này để thay đổi độ cong của góc -->
+    </style>
+</resources>
