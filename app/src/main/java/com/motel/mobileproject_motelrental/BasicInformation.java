@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
@@ -25,6 +26,7 @@ public class BasicInformation extends AppCompatActivity {
     EditText etTieuDe, etDienTich, etGiaThue, etNgayChuyenToi, etNoiBat, etMoTa;
     ImageView btnLich;
     Button btnTiepTuc;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -32,7 +34,9 @@ public class BasicInformation extends AppCompatActivity {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, month);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            etNgayChuyenToi.setText(fmtDateAndTime.format(myCalendar.getTime()));
+            String formattedDate = dateFormat.format(myCalendar.getTime());
+
+            etNgayChuyenToi.setText(formattedDate);
         }
     };
 
