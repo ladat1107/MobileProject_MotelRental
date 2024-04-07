@@ -1,0 +1,14 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true">
+        <shape>
+            <solid android:color="@color/ld_color" /> <!-- Màu nền của button khi enable -->
+            <corners android:radius="10dp" /> <!-- Bán kính bo cạnh của button -->
+        </shape>
+    </item>
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="@color/grey" /> <!-- Màu nền của button khi disable -->
+            <corners android:radius="30dp" /> <!-- Bán kính bo cạnh của button -->
+        </shape>
+    </item>
+</selector>

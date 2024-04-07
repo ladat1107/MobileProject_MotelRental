@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
     <color name="grey">#CCCCCC</color>
+    <color name="ld_color">#077BB4</color>
+    <color name="ld_edittext">#81cffd</color>
     <color name="bluebutton">#00639C</color>
     <color name="bgcolor">#F7FCFF</color>
     <color name="bluecustom">#85d3df</color>

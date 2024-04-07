@@ -15,6 +15,25 @@
         android:theme="@style/Theme.MobileProject_MotelRental"
         tools:targetApi="31">
         <activity
+            android:name=".CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OwnerTypeOfRoom"
+            android:exported="false" />
+        <activity
+            android:name=".DetailRomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BasicInformation"
             android:name=".AddDetailRoomActivity"
             android:exported="false" />
         <activity
@@ -29,9 +48,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".HomePageActivity"
-            android:exported="false" />
+       
         <activity
             android:name=".DetailRomeActivity"
             android:exported="true">

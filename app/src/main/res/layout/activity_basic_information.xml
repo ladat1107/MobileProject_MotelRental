@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:windowSoftInputMode="adjustPan"
+    tools:context=".BasicInformation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/ld_color">
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:src="@drawable/imgownerback" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Thông tin cơ bản"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_marginRight="30dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <!-- NestedScrollView -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+    <!-- ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="70dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="60dp">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Tiêu đề" />
+
+            <EditText
+                android:id="@+id/etTieuDe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="16dp"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:hint=" Nêu nổi bật loại dịch vụ"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ld_custom_edittext"
+                android:text="" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Diện tích" />
+
+            <EditText
+                android:id="@+id/etDienTich"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="16dp"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:hint=" Diện tích tính theo m2"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ld_custom_edittext"
+                android:text="" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Giá thuê" />
+
+            <EditText
+                android:id="@+id/etGiaThue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="16dp"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:hint=" Giá thuê phòng tính theo tháng"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ld_custom_edittext"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="Giá điện" />
+
+                <EditText
+                    android:id="@+id/etGiaDien"
+                    android:layout_width="163dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ld_custom_edittext"
+                    android:ems="10"
+                    android:hint=" Giá điện /tháng"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="10dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="Giá nước" />
+
+                <EditText
+                    android:id="@+id/etGiaNuoc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:textSize="16dp"
+                    android:textColorHint="@color/grey"
+                    android:textColor="@color/black"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="10dp"
+                    android:hint=" Giá nước / tháng"
+                    android:inputType="numberDecimal"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ld_custom_edittext"
+                    android:text="" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Ngày chuyển tới" />
+
+            <EditText
+                android:id="@+id/etNgayChuyenToi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:focusable="false"
+                android:textSize="16dp"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:hint=" Ngày có thể chuyển tới"
+                android:inputType="date"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ld_custom_edittext"
+                android:text=""/>
+
+            <ImageView
+                android:id="@+id/btnLich"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="290dp"
+                android:layout_marginTop="-34dp"
+                android:src="@drawable/imgcalender" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Nổi bật" />
+
+            <EditText
+                android:id="@+id/etNoiBat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="16dp"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:hint=" Đặc điểm nổi bật của dịch vụ"
+                android:layout_marginTop="10dp"
+                android:inputType="textMultiLine"
+                android:background="@drawable/ld_custom_edittext"
+                android:text="" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Mô tả" />
+           <EditText
+                android:id="@+id/etMoTa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ld_custom_edittext"
+                android:ems="10"
+                android:hint=" Nếu có"
+                android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                android:text=""
+               android:paddingLeft="15dp"
+               android:paddingRight="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="-70dp">
+
+
+        <Button
+            android:id="@+id/btnTiepTuc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ld_custom_button_tieptuc"
+            app:backgroundTint="@null"
+            android:textSize="18dp"
+            android:elevation="25dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="Tiếp tục" />
+    </LinearLayout>
+
+
+</LinearLayout>

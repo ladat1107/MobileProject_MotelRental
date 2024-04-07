@@ -1,0 +1,69 @@
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white" /> &lt;!&ndash; Màu nền &ndash;&gt;
+    <size
+        android:height="41dp"
+        />
+
+    <stroke
+        android:width="1dp"
+        android:color="@color/grey" /> &lt;!&ndash; Viền &ndash;&gt;
+    <corners android:radius="15dp" /> &lt;!&ndash; Độ cong của các góc &ndash;&gt;
+</shape>-->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Trạng thái khi được nhấn -->
+<item android:state_pressed="true">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/white" />
+        <size android:height="41dp"/>
+        <stroke
+            android:width="2dp"
+            android:color="@color/ld_edittext" />
+
+        <corners android:radius="15dp" />
+    </shape>
+</item>
+<item android:state_focused="true">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/white" />
+        <size android:height="41dp"/>
+        <stroke
+            android:width="2dp"
+            android:color="@color/ld_edittext" />
+        <corners android:radius="15dp" />
+    </shape>
+</item>
+<item android:state_hovered="true">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/white" />
+        <size android:height="41dp"/>
+        <stroke
+            android:width="2dp"
+            android:color="@color/ld_edittext" />
+        <corners android:radius="15dp" />
+    </shape>
+</item>
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <size android:height="41dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/ld_edittext" />
+            <corners android:radius="15dp" />
+        </shape>
+    </item>
+<!-- Trạng thái mặc định -->
+<item>
+    <shape android:shape="rectangle">
+        <solid android:color="@color/white" />
+        <size android:height="41dp"/>
+        <stroke
+            android:width="1dp"
+            android:color="@color/grey">
+        </stroke>
+        <corners android:radius="15dp" />
+        </shape>
+</item>
+</selector>
+
