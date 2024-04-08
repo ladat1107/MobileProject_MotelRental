@@ -25,7 +25,6 @@
             android:exported="false" />
         <activity
             android:name=".OwnerTypeOfRoom"
-<<<<<<< HEAD
             android:exported="false" />
         <activity
             android:name=".AddDetailRoomActivity"
@@ -43,22 +42,11 @@
             android:name=".Password_Page_Activity"
             android:exported="false" />
         <activity
-            android:name=".BasicInformation"
-=======
->>>>>>> 3b1b4ac (MB05 | thêm giá điện, nước)
-            android:exported="false" />
-       
-        <activity
             android:name=".DetailRomeActivity"
-<<<<<<< HEAD
-=======
             android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
+
         <activity
             android:name=".BasicInformation"
->>>>>>> 3b1b4ac (MB05 | thêm giá điện, nước)
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
