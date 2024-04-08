@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView
+        android:id="@+id/img_infor_motel"
         android:layout_width="80dp"
         android:layout_height="130dp"
         android:layout_marginTop="10dp"
@@ -15,6 +16,7 @@
         android:layout_marginLeft="116dp"
         android:layout_marginTop="10dp">
         <TextView
+            android:id="@+id/txtTitle"
             android:layout_width="match_parent"
             android:layout_height="26dp"
             android:text="Nhà trọ view sông hồ"
@@ -27,6 +29,7 @@
             android:layout_marginTop="34dp"/>
 
         <TextView
+            android:id="@+id/txtLike"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:text="100 lượt yêu thích"
