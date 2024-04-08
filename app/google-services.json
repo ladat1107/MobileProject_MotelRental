@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "609030216039",
+    "project_id": "mobileproject-motelrental",
+    "storage_bucket": "mobileproject-motelrental.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609030216039:android:1edd515ebd8801bd86b7c2",
+        "android_client_info": {
+          "package_name": "com.motel.mobileproject_motelrental"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF2rKdoDBPf-1U6hAyRDyllDGPT3n-JwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
