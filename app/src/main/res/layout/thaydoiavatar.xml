@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ThayDoiMatKhau"
+    android:background="@color/white">
+    <RelativeLayout
+        android:layout_width="360dp"
+        android:layout_height="65dp"
+        android:background="#FF5C6C">
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="14dp">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/back" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                android:text="."
+                android:id="@+id/btnBack"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tvDoiAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="16dp"
+            android:text="Thay Đổi Avatar"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp">
+        <ImageButton
+            android:layout_width="77dp"
+            android:layout_height="77dp"
+            android:layout_marginLeft="141dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/camera"
+            android:id="@+id/ibtnChupAnh"/>
+        <TextView
+            android:layout_width="64dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="148dp"
+            android:text="Chụp ảnh"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="94dp"/>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="100dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="127dp"
+            android:layout_marginLeft="107dp"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:text="Hoặc chọn từ"/>
+
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="175dp"
+            android:layout_marginTop="113dp"
+            android:text="thư viện"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:backgroundTint="#00ffffff"
+            android:textColor="#67BDCA"
+            android:id="@+id/btnChonTuThuVien"/>
+        <View
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="160dp"
+            android:background="@color/black"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="322dp"
+            android:layout_marginTop="170dp">
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="320dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/img"
+                android:id="@+id/imgAvatar"/>
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="290dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/delete"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <Button
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="742dp"
+        android:backgroundTint="#F44336"
+        android:text="Chỉnh sửa"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:id="@+id/btnDoiAvatar"/>
+</RelativeLayout>
