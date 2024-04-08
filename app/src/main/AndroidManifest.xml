@@ -61,7 +61,7 @@
             android:name=".Password_Page_Activity"
             android:exported="false" />
         <activity
-            android:name=".BasicInformation"
+            android:name=".LocationActivity"
             android:exported="false" />
         <activity
             android:name=".HomePageActivity"
