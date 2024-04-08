@@ -40,10 +40,10 @@
             android:name=".DetailRomeActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".OwnerTypeOfRoom"
             android:exported="false" />
         <activity
-            android:name=".OwnerTypeOfRoom"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".AddDetailRoomActivity"
@@ -52,7 +52,7 @@
             android:name=".Fillter2Activity"
             android:exported="false" />
         <activity
-            android:name=".HomePageActivity"
+            android:name=".BasicInformation"
             android:exported="false" />
         <activity
             android:name=".FillterActivity"
@@ -64,7 +64,7 @@
             android:name=".BasicInformation"
             android:exported="false" />
         <activity
-            android:name=".LocationActivity"
+            android:name=".HomePageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,11 +1,12 @@
 package com.motel.mobileproject_motelrental;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 
+import com.motel.mobileproject_motelrental.Adapter.ImageAdapter;
+import com.motel.mobileproject_motelrental.Item.Image;
 import com.motel.mobileproject_motelrental.databinding.ActivityDetailRomeBinding;
 
 import java.util.ArrayList;

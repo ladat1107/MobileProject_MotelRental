@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F7FCFF"
     android:orientation="vertical"
-    tools:context=".HomeActivity">
+    tools:context=".HomePageActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -60,6 +60,7 @@
                         android:layout_marginTop="230dp"
                         android:orientation="horizontal">
                         <RelativeLayout
+                            android:id="@+id/timtro"
                             android:layout_width="70dp"
                             android:layout_height="100dp"
                             android:layout_marginBottom="10dp"
@@ -83,6 +84,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/chungcu"
                             android:layout_width="70dp"
                             android:layout_height="100dp"
                             android:layout_marginBottom="10dp"
@@ -106,6 +108,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/oghep"
                             android:layout_width="70dp"
                             android:layout_height="100dp"
                             android:layout_marginBottom="10dp"
@@ -130,6 +133,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/dangtro"
                             android:layout_width="70dp"
                             android:layout_height="100dp"
                             android:layout_marginBottom="10dp"
@@ -152,34 +156,7 @@
                         </RelativeLayout>
                     </LinearLayout>
                     
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_corner_4"
-                        android:elevation="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
 
-                        android:layout_marginTop="170dp">
-                        <ImageView
-                            android:id="@+id/iconfind"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/find"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="15dp"/>
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="18dp"
-                            android:layout_marginTop="7dp"
-                            android:layout_marginBottom="7dp"
-                            android:textSize="20dp"
-                            android:layout_toRightOf="@+id/iconfind"
-                            android:hint="Search..."
-                            android:background="@null"/>
-                    </RelativeLayout>
                     
                 </RelativeLayout>
                 <androidx.appcompat.widget.Toolbar
@@ -205,6 +182,7 @@
                         android:textStyle="bold"/>
 
                     <ImageView
+                        android:id="@+id/imgFilter"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/img_filter"
@@ -254,20 +232,12 @@
                             android:textSize="15dp"
                             android:textStyle="italic" />
 
-                        <HorizontalScrollView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="30dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                            </LinearLayout>
-                        </HorizontalScrollView>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recyclerViewPhobien"
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="30dp"
+                                    android:layout_height="wrap_content"/>
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -293,20 +263,11 @@
                             android:textSize="15dp"
                             android:textStyle="italic" />
 
-                        <HorizontalScrollView
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewYeuThich"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="30dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                            </LinearLayout>
-                        </HorizontalScrollView>
+                            android:layout_marginTop="30dp"
+                            android:layout_height="wrap_content"/>
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -332,20 +293,11 @@
                             android:textSize="15dp"
                             android:textStyle="italic" />
 
-                        <HorizontalScrollView
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewDanhGia"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="30dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                                <include layout="@layout/layout_motel"/>
-                            </LinearLayout>
-                        </HorizontalScrollView>
+                            android:layout_marginTop="30dp"
+                            android:layout_height="wrap_content"/>
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -364,6 +316,7 @@
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 app:menu="@menu/bottom_menu"
