@@ -1,9 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".LocationActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/ld_color">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:src="@drawable/imgownerback" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Vị trí"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_marginRight="30dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <!-- ScrollView -->
+    <!-- ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <SearchView
+                    android:id="@+id/search_view"
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:queryHint="Search for a place..."
+                    android:background="@drawable/ld_custom_edittext"
+                    android:inputType="textAutoComplete"
+                    android:elevation="4dp"
+                    android:iconifiedByDefault="false" />
+
+
+                <fragment
+                    android:id="@+id/ggmap"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="294dp"
+                    android:layout_marginTop="-65dp">
+
+                </fragment>
+
+                <ImageView
+                    android:id="@+id/btnVtHienTai"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginTop="-55dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ld_custom_edittext"
+
+                    android:src="@drawable/ld_aim" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="-5dp"
+                    android:elevation="8dp"
+                    android:background="@drawable/ld_custom_frame_background">
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@color/black"
+                        android:text="Tỉnh / Thành phố" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/cmbTinh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:textSize="16dp"
+                        android:textColorHint="@color/grey"
+                        android:textColor="@color/black"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:hint=" Chọn tỉnh/thành phố"
+                        android:inputType="text"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ld_custom_edittext"
+                        android:text=""
+                        android:completionThreshold="1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="-5dp"
+                    android:elevation="8dp"
+                    android:background="@drawable/ld_custom_frame_background">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@color/black"
+                        android:text="Quận / Huyện" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/cmbQuan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:textSize="16dp"
+                        android:textColorHint="@color/grey"
+                        android:textColor="@color/black"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:hint=" Chọn quận/ huyện"
+                        android:inputType="text"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ld_custom_edittext"
+                        android:text=""
+                        android:completionThreshold="1" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="-5dp"
+                    android:elevation="8dp"
+                    android:background="@drawable/ld_custom_frame_background">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@color/black"
+                        android:text="Xã / Phường" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/cmbXa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:textSize="16dp"
+                        android:textColorHint="@color/grey"
+                        android:textColor="@color/black"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:hint=" Chọn xã/ phường"
+                        android:inputType="text"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ld_custom_edittext"
+                        android:text=""
+                        android:completionThreshold="1" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp"
+                    android:elevation="8dp"
+                    android:background="@drawable/ld_custom_frame_background">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@color/black"
+                        android:text="Đường" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txtDiaChi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:textSize="16dp"
+                        android:textColorHint="@color/grey"
+                        android:textColor="@color/black"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:hint="Số nhà, đường"
+                        android:inputType="text"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ld_custom_edittext"
+                        android:text=""
+                        android:completionThreshold="1" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginTop="20dp">
+
+
+                    <Button
+                        android:id="@+id/btnTiepTuc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ld_custom_button_tieptuc"
+                        app:backgroundTint="@null"
+                        android:textSize="18dp"
+                        android:elevation="25dp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="Tiếp tục" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.core.widget.NestedScrollView>
+
+
+
+</LinearLayout>
