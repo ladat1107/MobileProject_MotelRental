@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.motel.mobileproject_motelrental.Adapter.MotelAdapter;
+import com.motel.mobileproject_motelrental.Interface.OnItemRecycleClickListener;
 import com.motel.mobileproject_motelrental.Item.MotelItem;
 import com.motel.mobileproject_motelrental.databinding.ActivityHomePageBinding;
 
@@ -67,7 +69,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         List<MotelItem> motelItemList = new ArrayList<>();
         motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 1", "Địa chỉ 1", 10));
-        motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 2", "Địa chỉdddddddddddddddddddddddd 1", 10));
+        motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 2", "Địa chỉ 1", 10));
         motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 3", "Địa chỉ 1", 10));
         motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 4", "Địa chỉ 1", 10));
 
@@ -79,5 +81,31 @@ public class HomePageActivity extends AppCompatActivity {
         binding.recyclerViewYeuThich.setAdapter(adapterYeuThich);
         binding.recyclerViewDanhGia.setAdapter(adapterDanhGia);
 
+        adapterPhoBien.setOnItemRecycleClickListener(new OnItemRecycleClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // Xử lý sự kiện khi một item được click
+                Intent intent = new Intent(HomePageActivity.this, DetailRomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        adapterYeuThich.setOnItemRecycleClickListener(new OnItemRecycleClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // Xử lý sự kiện khi một item được click
+                Intent intent = new Intent(HomePageActivity.this, DetailRomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        adapterDanhGia.setOnItemRecycleClickListener(new OnItemRecycleClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // Xử lý sự kiện khi một item được click
+                Intent intent = new Intent(HomePageActivity.this, DetailRomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

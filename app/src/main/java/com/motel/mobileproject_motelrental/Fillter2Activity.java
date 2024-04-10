@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fillter2Activity extends AppCompatActivity {
-
     private ActivityFillter2Binding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

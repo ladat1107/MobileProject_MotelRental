@@ -100,18 +100,10 @@
                                     android:textStyle="italic" />
                             </LinearLayout>
 
-                            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/white"
-                                android:baselineAlignBottom="false"
-                                android:src="@drawable/img_love"
-                                app:fabSize="normal"
-                                app:layout_anchor="@id/app_bar_layout"
-                                android:id="@+id/btnYeuThich"
-                                app:tint="@null" />
 
                         </LinearLayout>
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -324,7 +316,7 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -344,24 +336,30 @@
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
-                        <LinearLayout
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewBinhLuan"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="vertical">
-
-                            <include layout="@layout/layout_binh_luan" />
-
-                            <include layout="@layout/layout_binh_luan" />
-                        </LinearLayout>
-                    </RelativeLayout>
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
 
             </ScrollView>
         </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:baselineAlignBottom="false"
+            android:src="@drawable/img_love"
+            app:fabSize="normal"
+            app:layout_anchorGravity="bottom|end"
+            android:layout_marginRight="35dp"
+            app:layout_anchor="@id/app_bar_layout"
+            android:id="@+id/btnYeuThich"
+            app:tint="@null" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
