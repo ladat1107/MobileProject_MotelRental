@@ -61,10 +61,10 @@
             android:name=".Password_Page_Activity"
             android:exported="false" />
         <activity
-            android:name=".LocationActivity"
+            android:name=".HomePageActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePageActivity"
+            android:name=".LocationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
