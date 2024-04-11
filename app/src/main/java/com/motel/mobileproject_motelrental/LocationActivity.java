@@ -79,10 +79,6 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         searchView = findViewById(R.id.search_view);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.ggmap);
 
-
-
-
-//PHONG CẦN COI
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(LocationActivity.this);
         locationCallback = new LocationCallback() {
             @Override
