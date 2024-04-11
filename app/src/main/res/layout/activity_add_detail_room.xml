@@ -4,332 +4,568 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/bgcolor"
+    android:orientation="vertical"
     tools:context=".AddDetailRoomActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/bluebutton"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:background="@color/ld_color">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/backwhite" />
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="1dp"
+            android:src="@drawable/imgownerback" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:text="Thông tin chi tiết"
-            android:textColor="@color/white"
-            android:textSize="22dp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:text="Cơ sở vật chất"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/img_maylanh"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:text="Máy lạnh"
-                android:textSize="18dp"/>
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/img_tru"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="15dp"/>
-            <EditText
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"/>
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/img_cong"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="15dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="45dp"
-                android:src="@drawable/img_maygiat"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:text="Máy giặt"
-                android:textSize="18dp"/>
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/img_tru"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="15dp"/>
-            <EditText
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"/>
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/img_cong"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="15dp"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/img_tulanh"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:text="Tủ lạnh"
-                android:textSize="18dp"/>
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/img_tru"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="15dp"/>
-            <EditText
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"/>
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/img_cong"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="15dp"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/img_gac"/>
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:text="Gác"
-                android:textSize="18dp" />
-
-            <CheckBox
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="110dp"
-                app:useMaterialThemeColors="false"
-                app:buttonTint="#7fd0ff"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="55dp"
+            android:layout_marginRight="30dp"
+            android:fontFamily="@font/roboto_black"
+            android:gravity="center"
             android:text="Tiện ích"
-            android:textSize="18dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20dp"
             android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/img_wifi"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:text="Wifi"
-                android:textSize="18dp"/>
-
-            <CheckBox
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="110dp"
-                app:useMaterialThemeColors="false"
-                app:buttonTint="#7fd0ff"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/img_dexe"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:text="Chỗ để xe"
-                android:textSize="18dp"/>
-
-            <CheckBox
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="110dp"
-                app:useMaterialThemeColors="false"
-                app:buttonTint="#7fd0ff"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/img_gio"/>
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:text="Giờ ra vào"
-                android:textSize="18dp" />
-
-            <CheckBox
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="110dp"
-                app:useMaterialThemeColors="false"
-                app:buttonTint="#7fd0ff"/>
-
-        </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="110dp"
-        android:gravity="center_vertical">
-
-        <ImageView
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <!-- ScrollView -->
+        <!-- ScrollView -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="-9dp"
-            android:background="#a5a5a5" />
+            android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/rounded_button"
-            android:text="Tìm kiếm"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            app:backgroundTint="@null" />
-    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:elevation="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Cơ sở vật chất"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/img_maylanh" />
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Máy lạnh"
+                            android:textSize="18dp" />
+
+                        <ImageView
+                            android:id="@+id/imgTruMayLanh"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="90dp"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/img_tru" />
+
+                        <TextView
+                            android:id="@+id/tvSLMayLanh"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="#E3B93C"
+                            android:textSize="20dp" />
+
+                        <ImageView
+                            android:id="@+id/imgCongMayLanh"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/img_cong" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/img_maygiat" />
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Máy giặt"
+                            android:textSize="18dp" />
+
+                        <ImageView
+                            android:id="@+id/imgTruMayGiat"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="90dp"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/img_tru" />
+
+                        <TextView
+                            android:id="@+id/tvSLMayGiat"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="#E3B93C"
+                            android:textSize="20dp" />
+
+                        <ImageView
+                            android:id="@+id/imgCongMayGiat"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/img_cong" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/img_tulanh" />
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Tủ lạnh"
+                            android:textSize="18dp" />
+
+                        <ImageView
+                            android:id="@+id/imgTruTuLanh"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="90dp"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/img_tru" />
+
+                        <TextView
+                            android:id="@+id/tvSLTuLanh"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="#E3B93C"
+                            android:textSize="20dp" />
+
+                        <ImageView
+                            android:id="@+id/imgCongTuLanh"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/img_cong" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/img_gac" />
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Gác"
+                            android:textSize="18dp" />
+
+                        <CheckBox
+                            android:id="@+id/chkGac"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="110dp"
+                            android:layout_marginTop="10dp"
+                            app:buttonTint="#7fd0ff"
+                            app:useMaterialThemeColors="false" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/imgkhongchungchu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Không chung chủ"
+                            android:textSize="18dp" />
+
+                        <CheckBox
+                            android:id="@+id/chkKhongChungChu"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="51dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            app:buttonTint="#7fd0ff"
+                            app:useMaterialThemeColors="false" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:elevation="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Tiện ích"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/img_wifi" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="5dp"
+                                android:text="Wifi"
+                                android:textSize="18dp" />
+
+                            <CheckBox
+                                android:id="@+id/chkWifi"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="110dp"
+                                android:layout_marginTop="10dp"
+                                app:buttonTint="#7fd0ff"
+                                app:useMaterialThemeColors="false" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llGiaWifi"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="-8dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="35dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="90dp"
+                                android:text="Giá: "
+                                android:textSize="18dp"
+                                android:textStyle="italic" />
+
+                            <EditText
+                                android:id="@+id/edGiaWifi"
+                                android:layout_width="90dp"
+                                android:layout_height="40dp"
+                                android:inputType="numberDecimal"
+                                android:textAlignment="center"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:text="/ tháng "
+                                android:textSize="18dp"
+                                android:textStyle="italic" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="5dp"
+                                android:src="@drawable/img_dexe" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="5dp"
+                                android:text="Chỗ để xe"
+                                android:textSize="18dp" />
+
+                            <CheckBox
+                                android:id="@+id/chkChoDeXe"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="110dp"
+                                android:layout_marginTop="10dp"
+                                app:buttonTint="#7fd0ff"
+                                app:useMaterialThemeColors="false" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llGiaBaiXe"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="-8dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="35dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="90dp"
+                                android:text="Giá: "
+                                android:textSize="18dp"
+                                android:textStyle="italic" />
+
+                            <EditText
+                                android:id="@+id/edGiaBaixe"
+                                android:layout_width="90dp"
+                                android:layout_height="40dp"
+                                android:inputType="numberDecimal"
+                                android:textAlignment="center"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:text="/ tháng "
+                                android:textSize="18dp"
+                                android:textStyle="italic" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="5dp"
+                                android:src="@drawable/img_gio" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="5dp"
+                                android:text="Giờ ra vào"
+                                android:textSize="18dp" />
+
+                            <CheckBox
+                                android:id="@+id/chkThoiGian"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="110dp"
+                                android:layout_marginTop="10dp"
+                                app:buttonTint="#7fd0ff"
+                                app:useMaterialThemeColors="false" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llThoiGian"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="-8dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="35dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="60dp"
+                                android:text="Từ: "
+                                android:textSize="18dp"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/edMoCua"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp"
+                                android:hint="Chọn giờ"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:text="đến:  "
+                                android:textSize="18dp"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/edDongCua"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp"
+                                android:hint="Chọn"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginTop="90dp"
+                    android:layout_marginRight="13dp"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnTiepTuc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ld_custom_button_tieptuc"
+                        android:elevation="25dp"
+                        android:text="Tiếp tục"
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="10dp"
+                        app:backgroundTint="@null" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </androidx.core.widget.NestedScrollView>
+
+
 </LinearLayout>
