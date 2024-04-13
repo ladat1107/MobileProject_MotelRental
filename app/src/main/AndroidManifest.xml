@@ -34,7 +34,7 @@
             android:value="AIzaSyDtwGeH4QGHxEGStp3FWK0JFKDG6GSZObs" />
 
         <activity
-            android:name=".CameraActivity"
+            android:name=".AddDetailRoomActivity"
             android:exported="false" />
         <activity
 <<<<<<< HEAD
@@ -68,7 +68,7 @@
             android:name=".HomePageActivity"
             android:exported="false" />
         <activity
-            android:name=".AddDetailRoomActivity"
+            android:name=".CameraActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
