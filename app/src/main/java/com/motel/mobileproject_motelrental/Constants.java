@@ -44,7 +44,7 @@ public class Constants {
     public static final String KEY_END_TIME = "end time";           // thòi gian đóng của                           string
     public static final String KEY_TYPE_ID = "typeID";              //documentid của loại trọ                       string
     public static final String KEY_STATUS_MOTEL = "status";         //trạng thái của bài viết đăng trọ              boolean
-    public static final String KEY_IMAGE_list = "image list"; // hình ảnh của trọ                                   array<string>
+    public static final String KEY_IMAGE_LIST = "image list"; // hình ảnh của trọ                                   array<string>
 
 
     public static final String KEY_COLLECTION_TYPES = "types"; // tên collection
