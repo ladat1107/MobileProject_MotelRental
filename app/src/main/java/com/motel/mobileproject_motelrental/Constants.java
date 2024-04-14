@@ -44,6 +44,8 @@ public class Constants {
     public static final String KEY_END_TIME = "end time";           // thòi gian đóng của
     public static final String KEY_TYPE_ID = "typeID";              //documentid của loại trọ
     public static final String KEY_STATUS_MOTEL = "status";         //trạng thái của bài viết đăng trọ
+    public static final String KEY_IMAGE_list = "image list"; // hình ảnh của trọ
+
 
     public static final String KEY_COLLECTION_TYPES = "types"; // tên collection
     public static final String KEY_NAME_TYPE = "type";          // tên loại trọ (trọ, chung cư, nhà nguyên căn)
@@ -59,8 +61,5 @@ public class Constants {
     public static final String KEY_LIKED_MOTEL = "liked motel"; //documentid của trọ
     public static final String KEY_TIME_LIKE = "time like";     // thời gian like
 
-    public static final String KEY_COLLECTION_IMAGE = "images"; // tên collection
-    public static final String KEY_MOTEL_ID = "motelID";        //documentid của trọ
-    public static final String KEY_IMAGE_MOTEL = "image motel"; // hình ảnh của trọ
 
 }
