@@ -33,6 +33,14 @@ public class Fillter2Activity extends AppCompatActivity {
             }
         });
 
+        binding.btnhome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Fillter2Activity.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
+
         List<ChipItem> chipItemList = new ArrayList<>();
         chipItemList.add(new ChipItem("Có gác"));
         chipItemList.add(new ChipItem("Gần trường học"));

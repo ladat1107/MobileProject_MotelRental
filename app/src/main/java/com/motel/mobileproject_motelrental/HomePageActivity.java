@@ -1,13 +1,22 @@
 package com.motel.mobileproject_motelrental;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.motel.mobileproject_motelrental.Adapter.MotelAdapter;
 import com.motel.mobileproject_motelrental.Interface.OnItemRecycleClickListener;
 import com.motel.mobileproject_motelrental.Item.MotelItem;
@@ -20,12 +29,12 @@ public class HomePageActivity extends AppCompatActivity {
 
     // add binding
     private ActivityHomePageBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.bottomNavigation.setItemIconTintList(null);
 
         binding.timtro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +64,30 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePageActivity.this, FillterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.viewallphobien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.viewalldanhgia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.viewallyeuthich.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
                 startActivity(intent);
             }
         });
@@ -106,6 +139,34 @@ public class HomePageActivity extends AppCompatActivity {
                 Intent intent = new Intent(HomePageActivity.this, DetailRomeActivity.class);
                 startActivity(intent);
             }
+        });
+
+        binding.btnhome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePageActivity.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.bottomNavigation.setOnItemSelectedListener(item ->{
+            int id = item.getItemId();
+            if(id == R.id.map){
+                return true;
+            } else if(id == R.id.message){
+                startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
+                finish();
+                return true;
+            } else if(id == R.id.love){
+                startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
+                finish();
+                return true;
+            } else if(id == R.id.user){
+                startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
+                finish();
+                return true;
+            }
+            return false;
         });
     }
 }
