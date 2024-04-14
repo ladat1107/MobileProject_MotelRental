@@ -6,7 +6,9 @@ public class Constants {
     public static final String KEY_GENDER = "gender";                   // giới tính                                boolean true là nữ
     public static final String KEY_BIRTHDAY = "day of birth";           // ngày sinh                                timestamp
     public static final String KEY_HOUSE_NUMBER = "house number";       // số nhà                                   string
-    public static final String KEY_ADDRESS = "address";                 //địa chỉ                                   string
+    public static final String KEY_WARD = "ward";                       //xã, phường                                 string
+    public static final String KEY_DISTRICT = "district";               //quận, huyện
+    public static final String KEY_CITY = "city";                       // tỉnh, thành phố
     public static final String KEY_EMAIL = "email";                     // email (cũng là tài khoản đăng nhập)      tring
     public static final String KEY_PASSWORD = "password";               // mật khẩu
     public static final String KEY_IMAGE = "image";                     // ảnh đại diện người dùng
@@ -23,7 +25,9 @@ public class Constants {
     public static final String KEY_COUNT_LIKE = "like";             // số lượng like của trọ
     public static final String KEY_COUNT_ROOM = "room";             // số lượng phòng hiện có của trọ
     public static final String KEY_MOTEL_NUMBER = "motel number";   // số nhà của trọ
-    public static final String KEY_MOTEL_ADDRESS = "motel address"; //địa chỉ trọ
+    public static final String KEY_WARD_MOTEL = "ward";              //xã, phường                                 
+    public static final String KEY_DISTRICT_MOTEL = "district";      //quận, huyện
+    public static final String KEY_CITY_MOTEL = "city";             // tỉnh, thành phố
     public static final String KEY_PRICE = "price";                 // giá thuê trọ
     public static final String KEY_ACREAGE = "acreage";             //diện tích phòng trọ
     public static final String KEY_CHARACTERISTIC = "characteristic";//đặc điểm của trọ
