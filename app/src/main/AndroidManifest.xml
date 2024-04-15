@@ -94,6 +94,9 @@
         <activity
             android:name=".AddDetailRoomActivity"
             android:exported="false"/>
+            <activity
+            android:name=".OwnerTypeOfRoomActivity"
+            android:exported="false"/>
         <activity
             android:name=".HomePageActivity"
             android:exported="false"/>
