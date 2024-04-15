@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:windowSoftInputMode="adjustResize"
-    tools:context=".OwnerTypeOfRoom">
+    tools:context=".OwnerTypeOfRoomActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

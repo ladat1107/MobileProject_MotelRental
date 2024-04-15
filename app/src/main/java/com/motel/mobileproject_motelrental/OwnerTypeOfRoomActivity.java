@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class OwnerTypeOfRoom extends AppCompatActivity {
+public class OwnerTypeOfRoomActivity extends AppCompatActivity {
     LinearLayout llTro,llGhep,llChungCu,llNguyenCan;
     Boolean isSelectTro = false;
     Boolean isSelectGhep = false;
