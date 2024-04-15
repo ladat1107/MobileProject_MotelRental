@@ -137,29 +137,6 @@
                 android:layout_height="match_parent"/>
 
         </LinearLayout>
-        <FrameLayout
-            android:id="@+id/layoutImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/imageProfile"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@drawable/ld_radiobutton_tron"
-                android:scaleType="centerCrop"
-                app:riv_oval="true" />
-
-            <TextView
-                android:id="@+id/textAddImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="c"
-                android:textColor="@color/grey"
-                android:textSize="10sp" />
-        </FrameLayout>
 
     </LinearLayout>
 

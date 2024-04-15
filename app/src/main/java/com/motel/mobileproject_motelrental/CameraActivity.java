@@ -71,10 +71,13 @@ public class CameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
         binding = ActivityCameraBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.layoutImage.setOnClickListener(v-> {
-
-            openGallery();
+        binding.tvThuVien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
         });
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         galleryAdapter = new GalleryAdapter(this, selectedMedia);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3)); // 3 items trên mỗi hàng
@@ -87,8 +90,7 @@ public class CameraActivity extends AppCompatActivity {
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(imageUri);
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    binding.imageProfile.setImageBitmap(bitmap);
-                    binding.textAddImage.setVisibility(View.GONE);
+
                     encodedImage = endcodeImage(bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
