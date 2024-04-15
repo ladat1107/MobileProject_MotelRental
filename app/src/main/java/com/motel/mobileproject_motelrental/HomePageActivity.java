@@ -149,7 +149,7 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
-        binding.bottomNavigation.setOnItemSelectedListener(item ->{
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if(id == R.id.map){
                 return true;
