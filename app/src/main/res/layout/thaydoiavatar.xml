@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="360dp"
         android:layout_height="65dp"
-        android:background="#FF5C6C">
+        android:background="@drawable/bgheader">
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -110,7 +110,8 @@
         android:layout_height="45dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="742dp"
-        android:backgroundTint="#F44336"
+        android:background="@drawable/rounded_button"
+        app:backgroundTint="@null"
         android:text="Chỉnh sửa"
         android:textStyle="bold"
         android:textSize="15dp"

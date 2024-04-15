@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgcolor"
+    android:orientation="vertical"
+    tools:context=".Fillter2Activity">
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/bgheader">
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="90dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="13dp">
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:scaleType="centerCrop"
+                android:id="@+id/imvAvatar"
+                android:src="@drawable/imgphong"/>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="21dp"
+            android:text="Anh Vu"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="71dp"
+            android:text="Địa chỉ: Thủ Đức"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+        <TextView
+            android:id="@+id/tvJoinDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="50dp"
+            android:text="Ngày tham gia: 15/4/2024"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+    </RelativeLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F7FCFF"
+        android:elevation="7dp"
+        tools:ignore="MissingConstraints">
+        <Button
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btnDanhSachYeuThich"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   Danh sách yêu thích"
+            app:icon="@drawable/heart"
+            android:textColor="@color/black"
+            app:background="@null"
+            app:iconTint="@color/red"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        <Button
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btnPhongDaDang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   Phòng đã đăng"
+            app:icon="@drawable/img_home"
+            android:textColor="@color/black"
+            app:background="@null"
+            app:iconTint="@color/bluebutton"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        <Button
+            android:layout_marginTop="129dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btnDangPhong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   Đăng phòng"
+            app:icon="@drawable/home_button"
+            android:textColor="@color/black"
+            app:background="@null"
+            app:iconTint="@color/bluebutton"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        <Button
+            android:layout_marginTop="188dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btnThayDoiThongTin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   Thay đổi thông tin cá nhân"
+            app:icon="@drawable/setting"
+            android:textColor="@color/black"
+            app:background="@null"
+            app:iconTint="@color/bluebutton"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        <Button
+            android:layout_marginTop="246dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btnThayDoiMatKhau"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   Thay đổi mật khẩu"
+            app:icon="@drawable/lock"
+            android:textColor="@color/black"
+            app:background="@null"
+            app:iconTint="@color/bluebutton"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        <Button
+            android:layout_marginTop="304dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btnDangXuat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   Đăng xuất"
+            app:icon="@drawable/logout"
+            android:textColor="@color/black"
+            app:background="@null"
+            app:iconTint="@color/black"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="-13dp"
+            app:backgroundTint="@color/white">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/transparent"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/bottom_menu" />
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            app:layout_anchor="@+id/bottomAppBar"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Floating"
+            app:srcCompat="@drawable/img_home"
+            app:tint="@null" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
