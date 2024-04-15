@@ -2,23 +2,20 @@ package com.motel.mobileproject_motelrental;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.motel.mobileproject_motelrental.Adapter.MotelAdapter;
-import com.motel.mobileproject_motelrental.Interface.OnItemRecycleClickListener;
+import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.Item.MotelItem;
 import com.motel.mobileproject_motelrental.databinding.ActivityHomePageBinding;
 
@@ -29,6 +26,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     // add binding
     private ActivityHomePageBinding binding;
+    private String TAG = "HomePageActivity";
     PreferenceManager preferenceManager;
 
     @Override
@@ -81,7 +79,9 @@ public class HomePageActivity extends AppCompatActivity {
         binding.viewallphobien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fillter = "Phổ biến";
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
+                intent.putExtra("fillter", fillter);
                 startActivity(intent);
             }
         });
@@ -89,7 +89,9 @@ public class HomePageActivity extends AppCompatActivity {
         binding.viewalldanhgia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fillter = "Đánh giá cao";
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
+                intent.putExtra("fillter", fillter);
                 startActivity(intent);
             }
         });
@@ -97,7 +99,9 @@ public class HomePageActivity extends AppCompatActivity {
         binding.viewallyeuthich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fillter = "Được yêu thích";
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
+                intent.putExtra("fillter", fillter);
                 startActivity(intent);
             }
         });
@@ -110,42 +114,61 @@ public class HomePageActivity extends AppCompatActivity {
         binding.recyclerViewYeuThich.setLayoutManager(layoutManagerYeuThich);
         binding.recyclerViewDanhGia.setLayoutManager(layoutManagerDanhGia);
 
-        List<MotelItem> motelItemList = new ArrayList<>();
-        motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 1", "Địa chỉ 1", 10));
-        motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 2", "Địa chỉ 1", 10));
-        motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 3", "Địa chỉ 1", 10));
-        motelItemList.add(new MotelItem(R.drawable.imgroom, "Phòng trọ 4", "Địa chỉ 1", 10));
+        List<MotelItem> motelList = new ArrayList<>();
+        MotelAdapter adapterPhoBien = new MotelAdapter(motelList);
+        MotelAdapter adapterYeuThich = new MotelAdapter(motelList);
+        MotelAdapter adapterDanhGia = new MotelAdapter(motelList);
 
-        MotelAdapter adapterPhoBien = new MotelAdapter(motelItemList);
-        MotelAdapter adapterYeuThich = new MotelAdapter(motelItemList);
-        MotelAdapter adapterDanhGia = new MotelAdapter(motelItemList);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("motels").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
+                        int like = document.getLong("like").intValue();
+                        String title = document.getString("title");
+                        MotelItem motel = new MotelItem(id, R.drawable.imgroom, title, motelAddress, like);
 
-        binding.recyclerViewPhobien.setAdapter(adapterPhoBien);
-        binding.recyclerViewYeuThich.setAdapter(adapterYeuThich);
-        binding.recyclerViewDanhGia.setAdapter(adapterDanhGia);
+                        // Thêm đối tượng Motel vào danh sách
+                        motelList.add(motel);
+                    }
 
-        adapterPhoBien.setOnItemRecycleClickListener(new OnItemRecycleClickListener() {
+                    // Cập nhật giao diện
+                    binding.recyclerViewPhobien.setAdapter(adapterPhoBien);
+                    binding.recyclerViewYeuThich.setAdapter(adapterYeuThich);
+                    binding.recyclerViewDanhGia.setAdapter(adapterDanhGia);
+                } else {
+                    Log.w(TAG, "Error getting documents.", task.getException());
+                }
+            }
+        });
+
+        adapterPhoBien.setOnItemRecycleClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                String motelId = motelList.get(position).getId();
+                Intent intent = new Intent(HomePageActivity.this, DetailRomeActivity.class);
+                intent.putExtra("motelId", motelId);
+                startActivity(intent);
+            }
+        });
+
+        adapterYeuThich.setOnItemRecycleClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String motelId = motelList.get(position).getId();
                 // Xử lý sự kiện khi một item được click
                 Intent intent = new Intent(HomePageActivity.this, DetailRomeActivity.class);
                 startActivity(intent);
             }
         });
 
-        adapterYeuThich.setOnItemRecycleClickListener(new OnItemRecycleClickListener() {
+        adapterDanhGia.setOnItemRecycleClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                // Xử lý sự kiện khi một item được click
-                Intent intent = new Intent(HomePageActivity.this, DetailRomeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        adapterDanhGia.setOnItemRecycleClickListener(new OnItemRecycleClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                // Xử lý sự kiện khi một item được click
+                String motelId = motelList.get(position).getId();
                 Intent intent = new Intent(HomePageActivity.this, DetailRomeActivity.class);
                 startActivity(intent);
             }

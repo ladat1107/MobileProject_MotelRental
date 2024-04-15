@@ -30,6 +30,7 @@ public class FillterActivity extends AppCompatActivity {
         binding.sliderGia.setValueTo(500);
 
         List<String> listDichVu = new ArrayList<>();
+        listDichVu.add("Tất cả");
         listDichVu.add("Phòng trọ");
         listDichVu.add("Chung cư");
         listDichVu.add("Nhà nguyên căn");

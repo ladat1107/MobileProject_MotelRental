@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Có gác"
+        android:clickable="true"
         android:textColor="#504F4F"
         app:chipBackgroundColor="@color/bgcolor"
         app:checkedIcon="@null"

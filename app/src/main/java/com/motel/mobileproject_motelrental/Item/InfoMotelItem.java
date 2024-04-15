@@ -1,20 +1,25 @@
 package com.motel.mobileproject_motelrental.Item;
 
 public class InfoMotelItem {
+    private String id;
     private int imageResource;
     private String title;
-    private String likeCount;
-    private String price;
+    private int likeCount;
+    private int price;
     private String address;
-    private String commentCount;
+    private int commentCount;
 
-    public InfoMotelItem(int imageResource, String title, String likeCount, String price, String address, String commentCount) {
+    public InfoMotelItem(String id, int imageResource, String title, int likeCount, int price, String address, int commentCount) {
+        this.id = id;
         this.imageResource = imageResource;
         this.title = title;
         this.likeCount = likeCount;
         this.price = price;
         this.address = address;
         this.commentCount = commentCount;
+    }
+    public String getId() {
+        return id;
     }
 
     public int getImageResource() {
@@ -25,11 +30,11 @@ public class InfoMotelItem {
         return title;
     }
 
-    public String getLikeCount() {
+    public int getLikeCount() {
         return likeCount;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -37,7 +42,7 @@ public class InfoMotelItem {
         return address;
     }
 
-    public String getCommentCount() {
+    public int getCommentCount() {
         return commentCount;
     }
 }

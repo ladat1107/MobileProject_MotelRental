@@ -1,19 +1,24 @@
 package com.motel.mobileproject_motelrental.Adapter;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.motel.mobileproject_motelrental.Item.InfoMotelItem;
+import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.R;
+
+import java.text.DecimalFormat;
+import java.util.List;
 
 public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.MotelViewHolder> {
     private List<InfoMotelItem> infoMotelItemList;
-
+    private OnItemClickListener onItemClickListener;
     public InfoMotelAdapter(List<InfoMotelItem> motelItemList) {
         this.infoMotelItemList = motelItemList;
     }
@@ -29,6 +34,17 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
     public void onBindViewHolder(@NonNull MotelViewHolder holder, int position) {
         InfoMotelItem motelItem = infoMotelItemList.get(position);
         holder.bind(motelItem);
+
+        final int itemPosition = position; // Khai báo một biến final khác để lưu trữ giá trị của position
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(itemPosition); // Sử dụng biến final này trong phương thức onClick
+                }
+            }
+        });
     }
 
     @Override
@@ -36,9 +52,10 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
         return infoMotelItemList.size();
     }
 
-    public static class MotelViewHolder extends RecyclerView.ViewHolder {
+    public class MotelViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView txtTitle, txtLike, txtPrice, txtAddress, txtComment;
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
 
         public MotelViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,10 +70,14 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
         public void bind(InfoMotelItem motelItem) {
             imageView.setImageResource(motelItem.getImageResource());
             txtTitle.setText(motelItem.getTitle());
-            txtLike.setText(motelItem.getLikeCount());
-            txtPrice.setText(motelItem.getPrice());
+            txtLike.setText(String.valueOf(motelItem.getLikeCount()) + " lượt yêu thích");
+            String formattedMinValue = decimalFormat.format(motelItem.getPrice());
+            txtPrice.setText(formattedMinValue);
             txtAddress.setText(motelItem.getAddress());
-            txtComment.setText(motelItem.getCommentCount());
+            txtComment.setText(String.valueOf(motelItem.getCommentCount()));
         }
+    }
+    public void setOnItemRecycleClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }

@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -21,6 +22,7 @@ import com.motel.mobileproject_motelrental.Item.CommentItem;
 import com.motel.mobileproject_motelrental.Item.Image;
 import com.motel.mobileproject_motelrental.databinding.ActivityDetailRomeBinding;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +31,8 @@ public class DetailRomeActivity extends AppCompatActivity {
     private List<Image> imageList;
     private ImageAdapter adapter;
     private String TAG = "DetailRomeActivity";
-
-
+    private String motelId;
+    DecimalFormat decimalFormat = new DecimalFormat("#,###");
     boolean isFavorite = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +40,12 @@ public class DetailRomeActivity extends AppCompatActivity {
         binding = ActivityDetailRomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        motelId = getIntent().getStringExtra("motelId");
 
-        imageList = new ArrayList<>();
-        imageList.add(new Image(R.drawable.imgroom));
-        imageList.add(new Image(R.drawable.imgroom));
-        imageList.add(new Image(R.drawable.imgroom));
-        imageList.add(new Image(R.drawable.imgroom));
+        FillImage();
+        FillDetail();
+        FillComment();
 
-        adapter = new ImageAdapter(imageList, binding.viewPager2);
-        binding.viewPager2.setAdapter(adapter);
         binding.btnYeuThich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,28 +59,47 @@ public class DetailRomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void FillImage(){
+        imageList = new ArrayList<>();
+        imageList.add(new Image(R.drawable.imgroom));
+        imageList.add(new Image(R.drawable.imgroom));
+        imageList.add(new Image(R.drawable.imgroom));
+        imageList.add(new Image(R.drawable.imgroom));
+        adapter = new ImageAdapter(imageList, binding.viewPager2);
+        binding.viewPager2.setAdapter(adapter);
+    }
+
+    public void FillDetail(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("motels").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("motels").document(motelId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(document.getId().equals("6CPkXvPbYlD09EFNnp1A")) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                            binding.txtTitle.setText(document.getString("title"));
-                            binding.txtLove.setText(document.getString("like") + " lượt yêu thích");
-                            binding.txtAddress.setText(document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city"));
-                            binding.txtCharac.setText(document.getString("characteristics"));
-                            binding.txtPrice.setText(document.getString("price"));
-                        }
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        // Hiển thị dữ liệu từ document lên giao diện
+                        binding.txtTitle.setText(document.getString("title"));
+                        long likeCount = document.getLong("like");
+                        binding.txtLove.setText(likeCount + " lượt yêu thích");
+                        binding.txtAddress.setText(document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city"));
+                        binding.txtCharac.setText(document.getString("characteristic"));
+                        long price = document.getLong("price");
+                        String formattedMinValue = decimalFormat.format(price);
+                        binding.txtPrice.setText(formattedMinValue + " /tháng");
+                    } else {
+                        Log.d(TAG, "No such document");
                     }
                 } else {
                     Log.w(TAG, "Error getting documents.", task.getException());
                 }
             }
         });
+    }
 
+    public  void FillComment(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.recyclerViewBinhLuan.setLayoutManager(layoutManager);
         List<CommentItem> commentItemList = new ArrayList<>();
