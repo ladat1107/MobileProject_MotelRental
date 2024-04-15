@@ -34,10 +34,14 @@
             android:value="AIzaSyDtwGeH4QGHxEGStp3FWK0JFKDG6GSZObs" />
 
         <activity
-            android:name=".CameraActivity"
+            android:name=".AddDetailRoomActivity"
             android:exported="false" />
         <activity
+<<<<<<< HEAD
             android:name=".FillterActivity"
+=======
+            android:name=".LocationActivity"
+>>>>>>> d65be5e (MB09 | Hoàn thành trang tiện ích)
             android:exported="false" />
         <activity
             android:name=".OwnerTypeOfRoom"
@@ -46,7 +50,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".AddDetailRoomActivity"
+            android:name=".DetailRomeActivity"
             android:exported="false" />
         <activity
             android:name=".Fillter2Activity"
@@ -61,10 +65,10 @@
             android:name=".Password_Page_Activity"
             android:exported="false" />
         <activity
-            android:name=".LocationActivity"
+            android:name=".HomePageActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePageActivity"
+            android:name=".CameraActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
