@@ -37,7 +37,7 @@
             android:name=".CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailRomeActivity"
+            android:name=".FillterActivity"
             android:exported="false" />
         <activity
             android:name=".OwnerTypeOfRoom"
@@ -55,7 +55,7 @@
             android:name=".BasicInformation"
             android:exported="false" />
         <activity
-            android:name=".FillterActivity"
+            android:name=".DetailRomeActivity"
             android:exported="false" />
         <activity
             android:name=".Password_Page_Activity"

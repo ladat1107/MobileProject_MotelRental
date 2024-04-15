@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fillter2Activity extends AppCompatActivity {
-
     private ActivityFillter2Binding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +26,14 @@ public class Fillter2Activity extends AppCompatActivity {
         binding = ActivityFillter2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.sendback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Fillter2Activity.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.btnhome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Fillter2Activity.this, HomePageActivity.class);

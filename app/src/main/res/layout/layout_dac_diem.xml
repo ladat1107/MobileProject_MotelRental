@@ -14,7 +14,7 @@
         android:textColor="#504F4F"
         app:chipBackgroundColor="@color/bgcolor"
         app:checkedIcon="@null"
-        app:closeIconTint="#504F4F"
         app:chipStrokeColor="@color/bluebutton"
+        app:closeIconTint="@color/bluebutton"
         app:chipStrokeWidth="1.5dp"/>
 </RelativeLayout>
