@@ -4,23 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
-public class BasicInformation extends AppCompatActivity {
+public class BasicInformationActivity extends AppCompatActivity {
 
     DateFormat fmtDateAndTime = DateFormat.getDateTimeInstance();
     EditText etTieuDe, etDienTich, etGiaThue, etNgayChuyenToi, etNoiBat, etMoTa;
@@ -56,7 +51,7 @@ public class BasicInformation extends AppCompatActivity {
         btnLich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(BasicInformation.this, d,
+                new DatePickerDialog(BasicInformationActivity.this, d,
                         myCalendar.get(Calendar.YEAR),
                         myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();

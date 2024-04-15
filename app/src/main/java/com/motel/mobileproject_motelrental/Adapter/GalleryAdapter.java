@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,13 +37,16 @@ public class GalleryAdapter extends  RecyclerView.Adapter<GalleryAdapter.Gallery
     }
 
     public static class GalleryViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public ImageView deleteButton;
+        // Khai báo các view
+        ImageView imageView;
+        VideoView videoView;
+        ImageButton deleteButton;
 
         public GalleryViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             deleteButton = itemView.findViewById(R.id.btnDelete);
+            videoView = itemView.findViewById(R.id.videoView);
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,8 +80,21 @@ public class GalleryAdapter extends  RecyclerView.Adapter<GalleryAdapter.Gallery
 
     @Override
     public void onBindViewHolder(@NonNull GalleryViewHolder holder, int position) {
+
         Uri uri = imageUris.get(position);
-        holder.imageView.setImageURI(uri);
+        String mimeType = mContext.getContentResolver().getType(uri);
+
+        // Kiểm tra nếu là video
+        if (mimeType != null && mimeType.startsWith("video")) {
+            holder.imageView.setVisibility(View.GONE);
+            holder.videoView.setVisibility(View.VISIBLE);
+            holder.videoView.setVideoURI(uri);
+            holder.videoView.start();
+        } else { // Nếu không phải là video, hiển thị ảnh
+            holder.videoView.setVisibility(View.GONE);
+            holder.imageView.setVisibility(View.VISIBLE);
+            holder.imageView.setImageURI(uri);
+        }
     }
 
     @Override
