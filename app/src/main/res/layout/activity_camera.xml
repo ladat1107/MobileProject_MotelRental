@@ -32,7 +32,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,4 +141,26 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/btnTiepTuc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ld_custom_button_tieptuc"
+            app:backgroundTint="@null"
+            android:textSize="18dp"
+            android:elevation="25dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="Tiếp tục"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
 </LinearLayout>
