@@ -61,7 +61,7 @@ public class Constants {
     public static final String KEY_LIKED_MOTEL = "liked motel"; //documentid của trọ                                string
     public static final String KEY_TIME_LIKE = "time like";     // thời gian like                                   timestamp
 
-    public static final String KEY_PREFERENCE_NAME = "chatAppPreference";
+    public static final String KEY_PREFERENCE_NAME = "MotelRentalAppPreference";
     public static final String KEY_IS_SIGNED_IN = "isSignedIn";
     public static final String KEY_USER_ID = "userId";
     public static final String KEY_USER = "user";

@@ -11,4 +11,7 @@
     <color name="bluecustom">#85d3df</color>
     <color name="bluesee">#0c7094</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="input_background">#ECECEC</color>
+    <color name="primary_text">#212121</color>
+    <color name="primary">#1c2e46</color>
 </resources>
