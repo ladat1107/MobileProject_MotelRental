@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -57,7 +58,38 @@ public class FillterActivity extends AppCompatActivity {
         binding.btnTimKiem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<String> listChip = new ArrayList<>();
+                if (binding.chiptulanh.isChecked()) {
+                    listChip.add("Tủ lạnh");
+                }
+                if (binding.chipmaylanh.isChecked()) {
+                    listChip.add("Máy lạnh");
+                }
+                if (binding.chipmaygiat.isChecked()) {
+                    listChip.add("Máy giặt");
+                }
+                if (binding.chipwifi.isChecked()) {
+                    listChip.add("Wifi");
+                }
+                if (binding.chipgac.isChecked()) {
+                    listChip.add("Có gác");
+                }
+                if (binding.chipgio.isChecked()) {
+                    listChip.add("Giờ giấc quy định");
+                }
+                if (binding.chipdexe.isChecked()) {
+                    listChip.add("Chỗ để xe");
+                }
+
+                String[] arrListChip = new String[listChip.size()];
+                for (int i = 0; i < listChip.size(); i++) {
+                    String chip = listChip.get(i);
+                    arrListChip[i] = chip;
+                }
+
                 Intent intent = new Intent(FillterActivity.this, Fillter2Activity.class);
+                intent.putExtra("listChip", arrListChip);
+                intent.putExtra("fillter", "fillter");
                 startActivity(intent);
             }
         });

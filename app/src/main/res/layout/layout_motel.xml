@@ -13,6 +13,7 @@
         android:id="@+id/img_motel"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:scaleType="fitXY"
         android:src="@drawable/imgroom" />
     <TextView
         android:id="@+id/txt_title_motel"

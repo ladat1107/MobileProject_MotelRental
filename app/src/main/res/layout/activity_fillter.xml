@@ -296,7 +296,7 @@
                             android:layout_marginBottom="10dp">
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_tulanh"
+                                android:id="@+id/chiptulanh"
                                 style="@style/CustomChipStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
                                 app:chipStrokeWidth="1dp" />
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_maylanh"
+                                android:id="@+id/chipmaylanh"
                                 style="@style/CustomChipStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -316,7 +316,7 @@
                                 app:rippleColor="@color/bluebutton" />
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_maygiat"
+                                android:id="@+id/chipmaygiat"
                                 style="@style/CustomChipStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -326,7 +326,7 @@
                                 app:rippleColor="@color/bluebutton" />
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_gac"
+                                android:id="@+id/chipgac"
                                 style="@style/CustomChipStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -346,7 +346,7 @@
                             android:textStyle="bold" />
 
                         <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/chipgrp_tich"
+                            android:id="@+id/chipgrptich"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -355,7 +355,7 @@
                             android:layout_marginBottom="10dp">
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_wifi"
+                                android:id="@+id/chipwifi"
                                 style="@style/CustomChipStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -365,7 +365,7 @@
                                 app:chipStrokeWidth="1dp" />
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_dexe"
+                                android:id="@+id/chipdexe"
                                 style="@style/CustomChipStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -375,7 +375,7 @@
                                 app:rippleColor="@color/bluebutton" />
 
                             <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_gio"
+                                android:id="@+id/chipgio"
                                 style="@style/CustomChipStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

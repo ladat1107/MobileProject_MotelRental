@@ -162,8 +162,6 @@
                                 android:textStyle="bold" />
                         </RelativeLayout>
                     </LinearLayout>
-
-
                 </RelativeLayout>
 
                 <androidx.appcompat.widget.Toolbar
@@ -222,11 +220,11 @@
                         android:layout_marginTop="10dp">
 
                         <TextView
-                            android:id="@+id/phobien"
+                            android:id="@+id/ganday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="Phổ biến"
+                            android:text="Gần đây"
                             android:textSize="18dp"
                             android:textStyle="bold" />
 
@@ -288,7 +286,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="Đánh giá cao"
+                            android:text="Bàn luận nhiều"
                             android:textSize="18dp"
                             android:textStyle="bold" />
 

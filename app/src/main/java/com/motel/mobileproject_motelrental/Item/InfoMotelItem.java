@@ -5,11 +5,11 @@ public class InfoMotelItem {
     private int imageResource;
     private String title;
     private int likeCount;
-    private int price;
+    private double price;
     private String address;
     private int commentCount;
 
-    public InfoMotelItem(String id, int imageResource, String title, int likeCount, int price, String address, int commentCount) {
+    public InfoMotelItem(String id, int imageResource, String title, int likeCount, double price, String address, int commentCount) {
         this.id = id;
         this.imageResource = imageResource;
         this.title = title;
@@ -34,7 +34,7 @@ public class InfoMotelItem {
         return likeCount;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
