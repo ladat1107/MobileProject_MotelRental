@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bgcolor"
     android:orientation="vertical"
-    tools:context=".Fillter2Activity">
+    tools:context=".AccountPageActivity">
     <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
@@ -14,6 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@drawable/bgheader">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/camera"
+            android:layout_marginLeft="75dp"
+            android:layout_marginTop="80dp" />
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +30,7 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:scaleType="centerCrop"
-                android:id="@+id/imvAvatar"
+                android:id="@+id/imbAvatar"
                 android:src="@drawable/imgphong"/>
         </androidx.cardview.widget.CardView>
         <TextView
@@ -70,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="   Danh sách yêu thích"
-            app:icon="@drawable/heart"
+            app:icon="@drawable/img_love_red"
             android:textColor="@color/black"
             app:background="@null"
             app:iconTint="@color/red"
@@ -109,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="   Thay đổi thông tin cá nhân"
-            app:icon="@drawable/setting"
+            app:icon="@drawable/admin_icon"
             android:textColor="@color/black"
             app:background="@null"
             app:iconTint="@color/bluebutton"
@@ -122,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="   Thay đổi mật khẩu"
-            app:icon="@drawable/lock"
+            app:icon="@drawable/security_89410"
             android:textColor="@color/black"
             app:background="@null"
             app:iconTint="@color/bluebutton"

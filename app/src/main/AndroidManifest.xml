@@ -19,7 +19,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileProject_MotelRental"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ChangeInfomationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangeAvatarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListFavoriteActivity"
+            android:exported="false" />
         <!--
      TODO: Before you run your application, you need a Google Maps API key.
 
@@ -66,23 +77,11 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailRomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Fillter2Activity"
-            android:exported="false" />
-
-        <activity
-            android:name=".FillterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AddDetailRoomActivity"
-            android:exported="false"/>
-        <activity
-            android:name=".HomePageActivity"
+            android:name=".AccountPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
