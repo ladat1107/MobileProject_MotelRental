@@ -1,5 +1,6 @@
 package com.motel.mobileproject_motelrental;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -9,8 +10,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -25,38 +29,57 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.OnProgressListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
 import com.motel.mobileproject_motelrental.databinding.ActivitySignUpBinding;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements Comparator<String> {
+
+    private static final String TAG = "SignUpActivity";
     private DatePickerDialog datePickerDialog;
     private ActivitySignUpBinding binding;
     StorageReference storageReference;
     private PreferenceManager preferenceManager;
     private Uri imageUri;
-    private boolean succ;
     private String ImageID;
-    private boolean selectedGender;
+    private boolean selectedGender = false;
+    private List<String> provinceList,districtList, wardList;
+    FirebaseFirestore database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         PhoneNumberValidity();
+        loadJSONData();
+        setUpSpinners();
         initDatePicker();
         binding.datePickerButton.setText(getTodaysDate());
         setListeners();
-
     }
 
     private void setListeners() {
+        preferenceManager = new PreferenceManager(getApplicationContext());
+        storageReference = FirebaseStorage.getInstance().getReference();
+        database = FirebaseFirestore.getInstance();
         binding.textSignIn.setOnClickListener(v -> onBackPressed());
         binding.layoutImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -64,34 +87,37 @@ public class SignUpActivity extends AppCompatActivity {
             pickImage.launch(intent);
         });
         binding.buttonSignUp.setOnClickListener(v -> {
-            if (isValidSignUpDetails() && uploadImage(imageUri))
+            if (isValidSignUpDetails())
+            {
+                uploadImage(imageUri);
                 signUp();
+            }
+
         });
         binding.rgpGioiTinh.setOnCheckedChangeListener((group, checkedId) -> {
-                selectedGender = checkedId==0?false:true;
+                selectedGender = checkedId != 0;
         });
     }
-    private boolean uploadImage(Uri file) {
+    private void uploadImage(Uri file) {
 
         ImageID = UUID.randomUUID().toString();
+        Log.e(TAG,"uploadImage: " +ImageID );
         StorageReference ref = storageReference.child("images/" + ImageID);
         ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                succ = true;
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(SignUpActivity.this, "Failed!" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                succ = false;
             }
         });
-        return succ;
     }
     private void signUp() {
         loading(true);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
+//        Log.e(TAG,"signUp: "+ImageID);
+        database = FirebaseFirestore.getInstance();
         HashMap<String, Object> user = new HashMap<>();
         user.put(Constants.KEY_NAME, binding.inputName.getText().toString());
         user.put(Constants.KEY_GENDER, selectedGender);
@@ -109,6 +135,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
                     loading(false);
+                    showToast("Thành công");
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
                     preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
                     preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
@@ -172,6 +199,8 @@ public class SignUpActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             if (result.getData() != null) {
                 imageUri = result.getData().getData();
+                Log.e(TAG,"ActivityResultLauncher: "+imageUri.toString());
+                binding.textAddImage.setVisibility(View.GONE);
                 Glide.with(getApplicationContext()).load(imageUri).into(binding.imageProfile);
             }
         }
@@ -244,5 +273,149 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void openDatePicker(View view) {
         datePickerDialog.show();
+    }
+    private void loadJSONData() {
+        try {
+            InputStream inputStream = getAssets().open("data.json");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            String json = new String(buffer, StandardCharsets.UTF_8);
+            parseJSON(json);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseJSON(String json) throws JSONException {
+        JSONObject jsonObject = new JSONObject(json);
+        JSONArray dataArray = jsonObject.getJSONArray("data");
+
+        provinceList = new ArrayList<>();
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject provinceObject = dataArray.getJSONObject(i);
+            String provinceName = provinceObject.getString("name");
+            provinceList.add(provinceName);
+        }
+    }
+
+    private void setUpSpinners() {
+
+        Collections.sort(provinceList, SignUpActivity.this);
+        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, provinceList);
+        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.cmbTinh.setAdapter(provinceAdapter);
+
+
+        binding.cmbTinh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedProvince = (String) parent.getItemAtPosition(position);
+                loadDistricts(selectedProvince);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        binding.cmbQuan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedDistrict = (String) parent.getItemAtPosition(position);
+                loadWards(selectedDistrict);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void loadDistricts(String selectedProvince) {
+        districtList = new ArrayList<>();
+        // Find the province object in JSON data
+        try {
+            JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
+            JSONArray dataArray = jsonObject.getJSONArray("data");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject provinceObject = dataArray.getJSONObject(i);
+                String provinceName = provinceObject.getString("name");
+                if (provinceName.equals(selectedProvince)) {
+                    JSONArray districtArray = provinceObject.getJSONArray("level2s");
+                    for (int j = 0; j < districtArray.length(); j++) {
+                        JSONObject districtObject = districtArray.getJSONObject(j);
+                        String districtName = districtObject.getString("name");
+                        districtList.add(districtName);
+                    }
+                    break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ArrayAdapter<String> districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, districtList);
+        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.cmbQuan.setAdapter(districtAdapter);
+
+    }
+
+    private void loadWards(String selectedDistrict) {
+        wardList = new ArrayList<>();
+        // Find the district object in JSON data
+        try {
+            JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
+            JSONArray dataArray = jsonObject.getJSONArray("data");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject provinceObject = dataArray.getJSONObject(i);
+                JSONArray districtArray = provinceObject.getJSONArray("level2s");
+                for (int j = 0; j < districtArray.length(); j++) {
+                    JSONObject districtObject = districtArray.getJSONObject(j);
+                    String districtName = districtObject.getString("name");
+                    if (districtName.equals(selectedDistrict)) {
+                        JSONArray wardArray = districtObject.getJSONArray("level3s");
+                        for (int k = 0; k < wardArray.length(); k++) {
+                            JSONObject wardObject = wardArray.getJSONObject(k);
+                            String wardName = wardObject.getString("name");
+                            wardList.add(wardName);
+                        }
+                        break;
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ArrayAdapter<String> wardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, wardList);
+        wardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.cmbXa.setAdapter(wardAdapter);
+    }
+
+    private String loadJSONFromAsset(String filename) {
+        String json = null;
+        try {
+            InputStream inputStream = getAssets().open(filename);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    @Override
+    public int compare(String s1, String s2) {
+        String city1 = s1.replaceAll("^(Thành phố|Tỉnh)\\s*", "");
+        String city2 = s2.replaceAll("^(Thành phố|Tỉnh)\\s*", "");
+
+        // So sánh theo thứ tự từ A đến Z
+        return city1.compareToIgnoreCase(city2);
     }
 }
