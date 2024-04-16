@@ -2,13 +2,7 @@
     <item android:state_enabled="true">
         <shape>
             <solid android:color="@color/red" /> <!-- Màu nền của button khi enable -->
-            <corners android:radius="30dp" /> <!-- Bán kính bo cạnh của button -->
-        </shape>
-    </item>
-    <item android:state_enabled="false">
-        <shape>
-            <solid android:color="@color/grey" /> <!-- Màu nền của button khi disable -->
-            <corners android:radius="30dp" /> <!-- Bán kính bo cạnh của button -->
+            <corners android:radius="25dp" /> <!-- Bán kính bo cạnh của button -->
         </shape>
     </item>
 </selector>

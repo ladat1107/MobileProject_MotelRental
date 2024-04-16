@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">MobileProject_MotelRental</string>
+    <string name="create_new_account">Tạo tài khoản</string>
+    <string name="sign_in">Đăng nhập</string>
+    <string name="login_to_continute">Đăng nhập để tiếp tục</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="insert_image">Chọn ảnh</string>
+    <string name="name">Họ và tên</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="phone_number">Số điện thoại</string>
     <string name="anh_v_video"><![CDATA[Ảnh & Video]]></string>
     <array name="initial_slider_values">
         <item>0</item>
