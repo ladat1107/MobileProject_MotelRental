@@ -77,16 +77,24 @@
             android:name=".FillterActivity"
             android:exported="false" />
         <activity
+<<<<<<<
             android:name=".CameraActivity"
             android:exported="false"/>
             <activity
             android:name=".OwnerTypeOfRoomActivity"
+=======
+            android:name=".BasicInformationActivity"
+>>>>>>>
             android:exported="false"/>
             <activity
             android:name=".BasicInformationActivity"
             android:exported="false" />
         <activity
+<<<<<<<
             android:name=".SplashActivity"
+=======
+            android:name=".OwnerTypeOfRoomActivity"
+>>>>>>>
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
