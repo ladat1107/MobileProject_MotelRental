@@ -24,11 +24,16 @@ public class Constants {
     public static final String KEY_TITLE = "title";                 // tiêu đề của bài viết                         string
     public static final String KEY_COUNT_LIKE = "like";             // số lượng like của trọ                        number
     public static final String KEY_COUNT_ROOM = "room";             // số lượng phòng hiện có của trọ               number
+    public static final String KEY_LATITUDE = "latitude motel";     // số lượng phòng hiện có của trọ               number
+    public static final String KEY_LONGTITUDE = "longitude motel";  // số lượng phòng hiện có của trọ               number
     public static final String KEY_MOTEL_NUMBER = "motel number";   // số nhà của trọ                               string
     public static final String KEY_WARD_MOTEL = "ward";              //xã, phường                                   string
     public static final String KEY_DISTRICT_MOTEL = "district";      //quận, huyện                                  string
     public static final String KEY_CITY_MOTEL = "city";             // tỉnh, thành phố                              string
     public static final String KEY_PRICE = "price";                 // giá thuê trọ                                 number
+    public static final String KEY_ELECTRICITY_PRICE = "electricity price";// giá thuê trọ                          number
+    public static final String KEY_WATER_PRICE = "water price";     // giá thuê trọ                                 number
+    public static final String KEY_EMPTY_DAY = "empty day";          // ngày sinh                                timestamp
     public static final String KEY_ACREAGE = "acreage";             //diện tích phòng trọ                           number
     public static final String KEY_CHARACTERISTIC = "characteristic";//đặc điểm của trọ                             string
     public static final String KEY_DESCRIPTION = "description";     // mô tả                                        string

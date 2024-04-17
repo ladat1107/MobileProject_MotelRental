@@ -55,8 +55,7 @@
                 android:layout_height="55dp"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
-
-                android:src="@drawable/imgtro" />
+                android:src="@drawable/img_ld_tro" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -85,7 +84,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
 
-                android:src="@drawable/imgtroghep" />
+                android:src="@drawable/img_ld_troghep" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -114,7 +113,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
 
-                android:src="@drawable/nguyencan" />
+                android:src="@drawable/img_ld_nguyencan" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -142,7 +141,7 @@
                 android:layout_height="55dp"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
-                android:src="@drawable/imgchungcu" />
+                android:src="@drawable/img_ld_chungcu" />
 
             <TextView
                 android:layout_width="match_parent"
