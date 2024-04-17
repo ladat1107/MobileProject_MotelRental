@@ -115,13 +115,15 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
             listNameImage.add(fileName);
             fileRef.putFile(uri)
                     .addOnSuccessListener(taskSnapshot -> {
-                        //Toast.makeText(CameraActivity.this, "Tải lên thành công", Toast.LENGTH_SHORT).show();
+
                     })
                     .addOnFailureListener(e -> {
                         // Xử lý việc tải lên không thành công
                         Toast.makeText(CameraActivity.this, "Tải lên thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        return ;
                     });
         }
+        Toast.makeText(CameraActivity.this, "Tải lên thành công", Toast.LENGTH_SHORT).show();
         saveStringListToFirestore();
         selectedUris.clear();
         adapter.notifyDataSetChanged();
