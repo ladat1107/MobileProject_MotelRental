@@ -71,23 +71,25 @@
             android:name=".Fillter2Activity"
             android:exported="false" />
         <activity
-            android:name=".BasicInformationActivity"
+            android:name=".SignInActivity"
             android:exported="false" />
         <activity
             android:name=".FillterActivity"
             android:exported="false" />
         <activity
             android:name=".CameraActivity"
-            android:exported="false" />
+            android:exported="false"/>
             <activity
             android:name=".OwnerTypeOfRoomActivity"
             android:exported="false"/>
+            <activity
+            android:name=".BasicInformationActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
