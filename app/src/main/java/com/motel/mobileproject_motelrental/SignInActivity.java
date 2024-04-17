@@ -36,22 +36,15 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+        binding.forgetPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), EnterMailActivity.class);
+            startActivity(intent);
+        });
         binding.textCreateNewAccount.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));
         binding.buttonSignIn.setOnClickListener(v -> {
             if (isValidSignInDetails())
                 signIn();
-        });
-        binding.imgeye.setOnClickListener(v -> {
-            if (isPasswordVisible) {
-                binding.imgeye.setImageResource(R.drawable.eyeclose); // Thay đổi hình ảnh của ImageButton khi ẩn mật khẩu
-                binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            } else {
-                binding.imgeye.setImageResource(R.drawable.eye); // Thay đổi hình ảnh của ImageButton khi hiển thị mật khẩu
-                binding.inputPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            }
-            isPasswordVisible = !isPasswordVisible; // Đảo ngược trạng thái
-            binding.inputPassword.setSelection(binding.inputPassword.getText().length()); // Đặt con trỏ văn bản vào cuối});
         });
     }
         private void signIn () {

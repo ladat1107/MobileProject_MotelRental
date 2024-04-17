@@ -23,7 +23,7 @@
             android:layout_marginTop="40dp"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/create_new_account"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/ld_color"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -57,17 +57,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="@string/name">
+            android:hint="@string/name"
+            app:boxStrokeColor="@color/ld_color"
+            app:cursorColor="@color/black"
+            app:hintTextColor="?attr/colorOnSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ld_custom_edittext"
                 android:fontFamily="@font/roboto_regular"
-                android:imeOptions="actionNext"
                 android:maxLines="1" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -132,7 +132,6 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:onClick="openDatePicker"
-                android:text="JAN 01 2020"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -141,15 +140,16 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Số nhà /đường">
+            android:hint="Số nhà /đường"
+            app:boxStrokeColor="@color/ld_color"
+            app:cursorColor="@color/black"
+            app:hintTextColor="?attr/colorOnSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputSoNha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ld_custom_edittext"
                 android:fontFamily="@font/roboto_regular"
-                android:imeOptions="actionNext"
                 android:maxLines="1"
 
                 />
@@ -177,8 +177,7 @@
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
-                android:textSize="16dp"
-                />
+                android:textSize="16dp" />
 
             <Spinner
                 android:id="@+id/cmbQuan"
@@ -240,6 +239,7 @@
                 android:paddingStart="7dp"
                 android:singleLine="true" />
 
+
             <ImageView
                 android:id="@+id/img_Check_Phone"
                 android:layout_width="24dp"
@@ -253,14 +253,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:hint="Email">
+            android:hint="Email"
+            app:boxStrokeColor="@color/ld_color"
+            app:cursorColor="@color/black"
+            app:hintTextColor="?attr/colorOnSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEmail"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ld_custom_edittext"
                 android:fontFamily="@font/roboto_regular"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
@@ -275,14 +277,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="@string/password">
+            android:hint="@string/password"
+            app:boxStrokeColor="@color/ld_color"
+            app:cursorColor="@color/black"
+            app:endIconMode="password_toggle"
+            app:hintTextColor="?attr/colorOnSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputPassword"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ld_custom_edittext"
                 android:fontFamily="@font/roboto_regular"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
@@ -297,13 +302,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="@string/confirm_password">
+            android:hint="@string/confirm_password"
+            app:boxStrokeColor="@color/ld_color"
+            app:cursorColor="@color/black"
+            app:endIconMode="password_toggle"
+            app:hintTextColor="?attr/colorOnSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ld_custom_edittext"
                 android:fontFamily="@font/roboto_regular"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
@@ -327,7 +335,7 @@
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/ld_edittext"
+                app:backgroundTint="@color/ld_color"
                 app:cornerRadius="8dp" />
 
             <ProgressBar

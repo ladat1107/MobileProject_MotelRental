@@ -58,11 +58,13 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     private ActivitySignUpBinding binding;
     StorageReference storageReference;
     private PreferenceManager preferenceManager;
-    private Uri imageUri;
+    private Uri imageUri = null;
     private String ImageID;
+    private boolean trueNumber;
     private boolean selectedGender = false;
-    private List<String> provinceList,districtList, wardList;
+    private List<String> provinceList, districtList, wardList;
     FirebaseFirestore database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,21 +89,21 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
             pickImage.launch(intent);
         });
         binding.buttonSignUp.setOnClickListener(v -> {
-            if (isValidSignUpDetails())
-            {
-                uploadImage(imageUri);
+            if (isValidSignUpDetails()) {
+                if(imageUri!=null)
+                    uploadImage(imageUri);
                 signUp();
             }
-
         });
         binding.rgpGioiTinh.setOnCheckedChangeListener((group, checkedId) -> {
-                selectedGender = checkedId != 0;
+            selectedGender = checkedId != 0;
         });
     }
+
     private void uploadImage(Uri file) {
 
         ImageID = UUID.randomUUID().toString();
-        Log.e(TAG,"uploadImage: " +ImageID );
+        Log.e(TAG, "uploadImage: " + ImageID);
         StorageReference ref = storageReference.child("images/" + ImageID);
         ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -114,6 +116,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
             }
         });
     }
+
     private void signUp() {
         loading(true);
 //        Log.e(TAG,"signUp: "+ImageID);
@@ -123,41 +126,39 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         user.put(Constants.KEY_GENDER, selectedGender);
         user.put(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
         user.put(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
-        user.put(Constants.KEY_WARD,binding.cmbXa.getSelectedItem().toString());
-        user.put(Constants.KEY_DISTRICT,binding.cmbQuan.getSelectedItem().toString());
-        user.put(Constants.KEY_CITY,binding.cmbTinh.getSelectedItem().toString());
+        user.put(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
+        user.put(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
+        user.put(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
         user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
         user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-        user.put(Constants. KEY_IMAGE, ImageID);
-        user.put(Constants.KEY_PHONE_NUMBER,binding.editTextCarrierNumber.getText().toString());
-        user.put(Constants.KEY_STATUS_USER, 1);
-        database.collection(Constants. KEY_COLLECTION_USERS)
-                .add(user)
-                .addOnSuccessListener(documentReference -> {
-                    loading(false);
-                    showToast("Thành công");
-                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                    preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
-                    preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
-                    preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
-                    preferenceManager.putString(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
-                    preferenceManager.putString(Constants.KEY_WARD,binding.cmbXa.getSelectedItem().toString());
-                    preferenceManager.putString(Constants.KEY_DISTRICT,binding.cmbQuan.getSelectedItem().toString());
-                    preferenceManager.putString(Constants.KEY_CITY,binding.cmbTinh.getSelectedItem().toString());
-                    preferenceManager.putString(Constants.KEY_EMAIL,  binding.inputEmail.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-                    preferenceManager.putString(Constants.KEY_IMAGE, ImageID);
-                    preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.addFlags(Intent. FLAG_ACTIVITY_NEW_TASK | Intent. FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                })
-                .addOnFailureListener(exception -> {
-                    loading(false);
-                    showToast(exception.getMessage());
-                });
+        user.put(Constants.KEY_IMAGE, ImageID);
+        user.put(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
+        user.put(Constants.KEY_STATUS_USER, true);
+        database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
+            loading(false);
+            showToast("Thành công");
+            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+            preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
+            preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
+            preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
+            preferenceManager.putString(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
+            preferenceManager.putString(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
+            preferenceManager.putString(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
+            preferenceManager.putString(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
+            preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+            preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+            preferenceManager.putString(Constants.KEY_IMAGE, ImageID);
+            preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }).addOnFailureListener(exception -> {
+            loading(false);
+            showToast(exception.getMessage());
+        });
     }
+
     private void loading(Boolean isLoading) {
         if (isLoading) {
             binding.buttonSignUp.setVisibility(View.INVISIBLE);
@@ -168,29 +169,41 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         }
     }
     private Boolean isValidSignUpDetails() {
+
+        //Gán ảnh theo giới tính nếu không chọn ảnh
         if (imageUri == null) {
-            showToast("Select profile image");
+            if (!selectedGender)
+                ImageID = "avatar-nam.jpg";
+            else
+                ImageID = "avatar-nu.jpg";
+        }
+        if (binding.inputName.getText().toString().trim().isEmpty()) {
+            showToast("Nhập họ tên");
             return false;
-        } else if (binding.inputName.getText().toString().trim().isEmpty()) {
-            showToast("Enter name");
+        } else if (binding.editTextCarrierNumber.getText().toString().trim().isEmpty()) {
+            showToast("Nhập số điện thoại");
+            return false;
+        } else if (!trueNumber) {
+            showToast("Số điện thoại không hợp lệ");
             return false;
         } else if (binding.inputEmail.getText().toString().trim().isEmpty()) {
-            showToast("Enter email");
+            showToast("Nhập email");
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.getText().toString()).matches()) {
-            showToast("Enter valid email");
+            showToast("Email không hợp lệ");
             return false;
         } else if (binding.inputPassword.getText().toString().trim().isEmpty()) {
-            showToast("Enter password");
+            showToast("Nhập mật khẩu");
             return false;
         } else if (binding.inputConfirmPassword.getText().toString().trim().isEmpty()) {
-            showToast("Confirm your password");
+            showToast("Nhập mật khẩu để xác nhận lại");
         } else if (!binding.inputPassword.getText().toString().equals(binding.inputConfirmPassword.getText().toString())) {
-            showToast("Password & confirm password must be same");
+            showToast("Mật khẩu & xác nhận mật khẩu phải giống nhau");
             return false;
         }
         return true;
     }
+
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
@@ -199,7 +212,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         if (result.getResultCode() == RESULT_OK) {
             if (result.getData() != null) {
                 imageUri = result.getData().getData();
-                Log.e(TAG,"ActivityResultLauncher: "+imageUri.toString());
+                Log.e(TAG, "ActivityResultLauncher: " + imageUri.toString());
                 binding.textAddImage.setVisibility(View.GONE);
                 Glide.with(getApplicationContext()).load(imageUri).into(binding.imageProfile);
             }
@@ -214,8 +227,10 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
             public void onValidityChanged(boolean isValidNumber) {
                 if (isValidNumber) {
                     binding.imgCheckPhone.setImageResource(R.drawable.hn_ic_check);
+                    trueNumber = true;
                 } else {
                     binding.imgCheckPhone.setImageResource(R.drawable.hn_ic_close);
+                    trueNumber = false;
                 }
             }
         });
@@ -274,6 +289,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     public void openDatePicker(View view) {
         datePickerDialog.show();
     }
+
     private void loadJSONData() {
         try {
             InputStream inputStream = getAssets().open("data.json");
@@ -303,7 +319,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     private void setUpSpinners() {
 
         Collections.sort(provinceList, SignUpActivity.this);
-        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, provinceList);
+        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, provinceList);
         provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.cmbTinh.setAdapter(provinceAdapter);
 

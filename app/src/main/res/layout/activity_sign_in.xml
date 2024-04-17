@@ -33,7 +33,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/login_to_continute"
-            android:textColor="@color/black"
+            android:textColor="@color/ld_color"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -41,6 +41,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:boxStrokeColor="@color/ld_color"
+            app:hintTextColor="?attr/colorOnSurfaceVariant"
+            app:cursorColor="@color/black"
             android:layout_marginTop="40dp"
             android:hint="@string/email">
 
@@ -48,14 +51,15 @@
                 android:id="@+id/inputEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ld_custom_edittext"
                 android:fontFamily="@font/roboto_regular"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp" />
+                android:paddingEnd="16dp">
+                <requestFocus/>
+            </com.google.android.material.textfield.TextInputEditText>
 
         </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
@@ -69,6 +73,10 @@
                 android:id="@+id/textInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                app:boxStrokeColor="@color/ld_color"
+                app:hintTextColor="?attr/colorOnSurfaceVariant"
+                app:cursorColor="@color/black"
+                app:endIconMode="password_toggle"
                 android:layout_height="wrap_content"
                 android:hint="@string/password">
 
@@ -76,7 +84,6 @@
                     android:id="@+id/inputPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ld_custom_edittext"
                     android:fontFamily="@font/roboto_regular"
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
@@ -86,14 +93,7 @@
                     android:paddingEnd="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/imgeye"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/eyeclose"
-                android:layout_marginStart="-45dp"
-                android:layout_marginTop="3dp"
-                android:layout_gravity="center_vertical"/>
+
         </LinearLayout>
 
 
@@ -125,6 +125,7 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/forgetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

@@ -14,6 +14,16 @@ public class PreferenceManager {
         editor.putBoolean(key, value);
         editor.apply();
     }
+    public void putFloat(String key, Float value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat(key, value);
+        editor.apply();
+    }
+    public void putInt(String key, int value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
     public Boolean getBoolean(String key) {
         return sharedPreferences.getBoolean(key,  false);}
     public void putString(String key, String value) {

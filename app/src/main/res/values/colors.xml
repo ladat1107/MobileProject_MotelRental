@@ -14,4 +14,5 @@
     <color name="input_background">#ECECEC</color>
     <color name="primary_text">#212121</color>
     <color name="primary">#1c2e46</color>
+    <color name="colorTextPrimary">#212121</color>
 </resources>
