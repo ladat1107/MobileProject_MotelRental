@@ -26,12 +26,18 @@
             app:cardCornerRadius="90dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="13dp">
-            <ImageButton
+            <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:scaleType="centerCrop"
-                android:id="@+id/imbAvatar"
+                android:id="@+id/imgAvatar"
                 android:src="@drawable/imgphong"/>
+            <Button
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:background="@null"
+                android:id="@+id/btnDoiAvatar"
+                style="@style/Widget.MaterialComponents.Button.TextButton"/>
         </androidx.cardview.widget.CardView>
         <TextView
             android:id="@+id/tvUserName"
