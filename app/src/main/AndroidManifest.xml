@@ -18,6 +18,9 @@
         android:theme="@style/Theme.MobileProject_MotelRental"
         tools:targetApi="31">
         <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".EnterMailActivity"
             android:exported="false" />
         <activity
