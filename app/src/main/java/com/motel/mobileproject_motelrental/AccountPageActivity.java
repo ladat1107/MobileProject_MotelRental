@@ -57,7 +57,7 @@ public class AccountPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AccountPageActivity.this, ChangeAvatarActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -81,6 +81,16 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                // Reload the page here
+                recreate(); // Or any other method to reload the page
+            }
+        }
+    }
     private void GetAvatarOnFireBase(){
         DocumentReference docRef = db.collection("users").document("hdUDaeIQeIbErYFNakZw");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -89,7 +99,6 @@ public class AccountPageActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
                         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
                         StorageReference httpsReference = storage.getReferenceFromUrl(document.getString("image"));
                         httpsReference.getDownloadUrl().addOnSuccessListener(uri -> {

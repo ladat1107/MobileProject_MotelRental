@@ -84,7 +84,6 @@ public class ChangeAvatarActivity extends AppCompatActivity {
                         UploadPhotoToStorage("hdUDaeIQeIbErYFNakZw");
                         photo = null;
                         imvAvatar.setImageURI(null);
-                        ReturnAccountPage();
                     }
                     else {
                         Toast.makeText(ChangeAvatarActivity.this, "Bạn chưa chọn ảnh đại diện!", Toast.LENGTH_SHORT).show();
@@ -101,9 +100,15 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_OK);
                 finish();
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        finish();
     }
     private void SelectImageByGallery() {
         btnChonAnh = (Button) findViewById(R.id.btnChonTuThuVien);
