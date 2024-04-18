@@ -60,10 +60,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="Email không tồn tại"
         android:textColor="@color/red"
         android:layout_marginTop="3dp"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <FrameLayout
         android:layout_width="wrap_content"

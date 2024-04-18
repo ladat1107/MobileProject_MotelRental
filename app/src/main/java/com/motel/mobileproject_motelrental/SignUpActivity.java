@@ -1,6 +1,5 @@
 package com.motel.mobileproject_motelrental;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -28,7 +27,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.OnProgressListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -47,9 +45,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SignUpActivity extends AppCompatActivity implements Comparator<String> {
 
@@ -57,6 +55,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     private DatePickerDialog datePickerDialog;
     private ActivitySignUpBinding binding;
     StorageReference storageReference;
+    private boolean isNotExistEmail = false;
     private PreferenceManager preferenceManager;
     private Uri imageUri = null;
     private String ImageID;
@@ -90,14 +89,28 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         });
         binding.buttonSignUp.setOnClickListener(v -> {
             if (isValidSignUpDetails()) {
-                if(imageUri!=null)
-                    uploadImage(imageUri);
-                signUp();
+//                if(imageUri!=null)
+//                    uploadImage(imageUri);
+                chk();
             }
         });
         binding.rgpGioiTinh.setOnCheckedChangeListener((group, checkedId) -> {
             selectedGender = checkedId != 0;
         });
+    }
+
+    private void chk() {
+        database.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo(Constants.KEY_EMAIL, binding.inputEmail.getText().toString().trim())
+                .whereEqualTo(Constants.KEY_STATUS_USER, true)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && !task.getResult().getDocuments().isEmpty()) {
+                        showToast("Email đã được đăng ký trước đây");
+                    } else {
+                        signUp();
+                    }
+                });
     }
 
     private void uploadImage(Uri file) {
@@ -118,45 +131,61 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     }
 
     private void signUp() {
-        loading(true);
-//        Log.e(TAG,"signUp: "+ImageID);
-        database = FirebaseFirestore.getInstance();
-        HashMap<String, Object> user = new HashMap<>();
-        user.put(Constants.KEY_NAME, binding.inputName.getText().toString());
-        user.put(Constants.KEY_GENDER, selectedGender);
-        user.put(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
-        user.put(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
-        user.put(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
-        user.put(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
-        user.put(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
-        user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-        user.put(Constants.KEY_IMAGE, ImageID);
-        user.put(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
-        user.put(Constants.KEY_STATUS_USER, true);
-        database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
-            loading(false);
-            showToast("Thành công");
-            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-            preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
-            preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
-            preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
-            preferenceManager.putString(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
-            preferenceManager.putString(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
-            preferenceManager.putString(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
-            preferenceManager.putString(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
-            preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-            preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-            preferenceManager.putString(Constants.KEY_IMAGE, ImageID);
-            preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }).addOnFailureListener(exception -> {
-            loading(false);
-            showToast(exception.getMessage());
-        });
+        preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
+        preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
+        preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
+        preferenceManager.putString(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
+        preferenceManager.putString(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
+        preferenceManager.putString(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
+        preferenceManager.putString(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
+        preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+        preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+        preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
+        Intent intent = new Intent(getApplicationContext(), VerificateActivity.class);
+        intent.putExtra("email", binding.inputEmail.getText().toString());
+        intent.putExtra("uriImage", imageUri);
+        intent.putExtra("type", "DangKy");
+        startActivity(intent);
+
+//        loading(true);
+////        Log.e(TAG,"signUp: "+ImageID);
+//        database = FirebaseFirestore.getInstance();
+//        HashMap<String, Object> user = new HashMap<>();
+//        user.put(Constants.KEY_NAME, binding.inputName.getText().toString());
+//        user.put(Constants.KEY_GENDER, selectedGender);
+//        user.put(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
+//        user.put(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
+//        user.put(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
+//        user.put(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
+//        user.put(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
+//        user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+//        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+//        user.put(Constants.KEY_IMAGE, ImageID);
+//        user.put(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
+//        user.put(Constants.KEY_STATUS_USER, true);
+//        database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
+//            loading(false);
+//            showToast("Thành công");
+//            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+//            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+//            preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
+//            preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
+//            preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
+//            preferenceManager.putString(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
+//            preferenceManager.putString(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
+//            preferenceManager.putString(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
+//            preferenceManager.putString(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
+//            preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+//            preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+//            preferenceManager.putString(Constants.KEY_IMAGE, ImageID);
+//            preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
+//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
+//        }).addOnFailureListener(exception -> {
+//            loading(false);
+//            showToast(exception.getMessage());
+//        });
     }
 
     private void loading(Boolean isLoading) {
@@ -168,15 +197,16 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
+
     private Boolean isValidSignUpDetails() {
 
-        //Gán ảnh theo giới tính nếu không chọn ảnh
-        if (imageUri == null) {
-            if (!selectedGender)
-                ImageID = "avatar-nam.jpg";
-            else
-                ImageID = "avatar-nu.jpg";
-        }
+//        //Gán ảnh theo giới tính nếu không chọn ảnh
+//        if (imageUri == null) {
+//            if (!selectedGender)
+//                ImageID = "avatar-nam.jpg";
+//            else
+//                ImageID = "avatar-nu.jpg";
+//        }
         if (binding.inputName.getText().toString().trim().isEmpty()) {
             showToast("Nhập họ tên");
             return false;

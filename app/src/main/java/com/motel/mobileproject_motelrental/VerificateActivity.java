@@ -1,19 +1,31 @@
 package com.motel.mobileproject_motelrental;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.motel.mobileproject_motelrental.databinding.ActivityVerificateBinding;
 
+import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,8 +34,14 @@ public class VerificateActivity extends AppCompatActivity {
     private static String TAG = "VerificateActivity";
     private ActivityVerificateBinding binding;
     private CountdownTimerHelper countdownTimerHelper;
+    private PreferenceManager preferenceManager;
+    FirebaseFirestore database;
+
+    StorageReference storageReference;
+    private String ImageID;
 
     private String code = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,17 +52,16 @@ public class VerificateActivity extends AppCompatActivity {
         initState();
 
     }
-    private void initState()
-    {
+
+    private void initState() {
 
         code = generateRandomCode.RandomCode();
-        Log.e(TAG, "code: "+code);
-        new SendMail().buttonSendEmail(getIntent().getStringExtra("email"),code);
+        Log.e(TAG, "code: " + code);
+        new SendMail().buttonSendEmail(getIntent().getStringExtra("email"), code);
         CountDownTimer();
     }
-    private void Continue()
-    {
-        binding.main.setBackgroundColor(Color.parseColor("#C2C2C2"));
+
+    private void Continue() {
         binding.progressBar.setVisibility(View.VISIBLE);
         String inputCode = binding.inputCode1.getText().toString() +
                 binding.inputCode2.getText().toString() +
@@ -53,22 +70,87 @@ public class VerificateActivity extends AppCompatActivity {
                 binding.inputCode5.getText().toString() +
                 binding.inputCode6.getText().toString();
         Log.e(TAG, "inputCode: " + inputCode);
-        if(code != null && code.equals(inputCode))
-        {
+        if (code != null && code.equals(inputCode)) {
             Log.e(TAG, "Xác thực thành công");
-            binding.main.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            Log.e(TAG, "VerificateActivity: " + getIntent().getStringExtra("userID"));
             binding.progressBar.setVisibility(View.INVISIBLE);
             code = null;
-        }else
-        {
+            if (getIntent().getStringExtra("type") == "DoiMatKhau") {
+                Intent intent = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+                intent.putExtra("email", getIntent().getStringExtra("email"));
+                intent.putExtra("userID", getIntent().getStringExtra("userID"));
+                startActivity(intent);
+            } else {
+                signUp();
+            }
+
+        } else {
             Log.e(TAG, "Xác thực thất bại");
-            binding.main.setBackgroundColor(Color.parseColor("#FFFFFF"));
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
+
+    private void signUp() {
+
+        preferenceManager = new PreferenceManager(getApplicationContext());
+        uploadImage(getIntent().getParcelableExtra("uriImage"));
+        database = FirebaseFirestore.getInstance();
+        HashMap<String, Object> user = new HashMap<>();
+        user.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
+        user.put(Constants.KEY_GENDER, preferenceManager.getBoolean(Constants.KEY_GENDER));
+        user.put(Constants.KEY_BIRTHDAY, preferenceManager.getString(Constants.KEY_BIRTHDAY));
+        user.put(Constants.KEY_HOUSE_NUMBER, preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
+        user.put(Constants.KEY_WARD, preferenceManager.getString(Constants.KEY_WARD));
+        user.put(Constants.KEY_DISTRICT, preferenceManager.getString(Constants.KEY_DISTRICT));
+        user.put(Constants.KEY_CITY, preferenceManager.getString(Constants.KEY_CITY));
+        user.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
+        user.put(Constants.KEY_PASSWORD, preferenceManager.getString(Constants.KEY_PASSWORD));
+        user.put(Constants.KEY_IMAGE, ImageID);
+        user.put(Constants.KEY_PHONE_NUMBER, preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
+        user.put(Constants.KEY_STATUS_USER, true);
+        database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
+            showToast("Thành công");
+            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }).addOnFailureListener(exception -> {
+            showToast(exception.getMessage());
+        });
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void uploadImage(Uri file) {
+        if (file == null) {
+            if (!preferenceManager.getBoolean(Constants.KEY_GENDER))
+                ImageID = "avatar-nam.jpg";
+            else
+                ImageID = "avatar-nu.jpg";
+        }else {
+            ImageID = UUID.randomUUID().toString();
+            Log.e(TAG, "uploadImage: " + ImageID);
+            storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference ref = storageReference.child("images/" + ImageID);
+            ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(VerificateActivity.this, "Failed!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
     private void setListener() {
         binding.btnVerify.setOnClickListener(v -> {
-                Continue();
+            Continue();
         });
         binding.txtResend.setOnClickListener(v -> {
             binding.txtResend.setEnabled(false);
@@ -80,9 +162,10 @@ public class VerificateActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty())
                     binding.inputCode2.requestFocus();
             }
 
@@ -99,7 +182,7 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty())
                     binding.inputCode3.requestFocus();
             }
 
@@ -116,7 +199,7 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty())
                     binding.inputCode4.requestFocus();
             }
 
@@ -133,7 +216,7 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty())
                     binding.inputCode5.requestFocus();
             }
 
@@ -150,7 +233,7 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty())
                     binding.inputCode6.requestFocus();
             }
 
@@ -167,7 +250,7 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty() && count != 0)
                     Continue();
             }
 
@@ -177,14 +260,14 @@ public class VerificateActivity extends AppCompatActivity {
             }
         });
     }
-    private void CountDownTimer ()
-    {
+
+    private void CountDownTimer() {
         long totalTimeInMillis = 60; // Thời gian đếm ngược: 60 giây
         long interval = 1; // Khoảng cách giữa các lần gọi onTick: 1 giây
         countdownTimerHelper = new CountdownTimerHelper(totalTimeInMillis, interval, new CountdownTimerHelper.CountdownCallback() {
             @Override
             public void onTick(long millisUntilFinished) {
-                binding.txtNumber.setText(" sau: "+String.valueOf(millisUntilFinished/1000));
+                binding.txtNumber.setText(" sau: " + String.valueOf(millisUntilFinished / 1000));
             }
 
             @Override
