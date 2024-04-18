@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
 
     tools:context=".EnterMailActivity">
+
     <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
-        android:background=""
-        android:scaleType="centerCrop"
-        android:src="@drawable/back" />
+        android:background="@color/white"
+        android:scaleType="center"
+        android:src="@drawable/ic_back" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,6 +27,7 @@
         android:fontFamily="@font/roboto_bold"
         android:text="Đặt lại mật khẩu"
         android:textSize="25sp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,32 +37,57 @@
         android:text="Nhập email để nhận mã xác nhận"
         android:textColor="#8A8A8A"
         android:textSize="15dp" />
+
     <EditText
         android:id="@+id/inputEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/roboto_regular"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
         android:inputType="textEmailAddress"
-        android:fontFamily="@font/roboto_regular"
+        android:paddingStart="10dp"
         android:textColor="@color/colorTextPrimary"
         android:textSize="20sp"
-        android:paddingStart="10dp"
         tools:ignore="LabelFor" />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnContinue"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        android:background="@color/ld_color"
+
+    <TextView
+        android:id="@+id/tbError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="Xác nhận"
-        android:textColor="@color/white"
-        android:textSize="18sp"
+        android:text="Email không tồn tại"
+        android:textColor="@color/red"
+        android:layout_marginTop="3dp"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textStyle="bold"
-        app:backgroundTint="@null" />
+        android:layout_marginTop="40dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnContinue"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@color/ld_color"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Xác nhận"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+    </FrameLayout>
 </LinearLayout>
