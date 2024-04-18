@@ -18,6 +18,9 @@
         android:theme="@style/Theme.MobileProject_MotelRental"
         tools:targetApi="31">
         <activity
+            android:name=".SignInActivity"
+            android:exported="false" />
+        <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
         <activity
@@ -75,7 +78,7 @@
             android:name=".CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

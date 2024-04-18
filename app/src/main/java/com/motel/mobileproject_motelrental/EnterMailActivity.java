@@ -2,17 +2,20 @@ package com.motel.mobileproject_motelrental;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.motel.mobileproject_motelrental.databinding.ActivityEnterMailBinding;
 
 public class EnterMailActivity extends AppCompatActivity {
 
+    private static String TAG = "EnterMailActivity";
     private ActivityEnterMailBinding binding;
     FirebaseFirestore database;
 
@@ -47,8 +50,11 @@ public class EnterMailActivity extends AppCompatActivity {
                             if (task.isSuccessful() && task.getResult() != null
                                     && !task.getResult().getDocuments().isEmpty()) {
                                 binding.tbError.setVisibility(View.GONE);
+                                Log.e(TAG, "EnterMailActivity: "+task.getResult().getDocuments().get(0).getId());
                                 Intent intent = new Intent(getApplicationContext(), VerificateActivity.class);
                                 intent.putExtra("email", binding.inputEmail.getText().toString());
+                                intent.putExtra("userID", task.getResult().getDocuments().get(0).getId());
+                                intent.putExtra("type","DoiMatKhau");
                                 startActivity(intent);
                             }
                             else {
