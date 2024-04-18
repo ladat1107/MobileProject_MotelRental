@@ -7,11 +7,13 @@ import androidx.core.app.ActivityCompat;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -59,32 +61,72 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
     GoogleMap ggmap;
     private FusedLocationProviderClient fusedLocationClient;
     private Marker currentMarker;
-    private List<String> provinceList, districtList, wardList;
+    private List<String> provinceList;
     private static final int PERMISSIONS_REQUEST_ACCESS_LOCATION = 1;
     private Spinner spinnerProvince, spinnerDistrict, spinnerWard;
     SearchView searchView;
-    double latitude =0;
-    double longitude=0;
+    double latitude = 0;
+    double longitude = 0;
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLocationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.ggmap);
+        mapFragment.getMapAsync(this);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(LocationActivity.this);
+
+        preferenceManager = new PreferenceManager(getApplicationContext());
         spinnerProvince = findViewById(R.id.cmbTinh);
         spinnerDistrict = findViewById(R.id.cmbQuan);
         spinnerWard = findViewById(R.id.cmbXa);
+        searchView = findViewById(R.id.search_view);
         loadJSONData();
         setUpSpinners();
-        // Initialize search view------------------------------------------
-        searchView = findViewById(R.id.search_view);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.ggmap);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(LocationActivity.this);
-        getLastLocation();
+        loadDataBack();
+
+        binding.imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), OwnerTypeOfRoomActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+        spinnerProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedProvince = (String) parent.getItemAtPosition(position);
+                loadDistricts(selectedProvince);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedDistrict = (String) parent.getItemAtPosition(position);
+                loadWards(selectedDistrict);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         binding.btnTiepTuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showConfirmationDialog();
+                if (spinnerProvince.getSelectedItemPosition() == 0 || spinnerDistrict.getSelectedItemPosition() == 0
+                        || spinnerWard.getSelectedItemPosition() == 0 || TextUtils.isEmpty(binding.txtDiaChi.getText())) {
+                    Toast.makeText(LocationActivity.this, "Vui lòng cung cấp đầy đủ thông tin vị trí", Toast.LENGTH_SHORT).show();
+                } else {
+                    showConfirmationDialog();
+                }
             }
         });
         binding.txtDiaChi.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -98,19 +140,7 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
                 return false;
             }
         });
-        spinnerWard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                   moveCameraToSelectedWard(spinnerWard.getSelectedItem().toString() + ", " +
-                            spinnerDistrict.getSelectedItem().toString() + ", " + spinnerProvince.getSelectedItem().toString());
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
         binding.btnVtHienTai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +162,6 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
                     if (addresses != null && !addresses.isEmpty()) {
                         Address address = addresses.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-
                         // Xóa Marker cũ nếu tồn tại
                         if (currentMarker != null) {
                             currentMarker.remove();
@@ -144,6 +173,8 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
                                 .draggable(false)
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.img_icon_marker)));
                         ggmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+                        latitude = address.getLatitude();
+                        longitude = address.getLongitude();
                     }
                 }
                 return false;
@@ -154,8 +185,8 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
                 return false;
             }
         });
-        mapFragment.getMapAsync(this);
     }
+    //---------------------------------KẾT THÚC OnCreate-----------------------------------------------------------------
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -176,7 +207,6 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         ggmap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
-                // Lấy vị trí mới của trung tâm bản đồ
                 LatLng newLatLng = ggmap.getCameraPosition().target;
                 updateMarkerPosition(newLatLng);
             }
@@ -198,6 +228,7 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
             public void onSuccess(Location location) {
                 if (location != null) {
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
                     // Xóa Marker cũ nếu tồn tại
                     if (currentMarker != null) {
                         currentMarker.remove();
@@ -209,10 +240,12 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.img_icon_marker)));
                     ggmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
                 }
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
             }
         });
     }
-    //---------------------------------KẾT THÚC OnCreate-----------------------------------------------------------------
+
 
     // Phương thức để cập nhật vị trí của Marker
     private void updateMarkerPosition(LatLng latLng) {
@@ -247,7 +280,6 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
     private void parseJSON(String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
         JSONArray dataArray = jsonObject.getJSONArray("data");
-
         provinceList = new ArrayList<>();
         for (int i = 0; i < dataArray.length(); i++) {
             JSONObject provinceObject = dataArray.getJSONObject(i);
@@ -262,34 +294,10 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         ArrayAdapter<String> provinceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, provinceList);
         provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProvince.setAdapter(provinceAdapter);
-        spinnerProvince.setSelection(-1);
-        spinnerProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedProvince = (String) parent.getItemAtPosition(position);
-                loadDistricts(selectedProvince);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedDistrict = (String) parent.getItemAtPosition(position);
-                loadWards(selectedDistrict);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
     }
 
     private void loadDistricts(String selectedProvince) {
-        districtList = new ArrayList<>();
+        List<String> districtList = new ArrayList<>();
         districtList.add("--Chọn quận/huyện --");
         try {
             JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
@@ -314,11 +322,10 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         ArrayAdapter<String> districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, districtList);
         districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDistrict.setAdapter(districtAdapter);
-        spinnerDistrict.setSelection(-1);
     }
 
     private void loadWards(String selectedDistrict) {
-        wardList = new ArrayList<>();
+        List<String> wardList = new ArrayList<>();
         wardList.add("-- Chọn xã/phường --");
         try {
             JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
@@ -346,7 +353,6 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         ArrayAdapter<String> wardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, wardList);
         wardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerWard.setAdapter(wardAdapter);
-        spinnerWard.setSelection(-1);
     }
 
     private String loadJSONFromAsset(String filename) {
@@ -370,6 +376,7 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         String city2 = s2.replaceAll("^(Thành phố|Tỉnh)\\s*", "");
         return city1.compareToIgnoreCase(city2);
     }
+
     private void moveCameraToSelectedWard(String selectedWard) {
         // Kiểm tra xem đã có vị trí của spinnerWard chưa
         if (ggmap != null && !selectedWard.equals("-- Chọn phường/xã --")) {
@@ -387,30 +394,56 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
             }
         }
     }
+
     private void showConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Xác nhận");
         builder.setMessage("Bạn chắc chắn đã ghim đúng vị trí trên bản đồ?");
         builder.setIcon(R.drawable.ld_notification);
-
         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Xử lý khi người dùng xác nhận đã ghim đúng vị trí
-                // Ví dụ: Gọi một phương thức hoặc thực hiện hành động tiếp theo ở đây
+                preferenceManager.putFloat(Constants.KEY_LATITUDE, (float) latitude);
+                preferenceManager.putFloat(Constants.KEY_LONGTITUDE, (float) longitude);
+                preferenceManager.putString(Constants.KEY_MOTEL_NUMBER, binding.txtDiaChi.getText().toString());
+                preferenceManager.putInt(Constants.KEY_CITY, spinnerProvince.getSelectedItemPosition());
+                preferenceManager.putInt(Constants.KEY_DISTRICT, spinnerDistrict.getSelectedItemPosition());
+                preferenceManager.putInt(Constants.KEY_WARD, spinnerWard.getSelectedItemPosition());
+                Intent intent = new Intent(getApplicationContext(), BasicInformationActivity.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
-
         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Xử lý khi người dùng chọn không
-                dialog.dismiss(); // Đóng hộp thoại
+                dialog.dismiss();
             }
         });
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    private void loadDataBack() {
+        if (preferenceManager.getFloat(Constants.KEY_LATITUDE) == -1 ||
+                preferenceManager.getFloat(Constants.KEY_LONGTITUDE) == -1 ||
+                preferenceManager.getInt(Constants.KEY_DISTRICT) == -1 ||
+                preferenceManager.getInt(Constants.KEY_WARD) == -1 ||
+                preferenceManager.getInt(Constants.KEY_CITY) == -1 ||
+                preferenceManager.getString(Constants.KEY_MOTEL_NUMBER) == null) {
+            getLastLocation();
+        } else {
+            longitude = preferenceManager.getFloat(Constants.KEY_LONGTITUDE);
+            latitude = preferenceManager.getFloat(Constants.KEY_LATITUDE);
+            spinnerProvince.setSelection(preferenceManager.getInt(Constants.KEY_CITY), false);
+            loadDistricts(spinnerProvince.getSelectedItem().toString());
+            spinnerDistrict.setSelection(preferenceManager.getInt(Constants.KEY_DISTRICT), false);
+            loadWards(spinnerDistrict.getSelectedItem().toString());
+            spinnerWard.setSelection(preferenceManager.getInt(Constants.KEY_WARD));
+            binding.txtDiaChi.setText(preferenceManager.getString(Constants.KEY_MOTEL_NUMBER));
+
+        }
     }
 
 }
