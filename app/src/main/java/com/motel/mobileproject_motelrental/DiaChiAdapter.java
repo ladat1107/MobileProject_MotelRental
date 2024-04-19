@@ -1,4 +1,4 @@
-package com.motel.mobileproject_motelrental.diachi;
+package com.motel.mobileproject_motelrental;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.motel.mobileproject_motelrental.R;
 
 import java.util.List;
 

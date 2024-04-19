@@ -7,20 +7,19 @@
     tools:context=".ThayDoiMatKhau"
     android:background="@color/white">
     <RelativeLayout
-        android:layout_width="360dp"
-        android:layout_height="65dp"
-        android:background="#FF5C6C">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bgheader">
         <RelativeLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="14dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/back" />
-
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/backwhite" />
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -34,10 +33,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="Thay Đổi Avatar"
             android:textColor="@color/white"
-            android:textSize="24dp"
+            android:textSize="22dp"
             android:textStyle="bold" />
     </RelativeLayout>
     <RelativeLayout
@@ -50,7 +49,7 @@
             android:layout_marginLeft="141dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/camera"
-            android:id="@+id/ibtnChupAnh"/>
+            android:id="@+id/btnChupAnh"/>
         <TextView
             android:layout_width="64dp"
             android:layout_height="18dp"
@@ -87,22 +86,25 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="160dp"
             android:background="@color/black"/>
+
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="322dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="170dp">
+
             <ImageView
+                android:id="@+id/imgAvatar"
                 android:layout_width="300dp"
                 android:layout_height="320dp"
                 android:layout_marginLeft="30dp"
-                android:background="@drawable/img"
-                android:id="@+id/imgAvatar"/>
+                android:background="@color/black" />
+
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/btnXoaAnh"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="290dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/delete"/>
+                android:background="@drawable/delete" />
         </RelativeLayout>
     </RelativeLayout>
     <Button
@@ -110,7 +112,8 @@
         android:layout_height="45dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="742dp"
-        android:backgroundTint="#F44336"
+        android:background="@drawable/rounded_button"
+        app:backgroundTint="@null"
         android:text="Chỉnh sửa"
         android:textStyle="bold"
         android:textSize="15dp"

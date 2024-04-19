@@ -1,22 +1,25 @@
-package com.motel.mobileproject_motelrental.diachi;
+package com.motel.mobileproject_motelrental;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.motel.mobileproject_motelrental.R;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityDiaChi extends AppCompatActivity {
+public class ChangeInfomationActivity extends AppCompatActivity {
     Spinner spTinh, spHuyen, spXa;
     DiaChiAdapter tinhAdapter, huyenAdapter, xaAdapter;
+    Button btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +27,16 @@ public class ActivityDiaChi extends AppCompatActivity {
         SelectedTinh();
         SelectedHuyen();
         SelectedXa();
+        GetBack();
+    }
+    private void GetBack(){
+        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
     private  void SelectedTinh(){
         spTinh = (Spinner) findViewById(R.id.spTinhThanhPho);
@@ -34,7 +47,7 @@ public class ActivityDiaChi extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tinhAdapter.SetSelect(true);
-                Toast.makeText(ActivityDiaChi.this, tinhAdapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChangeInfomationActivity.this, tinhAdapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -50,7 +63,7 @@ public class ActivityDiaChi extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 huyenAdapter.SetSelect(true);
-                Toast.makeText(ActivityDiaChi.this, huyenAdapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChangeInfomationActivity.this, huyenAdapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -66,7 +79,7 @@ public class ActivityDiaChi extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 xaAdapter.SetSelect(true);
-                Toast.makeText(ActivityDiaChi.this, xaAdapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChangeInfomationActivity.this, xaAdapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

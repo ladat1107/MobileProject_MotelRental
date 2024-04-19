@@ -1,4 +1,4 @@
-package com.motel.mobileproject_motelrental.diachi;
+package com.motel.mobileproject_motelrental;
 
 public class DiaChi {
     String name;
