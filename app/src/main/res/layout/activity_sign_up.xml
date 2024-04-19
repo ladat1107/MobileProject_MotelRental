@@ -67,9 +67,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:maxLines="1" />
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                />
         </com.google.android.material.textfield.TextInputLayout>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -143,33 +144,30 @@
             android:hint="Số nhà /đường"
             app:boxStrokeColor="@color/ld_color"
             app:cursorColor="@color/black"
+
             app:hintTextColor="?attr/colorOnSurfaceVariant">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputSoNha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:fontFamily="@font/roboto_regular"
-                android:maxLines="1"
-
-                />
+                android:imeOptions="actionNext"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp">
+
 
             <Spinner
                 android:id="@+id/cmbTinh"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/ld_custom_edittext"
                 android:completionThreshold="1"
                 android:ems="10"
+                android:layout_marginTop="7dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="Tỉnh/Thành phố"
                 android:inputType="text"
@@ -181,12 +179,12 @@
 
             <Spinner
                 android:id="@+id/cmbQuan"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/ld_custom_edittext"
                 android:completionThreshold="1"
                 android:ems="10"
+                android:layout_marginTop="7dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint=" Quận/ Huyện"
                 android:inputType="text"
@@ -198,12 +196,13 @@
 
             <Spinner
                 android:id="@+id/cmbXa"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/ld_custom_edittext"
                 android:completionThreshold="1"
                 android:ems="10"
+                android:layout_marginTop="7dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="Xã/ phường"
                 android:inputType="text"
@@ -213,7 +212,7 @@
                 android:textColorHint="@color/grey"
                 android:textSize="16dp" />
 
-        </TableRow>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -276,7 +275,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:hint="@string/password"
             app:boxStrokeColor="@color/ld_color"
             app:cursorColor="@color/black"
@@ -301,7 +300,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:hint="@string/confirm_password"
             app:boxStrokeColor="@color/ld_color"
             app:cursorColor="@color/black"

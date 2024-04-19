@@ -210,6 +210,15 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         if (binding.inputName.getText().toString().trim().isEmpty()) {
             showToast("Nhập họ tên");
             return false;
+        } else if (binding.cmbTinh.getSelectedItemPosition() == 0) {
+            showToast("Chọn tỉnh thành phố");
+            return false;
+        } else if (binding.cmbQuan.getSelectedItemPosition() == 0) {
+            showToast("Chọn quận huyện");
+            return false;
+        } else if (binding.cmbXa.getSelectedItemPosition() == 0) {
+            showToast("Chọn phường xã");
+            return false;
         } else if (binding.editTextCarrierNumber.getText().toString().trim().isEmpty()) {
             showToast("Nhập số điện thoại");
             return false;
@@ -337,8 +346,8 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     private void parseJSON(String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
         JSONArray dataArray = jsonObject.getJSONArray("data");
-
         provinceList = new ArrayList<>();
+
         for (int i = 0; i < dataArray.length(); i++) {
             JSONObject provinceObject = dataArray.getJSONObject(i);
             String provinceName = provinceObject.getString("name");
@@ -347,7 +356,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     }
 
     private void setUpSpinners() {
-
+        provinceList.add("-- Chọn tỉnh thành phố --");
         Collections.sort(provinceList, SignUpActivity.this);
         ArrayAdapter<String> provinceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, provinceList);
         provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -382,6 +391,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
 
     private void loadDistricts(String selectedProvince) {
         districtList = new ArrayList<>();
+        districtList.add("-- Chọn quận huyện --");
         // Find the province object in JSON data
         try {
             JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
@@ -411,6 +421,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
 
     private void loadWards(String selectedDistrict) {
         wardList = new ArrayList<>();
+        wardList.add("-- Chọn phường xã --");
         // Find the district object in JSON data
         try {
             JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
