@@ -1,35 +1,28 @@
 package com.motel.mobileproject_motelrental;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import org.checkerframework.checker.units.qual.C;
+import androidx.appcompat.app.AppCompatActivity;
+import com.motel.mobileproject_motelrental.Custom.ConfirmationDialogListener;
+import com.motel.mobileproject_motelrental.Custom.CustomDialog;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class OwnerTypeOfRoomActivity extends AppCompatActivity {
-    private static final String TAG = "OwnerTypeOfRoomActivity";
+public class OwnerTypeOfRoomActivity extends AppCompatActivity  {
     LinearLayout llTro, llGhep, llChungCu, llNguyenCan;
     Boolean isSelectTro = false;
     Boolean isSelectGhep = false;
     Boolean isSelectChungCu = false;
     Boolean isSelectNguyenCan = false;
     Button btnTiepTuc;
-    StorageReference storageReference;
+    ImageView imgBack;
     private PreferenceManager preferenceManager;
-    private FirebaseFirestore db;
-    int type = -999;
+    int type = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +32,15 @@ public class OwnerTypeOfRoomActivity extends AppCompatActivity {
         llChungCu = findViewById(R.id.llChungCu);
         llNguyenCan = findViewById(R.id.llNguyenCan);
         btnTiepTuc = findViewById(R.id.btnTiepTuc);
-        db = FirebaseFirestore.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference();
+        imgBack = findViewById(R.id.imgBack);
         preferenceManager = new PreferenceManager(getApplicationContext());
         loadDataBack();
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogBack();
+            }
+        });
         btnTiepTuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +108,7 @@ public class OwnerTypeOfRoomActivity extends AppCompatActivity {
     }
 
     private void loadDataBack(){
-        int typeBack = -999;
+        int typeBack = -1;
         if(preferenceManager.getInt(Constants.KEY_TYPE_ID)!=-1){
             typeBack = preferenceManager.getInt(Constants.KEY_TYPE_ID);
         }
@@ -120,19 +118,60 @@ public class OwnerTypeOfRoomActivity extends AppCompatActivity {
         else if(typeBack==4) isSelectGhep=true;
         capNhatTrangThai();
     }
-
-    private void showConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Xác nhận");
-        builder.setMessage("Bạn phải chọn loại trọ muốn đăng");
-        builder.setIcon(R.drawable.warning);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    public void showConfirmationDialog(){
+        CustomDialog.showConfirmationDialog(this, R.drawable.img_ld_error, "THÔNG BÁO", "Bạn phải chọn loại trọ muốn đăng", true, new ConfirmationDialogListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+            public void onOKClicked() {
+            }
+            @Override
+            public void onCancelClicked() {
             }
         });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+    }
+    public void showDialogBack(){
+        CustomDialog.showConfirmationDialog(this, R.drawable.img_ld_error, "THÔNG BÁO", "Không lưu thông tin trọ", false, new ConfirmationDialogListener() {
+            @Override
+            public void onOKClicked() {
+                clearPrefernce();
+                Intent intent = new Intent(OwnerTypeOfRoomActivity.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelClicked() {
+
+            }
+        });
+    }
+    private void clearPrefernce() {
+        preferenceManager.clearSpecificPreferences(
+                Constants.KEY_TITLE,
+                Constants.KEY_COUNT_LIKE,
+                Constants.KEY_COUNT_AIRCONDITIONER,
+                Constants.KEY_LATITUDE,
+                Constants.KEY_LONGTITUDE,
+                Constants.KEY_MOTEL_NUMBER,
+                Constants.KEY_WARD_MOTEL,
+                Constants.KEY_DISTRICT_MOTEL,
+                Constants.KEY_CITY_MOTEL,
+                Constants.KEY_PRICE,
+                Constants.KEY_ELECTRICITY_PRICE,
+                Constants.KEY_WATER_PRICE,
+                Constants.KEY_EMPTY_DAY,
+                Constants.KEY_ACREAGE,
+                Constants.KEY_CHARACTERISTIC,
+                Constants.KEY_DESCRIPTION,
+                Constants.KEY_COUNT_FRIDGE,
+                Constants.KEY_COUNT_WASHING_MACHINE,
+                Constants.KEY_GARET,
+                Constants.KEY_NO_HOST,
+                Constants.KEY_PRICE_WIFI,
+                Constants.KEY_PRICE_PARKING,
+                Constants.KEY_START_TIME,
+                Constants.KEY_END_TIME,
+                Constants.KEY_STATUS_MOTEL,
+                Constants.KEY_IMAGE_LIST,
+                Constants.KEY_TYPE_ID
+        );
     }
 }

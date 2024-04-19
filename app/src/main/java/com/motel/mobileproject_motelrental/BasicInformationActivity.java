@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.motel.mobileproject_motelrental.Custom.CustomToast;
 import com.motel.mobileproject_motelrental.databinding.ActivityBasicInformationBinding;
 import com.motel.mobileproject_motelrental.databinding.ActivityCameraBinding;
 
@@ -180,49 +181,53 @@ public class BasicInformationActivity extends AppCompatActivity {
     }
 
     private void checkInfoMotel() {
-        if (TextUtils.isEmpty(binding.etTieuDe.getText())) {
+        if (binding.etTieuDe.getText().toString().trim().isEmpty()) {
             binding.etTieuDe.requestFocus();
-            addTextError(this,binding.etTieuDe,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etTieuDe, "Vui lòng điền đầy đủ thông tin tiêu đề.", 1);
             binding.etTieuDe.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (TextUtils.isEmpty(binding.etDienTich.getText())) {
             binding.etDienTich.requestFocus();
-            addTextError(this,binding.etDienTich,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etDienTich, "Vui lòng điền diện tích.", 2);
             binding.etDienTich.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (TextUtils.isEmpty(binding.etGiaThue.getText())) {
             binding.etGiaThue.requestFocus();
-            addTextError(this,binding.etGiaThue,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etGiaThue, "Vui lòng điền đầy đủ giá thuê.", 2);
             binding.etGiaThue.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (TextUtils.isEmpty(binding.etGiaDien.getText())) {
             binding.etGiaDien.requestFocus();
-            addTextError(this,binding.etGiaDien,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etGiaDien, "Không được trống.", 2);
             binding.etGiaDien.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (TextUtils.isEmpty(binding.etGiaNuoc.getText())) {
             binding.etGiaNuoc.requestFocus();
-            addTextError(this,binding.etGiaNuoc,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etGiaNuoc, "Không được trống.", 2);
             binding.etGiaNuoc.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (TextUtils.isEmpty(binding.etNgayChuyenToi.getText())) {
             binding.etNgayChuyenToi.requestFocus();
-            addTextError(this,binding.etNgayChuyenToi,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etNgayChuyenToi, "Vui lòng chọn ngày có thể chuyển đến.", 1);
             binding.etNgayChuyenToi.getBackground().setState(new int[]{android.R.attr.state_empty});
-        } else if (TextUtils.isEmpty(binding.etNoiBat.getText())) {
+        } else if (binding.etNoiBat.getText().toString().trim().isEmpty()) {
             binding.etNoiBat.requestFocus();
-            addTextError(this,binding.etNoiBat,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etNoiBat, "Vui lòng điền đầy đủ thông tin.", 1);
             binding.etNoiBat.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (Double.valueOf(binding.etDienTich.getText().toString()) < 0) {
+            binding.etDienTich.setText("");
             binding.etDienTich.requestFocus();
-            addTextError(this,binding.etDienTich,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etDienTich, "Diện tích không hợp lệ.", 2);
             binding.etDienTich.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (parseNumber(binding.etGiaThue.getText().toString()) < 0) {
+            binding.etGiaThue.setText("");
             binding.etGiaThue.requestFocus();
-            addTextError(this,binding.etGiaThue,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etGiaThue, "Giá thuê không hợp lệ.", 2);
             binding.etGiaThue.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (parseNumber(binding.etGiaDien.getText().toString()) < 0) {
+            binding.etGiaDien.setText("");
             binding.etGiaDien.requestFocus();
-            addTextError(this,binding.etGiaDien,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etGiaDien, "Giá điện không hợp lệ.", 2);
             binding.etGiaDien.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else if (parseNumber(binding.etGiaNuoc.getText().toString()) < 0) {
+            binding.etGiaNuoc.setText("");
             binding.etGiaNuoc.requestFocus();
-            addTextError(this,binding.etGiaNuoc,"Vui lòng điền đầy đủ thông tin tiêu đề");
+            addTextError(this, binding.etGiaNuoc, "Giá nước không hợp lệ.", 2);
             binding.etGiaNuoc.getBackground().setState(new int[]{android.R.attr.state_empty});
         } else {
             updateMotel();
@@ -280,7 +285,8 @@ public class BasicInformationActivity extends AppCompatActivity {
             return -1;
         }
     }
-    public static void addTextError(Context context, EditText editText, String errorMessage) {
+
+    public static void addTextError(Context context, EditText editText, String errorMessage, int vt) {
         // Lấy LinearLayout cha của EditText
         ViewGroup parentLayout = (ViewGroup) editText.getParent();
         if (parentLayout instanceof LinearLayout) {
@@ -312,8 +318,7 @@ public class BasicInformationActivity extends AppCompatActivity {
                 errorLayout.setLayoutParams(new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 errorLayout.addView(errorTextView);
-                // Thêm LinearLayout chứa TextView vào LinearLayout cha
-                linearLayout.addView(errorLayout, linearLayout.indexOfChild(editText) + 1); // Thêm ngay phía dưới EditText
+                linearLayout.addView(errorLayout, linearLayout.indexOfChild(editText) + vt); // Thêm ngay phía dưới EditText vt là cách bao nhiêu combonun
                 editText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

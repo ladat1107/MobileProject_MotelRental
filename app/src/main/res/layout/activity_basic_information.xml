@@ -28,7 +28,8 @@
             android:text="Thông tin cơ bản"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="25dp"
             android:textStyle="bold" />
     </LinearLayout>
     <!-- NestedScrollView -->
@@ -63,8 +64,8 @@
                         android:text="Tiêu đề"
                         android:textColor="@color/black"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
-
+                        android:textStyle="bold"
+                        android:fontFamily="@font/roboto_black"/>
                     <EditText
                         android:id="@+id/etTieuDe"
                         android:layout_width="match_parent"
@@ -73,13 +74,14 @@
                         android:background="@drawable/ld_custom_edittext"
                         android:ems="10"
                         android:hint=" Nêu nổi bật loại dịch vụ"
-                        android:inputType="textAutoCorrect|textAutoComplete"
+                        android:inputType="text"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
                         android:text=""
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"
+                        android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -96,7 +98,9 @@
                         android:text="Diện tích"
                         android:textColor="@color/black"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/roboto_black"/>
+
 
                     <EditText
                         android:id="@+id/etDienTich"
@@ -112,7 +116,19 @@
                         android:text=""
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"
+                        android:fontFamily="@font/roboto_regular"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="m²"
+                            android:fontFamily="@font/roboto_lightitalic"
+                            android:textColor="@color/black"
+                            android:textSize="20dp"
+                            android:gravity="right"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="-35dp"
+                            android:layout_marginBottom="10dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -129,7 +145,8 @@
                         android:text="Giá thuê"
                         android:textColor="@color/black"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/roboto_black"/>
 
                     <EditText
                         android:id="@+id/etGiaThue"
@@ -138,14 +155,26 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/ld_custom_edittext"
                         android:ems="10"
-                        android:hint=" Giá thuê phòng tính theo tháng"
+                        android:hint=" Tiền phòng"
                         android:inputType="numberDecimal"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
                         android:text=""
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
+                        android:fontFamily="@font/roboto_regular"
                         android:textSize="16dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="đồng /tháng"
+                        android:fontFamily="@font/roboto_italic"
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+                        android:gravity="right"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="-32dp"
+                        android:layout_marginBottom="12dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -156,7 +185,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="90dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:orientation="vertical">
@@ -167,28 +196,41 @@
                             android:text="Giá điện"
                             android:textColor="@color/black"
                             android:textSize="18dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:fontFamily="@font/roboto_black"/>
 
-                        <EditText
-                            android:id="@+id/etGiaDien"
-                            android:layout_width="163dp"
+                            <EditText
+                                android:id="@+id/etGiaDien"
+                                android:layout_width="163dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/ld_custom_edittext"
+                                android:ems="10"
+                                android:hint="Giá điện"
+                                android:inputType="numberDecimal"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="10dp"
+                                android:text=""
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="16dp" />
+                        <TextView
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/ld_custom_edittext"
-                            android:ems="10"
-                            android:hint=" Giá điện /tháng"
-                            android:inputType="numberDecimal"
-                            android:paddingLeft="15dp"
-                            android:paddingRight="10dp"
-                            android:text=""
+                            android:text="₫"
+                            android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/black"
-                            android:textColorHint="@color/grey"
-                            android:textSize="16dp" />
+                            android:textSize="20dp"
+                            android:gravity="right"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="-35dp"
+                            android:layout_marginBottom="12dp"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="90dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="20dp"
@@ -200,7 +242,8 @@
                             android:text="Giá nước"
                             android:textColor="@color/black"
                             android:textSize="18dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:fontFamily="@font/roboto_black"/>
 
                         <EditText
                             android:id="@+id/etGiaNuoc"
@@ -209,7 +252,7 @@
                             android:layout_marginTop="10dp"
                             android:background="@drawable/ld_custom_edittext"
                             android:ems="10"
-                            android:hint=" Giá nước / tháng"
+                            android:hint=" Giá nước"
                             android:inputType="numberDecimal"
                             android:paddingLeft="15dp"
                             android:paddingRight="10dp"
@@ -217,6 +260,17 @@
                             android:textColor="@color/black"
                             android:textColorHint="@color/grey"
                             android:textSize="16dp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="₫"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/black"
+                                android:textSize="20dp"
+                                android:gravity="right"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginTop="-35dp"
+                                android:layout_marginBottom="12dp"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -235,7 +289,8 @@
                         android:text="Ngày chuyển tới"
                         android:textColor="@color/black"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/roboto_black"/>
 
                     <EditText
                         android:id="@+id/etNgayChuyenToi"
@@ -252,7 +307,8 @@
                         android:text=""
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"
+                        android:fontFamily="@font/roboto_regular"/>
 
                     <ImageView
                         android:id="@+id/btnLich"
@@ -277,7 +333,8 @@
                         android:text="Nổi bật"
                         android:textColor="@color/black"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/roboto_black"/>
 
                     <EditText
                         android:id="@+id/etNoiBat"
@@ -293,7 +350,8 @@
                         android:text=""
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"
+                        android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -311,7 +369,8 @@
                         android:text="Mô tả"
                         android:textColor="@color/black"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/roboto_black"/>
 
                     <EditText
                         android:id="@+id/etMoTa"
@@ -327,7 +386,8 @@
                         android:text=""
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"
+                        android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -349,6 +409,7 @@
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:text="Tiếp tục"
+                        android:fontFamily="@font/roboto_medium"
                         android:layout_gravity="bottom"
                         android:layout_weight="1"/>
                 </LinearLayout>

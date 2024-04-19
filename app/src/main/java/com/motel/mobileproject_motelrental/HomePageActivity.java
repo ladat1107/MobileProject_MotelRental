@@ -29,13 +29,23 @@ public class HomePageActivity extends AppCompatActivity {
 
     // add binding
     private ActivityHomePageBinding binding;
+    PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        preferenceManager = new PreferenceManager(getApplicationContext()) ;
+        binding.dangtro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearPrefernce();
+                Intent intent = new Intent(getApplicationContext(), OwnerTypeOfRoomActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
         binding.timtro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,5 +178,36 @@ public class HomePageActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
+    private void clearPrefernce() {
+        preferenceManager.clearSpecificPreferences(
+                Constants.KEY_TITLE,
+                Constants.KEY_COUNT_LIKE,
+                Constants.KEY_COUNT_AIRCONDITIONER,
+                Constants.KEY_LATITUDE,
+                Constants.KEY_LONGTITUDE,
+                Constants.KEY_MOTEL_NUMBER,
+                Constants.KEY_WARD_MOTEL,
+                Constants.KEY_DISTRICT_MOTEL,
+                Constants.KEY_CITY_MOTEL,
+                Constants.KEY_PRICE,
+                Constants.KEY_ELECTRICITY_PRICE,
+                Constants.KEY_WATER_PRICE,
+                Constants.KEY_EMPTY_DAY,
+                Constants.KEY_ACREAGE,
+                Constants.KEY_CHARACTERISTIC,
+                Constants.KEY_DESCRIPTION,
+                Constants.KEY_COUNT_FRIDGE,
+                Constants.KEY_COUNT_WASHING_MACHINE,
+                Constants.KEY_GARET,
+                Constants.KEY_NO_HOST,
+                Constants.KEY_PRICE_WIFI,
+                Constants.KEY_PRICE_PARKING,
+                Constants.KEY_START_TIME,
+                Constants.KEY_END_TIME,
+                Constants.KEY_STATUS_MOTEL,
+                Constants.KEY_IMAGE_LIST,
+                Constants.KEY_TYPE_ID
+        );
     }
 }

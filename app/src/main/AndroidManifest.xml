@@ -50,16 +50,16 @@
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePageActivity"
+            android:name=".CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".AddDetailRoomActivity"
+            android:name=".BasicInformationActivity"
             android:exported="false" />
         <activity
             android:name=".LocationActivity"
             android:exported="false" />
         <activity
-            android:name=".CameraActivity"
+            android:name=".OwnerTypeOfRoomActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -77,24 +77,13 @@
             android:name=".FillterActivity"
             android:exported="false" />
         <activity
-<<<<<<<
-            android:name=".CameraActivity"
-            android:exported="false"/>
-            <activity
-            android:name=".OwnerTypeOfRoomActivity"
-=======
-            android:name=".BasicInformationActivity"
->>>>>>>
+            android:name=".AddDetailRoomActivity"
             android:exported="false"/>
             <activity
             android:name=".BasicInformationActivity"
             android:exported="false" />
         <activity
-<<<<<<<
-            android:name=".SplashActivity"
-=======
-            android:name=".OwnerTypeOfRoomActivity"
->>>>>>>
+            android:name=".HomePageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

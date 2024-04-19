@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".CameraActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="30dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,24 +52,24 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_marginLeft="60dp"
+                    android:layout_marginLeft="80dp"
                     android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/imgCamera"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_gravity=""
                         android:src="@drawable/ldcamera" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="Chụp ảnh"
-                        android:textSize="18dp" />
+                        android:textSize="16dp" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -81,8 +82,8 @@
 
                     <ImageView
                         android:id="@+id/imgVideo"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_gravity=""
                         android:src="@drawable/ld_record"/>
                     <TextView
@@ -90,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:text="Video"
                         android:layout_marginTop="10dp"
-                        android:textSize="18dp"
+                        android:textSize="16dp"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"/>
 
@@ -106,8 +107,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:textSize="18dp"
-                    android:layout_marginLeft="70dp"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="80dp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Hoặc chọn ảnh"/>
@@ -124,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="90dp"
                 android:layout_marginRight="100dp"
                 android:background="@color/grey" />
         </LinearLayout>
@@ -132,6 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
             android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
@@ -161,7 +163,7 @@
             android:elevation="25dp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:text="Tiếp tục"
+            android:text="Đăng phòng"
             android:layout_gravity="bottom" />
     </LinearLayout>
 </LinearLayout>

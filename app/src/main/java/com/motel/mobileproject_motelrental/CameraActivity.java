@@ -1,7 +1,5 @@
 package com.motel.mobileproject_motelrental;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -10,41 +8,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.ClipData;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.motel.mobileproject_motelrental.Adapter.GalleryAdapter;
+import com.motel.mobileproject_motelrental.Custom.ConfirmationDialogListener;
+import com.motel.mobileproject_motelrental.Custom.CustomDialog;
 import com.motel.mobileproject_motelrental.Custom.CustomToast;
 import com.motel.mobileproject_motelrental.databinding.ActivityCameraBinding;
 
-
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +39,8 @@ import java.util.Map;
 public class CameraActivity extends AppCompatActivity implements GalleryAdapter.OnItemClickListener {
     private ActivityCameraBinding binding;
     private static final String TAG = "CameraActivity";
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_VIDEO_CAPTURE = 2;
     private PreferenceManager preferenceManager;
     private RecyclerView recyclerView;
     private GalleryAdapter adapter;
@@ -85,14 +73,24 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-
-        // Truyền 'this' (Context của hoạt động) vào Adapter
         adapter = new GalleryAdapter(selectedUris, this, this);
-        adapter.setOnItemClickListener(this); // Đặt sự kiện click vào Adapter
+        adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
+        binding.imgVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openVideoRecorder();
+            }
+        });
+        binding.imgCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCamera();
+            }
+        });
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,8 +100,27 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
             }
         });
         findViewById(R.id.tvThuVien).setOnClickListener(v -> openGalleryForMedia());
-        findViewById(R.id.btnTiepTuc).setOnClickListener(v -> uploadFiles());
+        binding.btnTiepTuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDialog.showConfirmationDialog(CameraActivity.this, R.drawable.ld_notification, "XÁC NHẬN", "Thông tin về bài đăng đúng sự thật", false, new ConfirmationDialogListener() {
+
+                    @Override
+                    public void onOKClicked() {
+                        uploadFiles();
+                        Intent intent = new Intent(CameraActivity.this, HomePageActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelClicked() {
+
+                    }
+                });
+            }
+        });
     }
+
 
     private void openGalleryForMedia() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -115,7 +132,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
     private void uploadFiles() {
         listNameImage.clear();
         if (selectedUris.isEmpty()) {
-            Toast.makeText(this, "Không có tệp nào được chọn!", Toast.LENGTH_SHORT).show();
+            CustomToast.makeText(this, "Không có tệp nào được chọn!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
             return;
         }
 
@@ -125,11 +142,10 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
             listNameImage.add(fileName);
             fileRef.putFile(uri)
                     .addOnSuccessListener(taskSnapshot -> {
-
                     })
                     .addOnFailureListener(e -> {
                         // Xử lý việc tải lên không thành công
-                        Toast.makeText(CameraActivity.this, "Tải lên thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        CustomToast.makeText(this, "Tải lên thất bại: " + e.getMessage(), CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
                         return;
                     });
         }
@@ -146,7 +162,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
     private void saveStringListToFirestore() {
         Map<String, Object> data = new HashMap<>();
-        data.put(Constants.KEY_POST_AUTHOR, "ktXlIZkvn91cRBkiZcK1");
+        data.put(Constants.KEY_POST_AUTHOR, "hdUDaeIQeIbErYFNakZw");
         data.put(Constants.KEY_TITLE, preferenceManager.getString(Constants.KEY_TITLE));
         data.put(Constants.KEY_COUNT_LIKE, preferenceManager.getInt(Constants.KEY_COUNT_LIKE));
         data.put(Constants.KEY_COUNT_AIRCONDITIONER, preferenceManager.getInt(Constants.KEY_COUNT_AIRCONDITIONER));
@@ -171,10 +187,9 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         data.put(Constants.KEY_PRICE_PARKING, preferenceManager.getInt(Constants.KEY_PRICE_PARKING));
         data.put(Constants.KEY_START_TIME, preferenceManager.getString(Constants.KEY_START_TIME));
         data.put(Constants.KEY_END_TIME, preferenceManager.getString(Constants.KEY_END_TIME));
-        data.put(Constants.KEY_STATUS_MOTEL, preferenceManager.getInt(Constants.KEY_STATUS_MOTEL));
         data.put(Constants.KEY_STATUS_MOTEL, true);
+        data.put(Constants.KEY_TYPE_ID, preferenceManager.getInt(Constants.KEY_TYPE_ID));
         data.put(Constants.KEY_IMAGE_LIST, listNameImage);
-        // Tạo một tài liệu mới trong collection "example"
         db.collection("images").add(data)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
@@ -184,6 +199,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                             Log.d(TAG, "DocumentSnapshot successfully written!");
                         } else {
                             Log.w(TAG, "Error writing document", task.getException());
+                            return;
                         }
                     }
                 });
@@ -191,7 +207,6 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
     private void clearPrefernce() {
         preferenceManager.clearSpecificPreferences(
-                Constants.KEY_POST_AUTHOR,
                 Constants.KEY_TITLE,
                 Constants.KEY_COUNT_LIKE,
                 Constants.KEY_COUNT_AIRCONDITIONER,
@@ -217,11 +232,59 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                 Constants.KEY_START_TIME,
                 Constants.KEY_END_TIME,
                 Constants.KEY_STATUS_MOTEL,
-                Constants.KEY_STATUS_MOTEL,
-                Constants.KEY_IMAGE_LIST
+                Constants.KEY_IMAGE_LIST,
+                Constants.KEY_TYPE_ID
         );
+    }
 
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } else {
+            CustomToast.makeText(this, "Không thể mở camera", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+        }
+    }
+
+    private void openVideoRecorder() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+        } else {
+            CustomToast.makeText(this, "Không thể mở ứng dụng quay video", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null) {
+            Bundle extras = data.getExtras();
+            if (extras != null && extras.containsKey("data")) {
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                Uri imageUri = getImageUri(this, imageBitmap);
+                selectedUris.add(imageUri);
+                adapter.notifyDataSetChanged(); // Update RecyclerView
+            } else {
+                CustomToast.makeText(this, "Không có mục nào được chọn", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+
+            }
+        } else if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK && data != null) {
+            Uri videoUri = data.getData();
+            selectedUris.add(videoUri);
+            adapter.notifyDataSetChanged(); // Update RecyclerView
+        }
+    }
+
+    private Uri getImageUri(CameraActivity context, Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
     }
 }
+
+
+
 
 
