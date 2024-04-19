@@ -130,7 +130,7 @@ public class VerificateActivity extends AppCompatActivity {
                 ImageID = "avatar-nam.jpg";
             else
                 ImageID = "avatar-nu.jpg";
-        }else {
+        } else {
             ImageID = UUID.randomUUID().toString();
             Log.e(TAG, "uploadImage: " + ImageID);
             storageReference = FirebaseStorage.getInstance().getReference();
@@ -165,7 +165,7 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty() && count > 0)
                     binding.inputCode2.requestFocus();
             }
 
@@ -182,8 +182,9 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty() && count > 0)
                     binding.inputCode3.requestFocus();
+                else binding.inputCode1.requestFocus();
             }
 
             @Override
@@ -199,8 +200,9 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty() && count > 0)
                     binding.inputCode4.requestFocus();
+                else binding.inputCode2.requestFocus();
             }
 
             @Override
@@ -216,8 +218,9 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty() && count > 0)
                     binding.inputCode5.requestFocus();
+                else binding.inputCode3.requestFocus();
             }
 
             @Override
@@ -233,8 +236,9 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().trim().isEmpty())
+                if (!s.toString().trim().isEmpty() && count > 0)
                     binding.inputCode6.requestFocus();
+                else binding.inputCode4.requestFocus();
             }
 
             @Override
@@ -250,8 +254,9 @@ public class VerificateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().trim().isEmpty() && count != 0)
+                if (!s.toString().trim().isEmpty() && count > 0 && count != 0)
                     Continue();
+                else binding.inputCode5.requestFocus();
             }
 
             @Override
