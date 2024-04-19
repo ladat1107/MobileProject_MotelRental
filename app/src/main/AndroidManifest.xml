@@ -94,14 +94,11 @@
         <activity
             android:name=".AddDetailRoomActivity"
             android:exported="false"/>
-            <activity
-            android:name=".OwnerTypeOfRoomActivity"
+        <activity
+            android:name=".AccountPageActivity"
             android:exported="false"/>
         <activity
             android:name=".HomePageActivity"
-            android:exported="false"/>
-        <activity
-            android:name=".AccountPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
