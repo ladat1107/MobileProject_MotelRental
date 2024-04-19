@@ -13,6 +13,7 @@ import android.view.View;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -21,6 +22,7 @@ import com.motel.mobileproject_motelrental.Adapter.ChipAdapter;
 import com.motel.mobileproject_motelrental.Adapter.InfoMotelAdapter;
 import com.motel.mobileproject_motelrental.Adapter.MotelAdapter;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
+import com.motel.mobileproject_motelrental.Interface.OnQueryCompleteListener;
 import com.motel.mobileproject_motelrental.Item.ChipItem;
 import com.motel.mobileproject_motelrental.Item.InfoMotelItem;
 import com.motel.mobileproject_motelrental.Item.MotelItem;
@@ -34,24 +36,32 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Fillter2Activity extends AppCompatActivity {
     private ActivityFillter2Binding binding;
     private String TAG = "Fillter2Activity";
+    int putType =0;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityFillter2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
-        String fillter = getIntent().getStringExtra("fillter");
-        String[] receivedArray = getIntent().getStringArrayExtra("listChip");
 
-        if(receivedArray == null){
+        putType = getIntent().getIntExtra("putType", 0);
+        String fillter;
+        String[] receivedArray;
+
+        if(putType == 0){
+            fillter = getIntent().getStringExtra("fillter");
             receivedArray = new String[1];
             receivedArray[0] = fillter;
+        } else {
+            receivedArray = getIntent().getStringArrayExtra("infoFill");
+            fillter = receivedArray[5];
         }
 
         binding.sendback.setOnClickListener(new View.OnClickListener() {
@@ -71,17 +81,19 @@ public class Fillter2Activity extends AppCompatActivity {
         });
 
         FillChip(receivedArray);
-        FillList(fillter);
+        FillList(fillter, receivedArray);
     }
 
     public void FillChip(String[] receivedArray){
         List<ChipItem> chipItemList = new ArrayList<>();
-        if (receivedArray != null) {
-            for (String chip : receivedArray) {
+        if (receivedArray.length >= 5) {
+            for (int i = 5; i < receivedArray.length; i++) {
+                String chip = receivedArray[i];
                 chipItemList.add(new ChipItem(chip));
             }
         } else {
-            chipItemList.add(new ChipItem("Tất cả"));
+            String chip = receivedArray[0];
+            chipItemList.add(new ChipItem(chip));
         }
 
         ChipAdapter adapter = new ChipAdapter(chipItemList);
@@ -95,13 +107,12 @@ public class Fillter2Activity extends AppCompatActivity {
         adapter.attachToFlowLayout(binding.flowchip);
     }
 
-    public void FillList(String fillter){
+    public void FillList(String fillter, String[] receivedArray){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.recyclerViewKetQua.setLayoutManager(layoutManager);
         List<InfoMotelItem> motelList = new ArrayList<>();
         InfoMotelAdapter adapterInfo = new InfoMotelAdapter(motelList);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query query;
 
         if(fillter.equals("Phòng trọ")){
@@ -118,27 +129,13 @@ public class Fillter2Activity extends AppCompatActivity {
         }else {
             query = db.collection("motels");
         }
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String id = document.getId();
-                        String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
-                        int like = document.getLong("like").intValue();
-                        long price = document.getLong("price");
-                        String title = document.getString("title");
-                        InfoMotelItem motel = new InfoMotelItem(id, R.drawable.imgroom, title, like, price, motelAddress, 0 );
 
-                        // Thêm đối tượng Motel vào danh sách
-                        motelList.add(motel);
-                    }
-                    binding.recyclerViewKetQua.setAdapter(adapterInfo);
-                } else {
-                    Log.w(TAG, "Error getting documents.", task.getException());
-                }
-            }
-        });
+        if(putType != 0){
+            handelFilterPage(query, receivedArray, adapterInfo, motelList);
+        } else {
+            handleHomePage(query, adapterInfo, motelList);
+        }
+
         adapterInfo.setOnItemRecycleClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -149,13 +146,144 @@ public class Fillter2Activity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        binding.imgfilterblue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Fillter2Activity.this, FillterActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void handleHomePage(Query query, InfoMotelAdapter adapterInfo, List<InfoMotelItem> motelList){
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int sl = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
+                        int like = document.getLong("like").intValue();
+                        long price = document.getLong("price");
+                        String title = document.getString("title");
+
+                        InfoMotelItem motel = new InfoMotelItem(id, R.drawable.imgroom, title, like, price, motelAddress, 0 );
+                        motelList.add(motel);
+
+                        sl++;
+                    }
+                    binding.recyclerViewKetQua.setAdapter(adapterInfo);
+                    binding.txtSoKQ.setText("Tìm thấy " + sl + " kết quả");
+                } else {
+                    Log.w(TAG, "Error getting documents.", task.getException());
+                }
+            }
+        });
+    }
+
+    public void handelFilterPage(Query query, String[] receivedArray, InfoMotelAdapter adapterInfo, List<InfoMotelItem> motelList){
+
+        int minValue = Integer.parseInt(receivedArray[3]);
+        int maxValue = Integer.parseInt(receivedArray[4]);
+
+        List<String> listChipType = new ArrayList<>();
+
+        for(int i = 6; i<receivedArray.length; i++){
+            if(receivedArray[i].equals("Tủ lạnh")){
+                listChipType.add("fridge");
+            } else if(receivedArray[i].equals("Máy lạnh")){
+                listChipType.add("air conditioning");
+            } else if(receivedArray[i].equals("Máy giặt")){
+                listChipType.add("washing machine");
+            } else if(receivedArray[i].equals("Wifi")){
+                listChipType.add("Wireless");
+            } else if(receivedArray[i].equals("Có gác")){
+                listChipType.add("garet");
+            } else if(receivedArray[i].equals("Giờ giấc quy định")){
+                listChipType.add("starttime");
+            } else if(receivedArray[i].equals("Chỗ để xe")){
+                listChipType.add("car park");
+            }
+        }
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    int sl = 0;
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        int check = 0;
+                        if (putType != 0) {
+                            long price = document.getLong("price");
+                            if (price < minValue || price > maxValue) {
+                                check = 1;
+                            } else {
+                                for (String item : listChipType) {
+                                    long value = document.getLong(item);
+                                    switch (item) {
+                                        case "fridge":
+                                        case "air conditioning":
+                                        case "washing machine":
+                                        case "garet":
+                                        case "car park":
+                                            if (value > 0) {
+                                                check = 0;
+                                            } else {
+                                                check = 1;
+                                                break;
+                                            }
+                                            break;
+                                        case "Wireless":
+                                            if (value >= 0) {
+                                                check = 0;
+                                            } else {
+                                                check = 1;
+                                                break;
+                                            }
+                                            break;
+                                        case "starttime":
+                                            if (document.getString("starttime") == null) {
+                                                check = 0;
+                                            } else {
+                                                check = 1;
+                                                break;
+                                            }
+                                            break;
+                                    }
+                                    if (check == 1) {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if(check == 0){
+                            String id = document.getId();
+                            String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
+                            int like = document.getLong("like").intValue();
+                            long price = document.getLong("price");
+                            String title = document.getString("title");
+
+                            InfoMotelItem motel = new InfoMotelItem(id, R.drawable.imgroom, title, like, price, motelAddress, 0 );
+                            motelList.add(motel);
+
+                            sl++;
+                        }
+                    }
+                    binding.recyclerViewKetQua.setAdapter(adapterInfo);
+                    adapterInfo.notifyDataSetChanged();
+                    binding.txtSoKQ.setText("Tìm thấy " + sl + " kết quả");
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
     public void FillListBinhLuan(InfoMotelAdapter adapterBinhLuan, List<InfoMotelItem> motelList){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.recyclerViewKetQua.setLayoutManager(layoutManager);
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         List<String> sortedMotelIDs = new ArrayList<>();
 
@@ -248,4 +376,27 @@ public class Fillter2Activity extends AppCompatActivity {
             }
         });
     }
+
+    public void queryDocumentIDList(Query query, OnQueryCompleteListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        List<String> documentIDList = new ArrayList<>();
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        documentIDList.add(id);
+                    }
+                    // Gọi callback để thông báo rằng danh sách documentID đã được cập nhật hoàn toàn
+                    listener.onQueryComplete(documentIDList);
+                } else {
+                    Log.e(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
 }

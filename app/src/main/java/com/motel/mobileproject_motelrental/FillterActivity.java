@@ -72,43 +72,61 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
         binding.btnTimKiem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<String> infoFill = new ArrayList<>();
+                //Lấy giá trị từ spinner
+                String tinh = binding.cmbTinh.getSelectedItem().toString();
+                String quan = binding.cmbQuan.getSelectedItem().toString();
+                String xa = binding.cmbXa.getSelectedItem().toString();
+
+                infoFill.add(tinh);
+                infoFill.add(quan);
+                infoFill.add(xa);
+
+                //Lấy giá trị từ RangeSlider
+                int minValue = binding.sliderGia.getValues().get(0).intValue() * 100000;
+                int maxValue = binding.sliderGia.getValues().get(1).intValue() * 100000;
+
+                infoFill.add(String.valueOf(minValue));
+                infoFill.add(String.valueOf(maxValue));
 
                 //Lấy giá trị từ loại dịch vụ
                 String loaiDichVu = binding.cmbDichVu.getSelectedItem().toString();
+                infoFill.add(loaiDichVu);
 
                 // Lấy giá trị từ ListChip
-                ArrayList<String> listChip = new ArrayList<>();
                 if (binding.chiptulanh.isChecked()) {
-                    listChip.add("Tủ lạnh");
+                    infoFill.add("Tủ lạnh");
                 }
                 if (binding.chipmaylanh.isChecked()) {
-                    listChip.add("Máy lạnh");
+                    infoFill.add("Máy lạnh");
                 }
                 if (binding.chipmaygiat.isChecked()) {
-                    listChip.add("Máy giặt");
+                    infoFill.add("Máy giặt");
                 }
                 if (binding.chipwifi.isChecked()) {
-                    listChip.add("Wifi");
+                    infoFill.add("Wifi");
                 }
                 if (binding.chipgac.isChecked()) {
-                    listChip.add("Có gác");
+                    infoFill.add("Có gác");
                 }
                 if (binding.chipgio.isChecked()) {
-                    listChip.add("Giờ giấc quy định");
+                    infoFill.add("Giờ giấc quy định");
                 }
                 if (binding.chipdexe.isChecked()) {
-                    listChip.add("Chỗ để xe");
+                    infoFill.add("Chỗ để xe");
                 }
 
-                String[] arrListChip = new String[listChip.size()];
-                for (int i = 0; i < listChip.size(); i++) {
-                    String chip = listChip.get(i);
+                String[] arrListChip = new String[infoFill.size()];
+                for (int i = 0; i < infoFill.size(); i++) {
+                    String chip = infoFill.get(i);
                     arrListChip[i] = chip;
                 }
 
+                int putType = 1;
+
                 Intent intent = new Intent(FillterActivity.this, Fillter2Activity.class);
-                intent.putExtra("listChip", arrListChip);
-                intent.putExtra("fillter", "fillter");
+                intent.putExtra("putType", putType);
+                intent.putExtra("infoFill", arrListChip);
                 startActivity(intent);
             }
         });

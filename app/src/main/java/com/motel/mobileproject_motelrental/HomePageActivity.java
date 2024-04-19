@@ -54,7 +54,9 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fillter = "Phòng trọ";
+                int putType = 0;
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
+                intent.putExtra("putType", putType);
                 intent.putExtra("fillter", fillter);
                 startActivity(intent);
             }
@@ -64,8 +66,10 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fillter = "Chung cư";
+                int putType = 0;
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
                 intent.putExtra("fillter", fillter);
+                intent.putExtra("putType", putType);
                 startActivity(intent);
             }
         });
@@ -74,8 +78,10 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fillter = "Ở ghép";
+                int putType = 0;
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
                 intent.putExtra("fillter", fillter);
+                intent.putExtra("putType", putType);
                 startActivity(intent);
             }
         });
@@ -92,8 +98,10 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fillter = "Gần đây";
+                int putType = 0;
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
                 intent.putExtra("fillter", fillter);
+                intent.putExtra("putType", putType);
                 startActivity(intent);
             }
         });
@@ -102,8 +110,10 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fillter = "Bình luận nhiều";
+                int putType = 0;
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
                 intent.putExtra("fillter", fillter);
+                intent.putExtra("putType", putType);
                 startActivity(intent);
             }
         });
@@ -112,7 +122,9 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fillter = "Được yêu thích";
+                int putType = 0;
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
+                intent.putExtra("putType", putType);
                 intent.putExtra("fillter", fillter);
                 startActivity(intent);
             }

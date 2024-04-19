@@ -18,8 +18,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.motel.mobileproject_motelrental.Adapter.CommentAdapter;
 import com.motel.mobileproject_motelrental.Adapter.ImageAdapter;
+import com.motel.mobileproject_motelrental.Adapter.TagAdapter;
 import com.motel.mobileproject_motelrental.Item.CommentItem;
 import com.motel.mobileproject_motelrental.Item.Image;
+import com.motel.mobileproject_motelrental.Item.TagItem;
 import com.motel.mobileproject_motelrental.databinding.ActivityDetailRomeBinding;
 
 import java.text.DecimalFormat;
@@ -88,7 +90,31 @@ public class DetailRomeActivity extends AppCompatActivity {
                         binding.txtCharac.setText(document.getString("characteristic"));
                         long price = document.getLong("price");
                         String formattedMinValue = decimalFormat.format(price);
-                        binding.txtPrice.setText(formattedMinValue + " /tháng");
+                        binding.txtPrice.setText(formattedMinValue + " VND/tháng");
+
+                        binding.txtDescription.setText(document.getString("description"));
+                        binding.bedroom.setText(document.getLong("bedroom") + " phòng ngủ");
+                        binding.bathroom.setText(document.getLong("bathroom") + " phòng tắm");
+                        binding.area.setText(document.getLong("acreage") + " m2");
+
+                        List<TagItem> listTag = new ArrayList<>();
+                        //if(document.getLong("fridge") > 0) listTag.add(new TagItem("Tủ lạnh"));
+                        //if(document.getLong("air conditioning") > 0) listTag.add(new TagItem("Điều hòa"));
+                        //if(document.getLong("washing machine") > 0) listTag.add(new TagItem("Máy giặt"));
+                        //if(document.getLong("garet") > 0) listTag.add(new TagItem("Gác lửng"));
+                        //if(document.getLong("car park") > 0) listTag.add(new TagItem("Bãi đậu xe"));
+                        //if(document.getLong("Wireless") >= 0) listTag.add(new TagItem("Wifi"));
+                        //if (document.getString("starttime") == null) listTag.add(new TagItem("Giờ giấc tự do"));
+
+                        listTag.add(new TagItem("Tủ lạnh"));
+                        listTag.add(new TagItem("Điều hòa"));
+                        listTag.add(new TagItem("Máy giặt"));
+                        listTag.add(new TagItem("Gác lửng"));
+                        listTag.add(new TagItem("Bãi đậu xe"));
+
+                        TagAdapter adapterTag = new TagAdapter(listTag);
+                        adapterTag.attachToFlowLayout(binding.flowtag);
+
                     } else {
                         Log.d(TAG, "No such document");
                     }
