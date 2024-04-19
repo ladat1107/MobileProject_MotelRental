@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.Item.InfoMotelItem;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.R;
@@ -56,6 +56,7 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
         private ImageView imageView;
         private TextView txtTitle, txtLike, txtPrice, txtAddress, txtComment;
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
+
 
         public MotelViewHolder(@NonNull View itemView) {
             super(itemView);
