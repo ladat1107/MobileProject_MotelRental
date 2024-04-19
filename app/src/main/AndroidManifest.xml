@@ -19,18 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileProject_MotelRental"
         tools:targetApi="31">
-        <activity
-            android:name=".SignInActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ResetPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EnterMailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".VerificateActivity"
-            android:exported="false" />
+
         <!--
      TODO: Before you run your application, you need a Google Maps API key.
 
@@ -46,6 +35,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDtwGeH4QGHxEGStp3FWK0JFKDG6GSZObs" />
 
+        <activity
+            android:name=".SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EnterMailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VerificateActivity"
+            android:exported="false" />
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />
@@ -70,18 +71,13 @@
         <activity
             android:name=".Fillter2Activity"
             android:exported="false" />
-        <activity
-            android:name=".SignInActivity"
-            android:exported="false" />
+
         <activity
             android:name=".FillterActivity"
             android:exported="false" />
         <activity
             android:name=".AddDetailRoomActivity"
             android:exported="false"/>
-            <activity
-            android:name=".BasicInformationActivity"
-            android:exported="false" />
         <activity
             android:name=".HomePageActivity"
             android:exported="true">

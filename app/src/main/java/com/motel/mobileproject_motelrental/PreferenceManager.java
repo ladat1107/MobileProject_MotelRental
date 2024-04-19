@@ -46,16 +46,6 @@ public class PreferenceManager {
         }
         editor.apply();
     }
-    public void putFloat(String key, Float value) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat(key, value);
-        editor.apply();
-    }
-    public void putInt(String key, int value) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(key, value);
-        editor.apply();
-    }
     public int getInt(String key) {
         return sharedPreferences.getInt(key, -1);
     }
