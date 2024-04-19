@@ -9,7 +9,7 @@ public class PreferenceManager {
     public PreferenceManager(Context context) {
         sharedPreferences = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
-    public void putBoolean(String key, Boolean value) {
+    public void putBoolean(String key, boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(key, value);
         editor.apply();
@@ -38,6 +38,29 @@ public class PreferenceManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+    }
+    public void clearSpecificPreferences(String... keys) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (String key : keys) {
+            editor.remove(key);
+        }
+        editor.apply();
+    }
+    public void putFloat(String key, Float value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat(key, value);
+        editor.apply();
+    }
+    public void putInt(String key, int value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+    public int getInt(String key) {
+        return sharedPreferences.getInt(key, -1);
+    }
+    public float getFloat(String key) {
+        return sharedPreferences.getFloat(key, -1);
     }
 
 }

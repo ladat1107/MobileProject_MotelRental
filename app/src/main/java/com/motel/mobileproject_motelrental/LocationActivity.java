@@ -5,14 +5,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,64 +49,101 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.motel.mobileproject_motelrental.Custom.ConfirmationDialogListener;
+import com.motel.mobileproject_motelrental.Custom.CustomDialog;
+import com.motel.mobileproject_motelrental.Custom.CustomToast;
 import com.motel.mobileproject_motelrental.databinding.ActivityLocationBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LocationActivity extends AppCompatActivity implements Comparator<String>,OnMapReadyCallback, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class LocationActivity extends AppCompatActivity implements Comparator<String>, OnMapReadyCallback, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private ActivityLocationBinding binding;
     GoogleMap ggmap;
-    //FloatingActionButton btnVtHienTai;
     private FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback locationCallback;
     private Marker currentMarker;
-    private List<String> provinceList,districtList, wardList;
+    private List<String> provinceList;
     private static final int PERMISSIONS_REQUEST_ACCESS_LOCATION = 1;
     private Spinner spinnerProvince, spinnerDistrict, spinnerWard;
     SearchView searchView;
+    double latitude = 0;
+    double longitude = 0;
+    private PreferenceManager preferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLocationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.ggmap);
+        mapFragment.getMapAsync(this);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(LocationActivity.this);
+
+        preferenceManager = new PreferenceManager(getApplicationContext());
         spinnerProvince = findViewById(R.id.cmbTinh);
         spinnerDistrict = findViewById(R.id.cmbQuan);
         spinnerWard = findViewById(R.id.cmbXa);
+        searchView = findViewById(R.id.search_view);
         loadJSONData();
         setUpSpinners();
-        // Initialize search view------------------------------------------
-        searchView = findViewById(R.id.search_view);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.ggmap);
+        loadDataBack();
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(LocationActivity.this);
-        locationCallback = new LocationCallback() {
+        binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    // Xử lý vị trí được trả về
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    // Đã có vị trí hiện tại
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), OwnerTypeOfRoomActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+        spinnerProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedProvince = (String) parent.getItemAtPosition(position);
+                loadDistricts(selectedProvince);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedDistrict = (String) parent.getItemAtPosition(position);
+                loadWards(selectedDistrict);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        binding.btnTiepTuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (spinnerProvince.getSelectedItemPosition() == 0 || spinnerDistrict.getSelectedItemPosition() == 0
+                        || spinnerWard.getSelectedItemPosition() == 0 || binding.txtDiaChi.getText().toString().trim().isEmpty()) {
+                    CustomToast.makeText(LocationActivity.this, "Cung cấp đầy đủ thông tin vị trí", Toast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+                } else {
+                    showConfirmationDialog();
                 }
             }
-        };
+        });
         binding.txtDiaChi.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    searchView.setQuery(binding.txtDiaChi.getText().toString() + ", " + spinnerWard.getSelectedItem().toString() + ", " +
-                            spinnerDistrict.getSelectedItem().toString() + ", " + spinnerProvince.getSelectedItem().toString(), false);
+                    moveCameraToSelectedWard(binding.txtDiaChi.getText().toString() + ", " + spinnerWard.getSelectedItem().toString() + ", " +
+                            spinnerDistrict.getSelectedItem().toString() + ", " + spinnerProvince.getSelectedItem().toString());
                     return true;
                 }
                 return false;
             }
         });
+
         binding.btnVtHienTai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,118 +153,117 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
                 String location = searchView.getQuery().toString();
                 List<Address> addresses = null;
-                if (location!=null){
+                if (location != null) {
                     Geocoder geocoder = new Geocoder(LocationActivity.this);
                     try {
-                        addresses = geocoder.getFromLocationName(location,1);
-                    } catch (IOException e){
+                        addresses = geocoder.getFromLocationName(location, 1);
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     if (addresses != null && !addresses.isEmpty()) {
                         Address address = addresses.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-
                         // Xóa Marker cũ nếu tồn tại
                         if (currentMarker != null) {
                             currentMarker.remove();
                         }
                         // Thêm Marker mới
-                        currentMarker = ggmap.addMarker(new MarkerOptions().position(latLng).title(location).draggable(false));
-                        ggmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
+                        currentMarker = ggmap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .title(location)
+                                .draggable(false)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.img_icon_marker)));
+                        ggmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+                        latitude = address.getLatitude();
+                        longitude = address.getLongitude();
                     }
                 }
                 return false;
             }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
         });
-        mapFragment.getMapAsync(this);
     }
+    //---------------------------------KẾT THÚC OnCreate-----------------------------------------------------------------
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
-
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-
         ggmap = googleMap;
         //Cho phép di chuyển Bản đồ
         ggmap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
-                // Lấy vị trí mới của trung tâm bản đồ
                 LatLng newLatLng = ggmap.getCameraPosition().target;
-                // Cập nhật vị trí của Marker
                 updateMarkerPosition(newLatLng);
             }
-        });;
+        });
     }
+
     @Override
     public void onCameraIdle() {
-
     }
 
     private void getLastLocation() {
         if (ActivityCompat.checkSelfPermission(LocationActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(LocationActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             ActivityCompat.requestPermissions(LocationActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_LOCATION);
             return;
-
         }
         fusedLocationClient.getLastLocation().addOnSuccessListener(LocationActivity.this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
                     // Xóa Marker cũ nếu tồn tại
                     if (currentMarker != null) {
                         currentMarker.remove();
                     }
                     // Thêm Marker mới
-                    currentMarker = ggmap.addMarker(new MarkerOptions().position(latLng).title("Your current location").draggable(false));
-                    ggmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
+                    currentMarker = ggmap.addMarker(new MarkerOptions().position(latLng)
+                            .title("Your current location")
+                            .draggable(false)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.img_icon_marker)));
+                    ggmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
                 }
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
             }
         });
-
-
-
-
     }
-    //---------------------------------KẾT THÚC OnCreate-----------------------------------------------------------------
+
 
     // Phương thức để cập nhật vị trí của Marker
     private void updateMarkerPosition(LatLng latLng) {
         // Kiểm tra xem Marker đã được tạo hay chưa
         if (currentMarker == null) {
-            // Nếu chưa, tạo mới Marker
-            currentMarker = ggmap.addMarker(new MarkerOptions().position(latLng).title("Current Location").draggable(false));
+            currentMarker = ggmap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title("Current Location")
+                    .draggable(false).icon(BitmapDescriptorFactory.fromResource(R.drawable.img_icon_marker))
+            );
         } else {
-            // Nếu đã có, cập nhật vị trí của Marker
             currentMarker.setPosition(latLng);
         }
-        //Toast.makeText(this, "Vị trí mới: +" + latLng.latitude + ":" + latLng.longitude, Toast.LENGTH_SHORT).show();
-        // Ở đây bạn có thể thực hiện việc lưu trữ vị trí mới vào một biến toàn cục hoặc cơ sở dữ liệu nào đó phù hợp với ứng dụng của bạn.
+        latitude = latLng.latitude;
+        longitude = latLng.longitude;
     }
 
     private void loadJSONData() {
@@ -245,7 +283,6 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
     private void parseJSON(String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
         JSONArray dataArray = jsonObject.getJSONArray("data");
-
         provinceList = new ArrayList<>();
         for (int i = 0; i < dataArray.length(); i++) {
             JSONObject provinceObject = dataArray.getJSONObject(i);
@@ -255,42 +292,16 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
     }
 
     private void setUpSpinners() {
-
+        provinceList.add("-- Chọn tỉnh/thành phố --");
         Collections.sort(provinceList, LocationActivity.this);
-        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, provinceList);
+        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, provinceList);
         provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProvince.setAdapter(provinceAdapter);
-
-
-        spinnerProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedProvince = (String) parent.getItemAtPosition(position);
-                loadDistricts(selectedProvince);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedDistrict = (String) parent.getItemAtPosition(position);
-                loadWards(selectedDistrict);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
     }
 
     private void loadDistricts(String selectedProvince) {
-        districtList = new ArrayList<>();
-        // Find the province object in JSON data
+        List<String> districtList = new ArrayList<>();
+        districtList.add("--Chọn quận/huyện --");
         try {
             JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
             JSONArray dataArray = jsonObject.getJSONArray("data");
@@ -314,23 +325,11 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         ArrayAdapter<String> districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, districtList);
         districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDistrict.setAdapter(districtAdapter);
-        spinnerWard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                searchView.setQuery(spinnerWard.getSelectedItem().toString()+", "+ spinnerDistrict.getSelectedItem().toString()
-                        +", "+spinnerProvince.getSelectedItem().toString(),false);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     private void loadWards(String selectedDistrict) {
-        wardList = new ArrayList<>();
-        // Find the district object in JSON data
+        List<String> wardList = new ArrayList<>();
+        wardList.add("-- Chọn xã/phường --");
         try {
             JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
             JSONArray dataArray = jsonObject.getJSONArray("data");
@@ -354,7 +353,6 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         ArrayAdapter<String> wardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, wardList);
         wardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerWard.setAdapter(wardAdapter);
@@ -379,8 +377,67 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
     public int compare(String s1, String s2) {
         String city1 = s1.replaceAll("^(Thành phố|Tỉnh)\\s*", "");
         String city2 = s2.replaceAll("^(Thành phố|Tỉnh)\\s*", "");
-
-        // So sánh theo thứ tự từ A đến Z
         return city1.compareToIgnoreCase(city2);
     }
+
+    private void moveCameraToSelectedWard(String selectedWard) {
+        // Kiểm tra xem đã có vị trí của spinnerWard chưa
+        if (ggmap != null && !selectedWard.equals("-- Chọn phường/xã --")) {
+            // Tìm vị trí của phường/xã trên bản đồ
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                List<Address> addresses = geocoder.getFromLocationName(selectedWard, 1);
+                if (addresses != null && !addresses.isEmpty()) {
+                    Address address = addresses.get(0);
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    ggmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void showConfirmationDialog() {
+        CustomDialog.showConfirmationDialog(this, R.drawable.ld_notification, "XÁC NHẬN", "Xác nhận chọn đúng vị trí trên bản đồ", false, new ConfirmationDialogListener() {
+
+            @Override
+            public void onOKClicked() {
+                preferenceManager.putFloat(Constants.KEY_LATITUDE, (float) latitude);
+                preferenceManager.putFloat(Constants.KEY_LONGTITUDE, (float) longitude);
+                preferenceManager.putString(Constants.KEY_MOTEL_NUMBER, binding.txtDiaChi.getText().toString());
+                preferenceManager.putInt(Constants.KEY_CITY, spinnerProvince.getSelectedItemPosition());
+                preferenceManager.putInt(Constants.KEY_DISTRICT, spinnerDistrict.getSelectedItemPosition());
+                preferenceManager.putInt(Constants.KEY_WARD, spinnerWard.getSelectedItemPosition());
+                Intent intent = new Intent(getApplicationContext(), BasicInformationActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelClicked() {
+            }
+        });
+    }
+
+    private void loadDataBack() {
+        if (preferenceManager.getFloat(Constants.KEY_LATITUDE) == -1 ||
+                preferenceManager.getFloat(Constants.KEY_LONGTITUDE) == -1 ||
+                preferenceManager.getInt(Constants.KEY_DISTRICT) == -1 ||
+                preferenceManager.getInt(Constants.KEY_WARD) == -1 ||
+                preferenceManager.getInt(Constants.KEY_CITY) == -1 ||
+                preferenceManager.getString(Constants.KEY_MOTEL_NUMBER) == null) {
+            getLastLocation();
+        } else {
+            longitude = preferenceManager.getFloat(Constants.KEY_LONGTITUDE);
+            latitude = preferenceManager.getFloat(Constants.KEY_LATITUDE);
+            spinnerProvince.setSelection(preferenceManager.getInt(Constants.KEY_CITY), false);
+            loadDistricts(spinnerProvince.getSelectedItem().toString());
+            spinnerDistrict.setSelection(preferenceManager.getInt(Constants.KEY_DISTRICT), false);
+            loadWards(spinnerDistrict.getSelectedItem().toString());
+            spinnerWard.setSelection(preferenceManager.getInt(Constants.KEY_WARD));
+            binding.txtDiaChi.setText(preferenceManager.getString(Constants.KEY_MOTEL_NUMBER));
+            getLastLocation();
+        }
+    }
+
 }

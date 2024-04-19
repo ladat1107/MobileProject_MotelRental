@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="0dp" /> <!-- Bán kính bo cạnh của button -->
+    <solid android:color="#F8FCFD"/>
+    <stroke
+        android:color="#C1DBE8"
+        android:width="3dp" /> <!-- Đường viền của button khi enable -->
+
+</shape>

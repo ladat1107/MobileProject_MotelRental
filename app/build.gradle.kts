@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.databinding:databinding-runtime:8.3.2")
     implementation("com.google.firebase:firebase-firestore:24.11.1")
+    implementation (platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.libraries.places:places:3.4.0")
     implementation("com.github.bumptech.glide:glide:4.15.1")
@@ -74,6 +75,7 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.makeramen:roundedimageview:2.3.0")
     implementation("com.hbb20:ccp:2.7.0")
+    implementation ("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
 

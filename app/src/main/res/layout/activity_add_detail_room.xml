@@ -14,6 +14,7 @@
         android:background="@color/ld_color">
 
         <ImageView
+            android:id="@+id/imgBack"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginLeft="1dp"
@@ -265,15 +266,15 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginLeft="5dp"
-                            android:src="@drawable/imgkhongchungchu" />
+                            android:src="@drawable/img_ld_khongchungchu" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="5dp"
                             android:text="Không chung chủ"
                             android:textSize="18dp" />
@@ -376,7 +377,7 @@
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="2dp"
-                                android:text="/ tháng "
+                                android:text="₫/ tháng "
                                 android:textSize="18dp"
                                 android:textStyle="italic" />
                         </LinearLayout>
@@ -449,7 +450,7 @@
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="2dp"
-                                android:text="/ tháng "
+                                android:text="₫/ tháng "
                                 android:textSize="18dp"
                                 android:textStyle="italic" />
                         </LinearLayout>
@@ -502,39 +503,54 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="-8dp"
                             android:layout_marginRight="10dp"
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:visibility="gone">
-
-                            <TextView
-                                android:layout_width="35dp"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="60dp"
-                                android:text="Từ: "
-                                android:textSize="18dp"
-                                android:textStyle="italic" />
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="35dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="60dp"
+                                    android:text="Từ: "
+                                    android:textSize="18dp"
+                                    android:textStyle="italic" />
 
-                            <TextView
-                                android:id="@+id/edMoCua"
-                                android:layout_width="80dp"
-                                android:layout_height="40dp"
-                                android:hint="Chọn giờ"
-                                android:textSize="15dp" />
+                                <TextView
+                                    android:id="@+id/tvMoCua"
+                                    android:layout_width="80dp"
+                                    android:layout_height="30dp"
+                                    android:hint="mở cửa"
+                                    android:textSize="15dp" />
 
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:text="đến:  "
+                                    android:textSize="18dp"
+                                    android:textStyle="italic" />
+
+                                <TextView
+                                    android:id="@+id/tvDongCua"
+                                    android:layout_width="80dp"
+                                    android:layout_height="30dp"
+                                    android:hint="đóng cửa"
+                                    android:textSize="15dp" />
+                            </LinearLayout>
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:id="@+id/txtErrorTime"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="2dp"
-                                android:text="đến:  "
-                                android:textSize="18dp"
-                                android:textStyle="italic" />
-
-                            <TextView
-                                android:id="@+id/edDongCua"
-                                android:layout_width="80dp"
-                                android:layout_height="40dp"
-                                android:hint="Chọn"
-                                android:textSize="15dp" />
+                                android:layout_marginLeft="70dp"
+                                android:text="Chọn thời gian ra vào"
+                                android:textColor="@color/red"
+                                android:fontFamily="@font/roboto_italic"
+                                android:visibility="gone"
+                                />
                         </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
 
