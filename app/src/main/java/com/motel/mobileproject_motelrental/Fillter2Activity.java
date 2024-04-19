@@ -376,27 +376,4 @@ public class Fillter2Activity extends AppCompatActivity {
             }
         });
     }
-
-    public void queryDocumentIDList(Query query, OnQueryCompleteListener listener) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        List<String> documentIDList = new ArrayList<>();
-
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String id = document.getId();
-                        documentIDList.add(id);
-                    }
-                    // Gọi callback để thông báo rằng danh sách documentID đã được cập nhật hoàn toàn
-                    listener.onQueryComplete(documentIDList);
-                } else {
-                    Log.e(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
-
 }
