@@ -84,6 +84,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <TextView
+                                    android:id="@+id/txtTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
@@ -92,6 +93,7 @@
                                     android:textSize="20dp"
                                     android:textStyle="bold" />
                                 <TextView
+                                    android:id="@+id/txtLove"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
@@ -99,11 +101,7 @@
                                     android:textSize="13dp"
                                     android:textStyle="italic" />
                             </LinearLayout>
-
-
                         </LinearLayout>
-
-
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -129,6 +127,7 @@
                                     android:src="@drawable/imgggmap" />
 
                                 <TextView
+                                    android:id="@+id/txtAddress"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
@@ -151,6 +150,7 @@
                                     android:src="@drawable/img_address" />
 
                                 <TextView
+                                    android:id="@+id/txtCharac"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
@@ -160,13 +160,15 @@
                             </LinearLayout>
 
                             <Button
+                                android:id="@+id/btnMap"
                                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:backgroundTint="@color/bluebutton"
-                                android:text="bản đồ"
+                                android:text=" Xem trên bản đồ "
                                 android:textColor="@color/white"
+                                android:layout_marginTop="10dp"
                                 app:icon="@drawable/img_address_2"
                                 app:iconTint="@null" />
                         </LinearLayout>
@@ -196,6 +198,7 @@
                                 android:text="Giá cho thuê" />
 
                             <TextView
+                                android:id="@+id/txtPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="50dp"
@@ -228,6 +231,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/txtDescription"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
@@ -244,76 +248,88 @@
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="25dp"
-                                android:layout_marginLeft="30dp"
-                                android:layout_marginTop="10dp"
-                                android:src="@drawable/img_bed" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="40dp"
-                                android:text="1 phòng ngủ"
-                                android:textSize="15dp" />
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginLeft="150dp"
-                                android:layout_marginTop="5dp"
-                                android:src="@drawable/img_bath" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="130dp"
-                                android:layout_marginTop="40dp"
-                                android:text="1 phòng tắm"
-                                android:textSize="15dp" />
-
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_marginLeft="270dp"
-                                android:layout_marginTop="10dp"
-                                android:src="@drawable/img_area" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="260dp"
-                                android:layout_marginTop="40dp"
-                                android:text="200 m2"
-                                android:textSize="15dp" />
-
-                            <HorizontalScrollView
-                                android:layout_width="300dp"
-                                android:layout_height="50dp"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginTop="70dp"
-                                android:layout_marginBottom="10dp">
-
+                                android:orientation="horizontal">
                                 <LinearLayout
-                                    android:layout_width="300dp"
-                                    android:layout_height="50dp"
-                                    android:background="@color/white"
-                                    android:orientation="horizontal">
-                                    <include layout="@layout/layout_tien_ich"/>
-                                    <include layout="@layout/layout_tien_ich"/>
-                                    <include layout="@layout/layout_tien_ich"/>
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="25dp"
+                                        android:layout_marginTop="10dp"
+                                        android:src="@drawable/img_bed" />
+
+                                    <TextView
+                                        android:id="@+id/bedroom"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:text="1 phòng ngủ"
+                                        android:textSize="15dp" />
                                 </LinearLayout>
-                            </HorizontalScrollView>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginLeft="20dp"
+                                    android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="5dp"
+                                    android:src="@drawable/img_bath" />
 
-                        </RelativeLayout>
+                                <TextView
+                                    android:id="@+id/bathroom"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:text="1 phòng tắm"
+                                    android:textSize="15dp" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_marginLeft="30dp"
+                                    android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_marginTop="10dp"
+                                    android:src="@drawable/img_area" />
 
+                                <TextView
+                                    android:id="@+id/area"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:text="200 m2"
+                                    android:textSize="15dp" />
+                                </LinearLayout>
+                            </LinearLayout>
 
+                            <com.nex3z.flowlayout.FlowLayout
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="20dp"
+                                app:flChildSpacingForLastRow="align"
+                                app:flRowSpacing="8dp"
+                                android:id="@+id/flowtag">
+                            </com.nex3z.flowlayout.FlowLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
