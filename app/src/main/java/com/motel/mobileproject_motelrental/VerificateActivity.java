@@ -75,7 +75,7 @@ public class VerificateActivity extends AppCompatActivity {
             Log.e(TAG, "VerificateActivity: " + getIntent().getStringExtra("userID"));
             binding.progressBar.setVisibility(View.INVISIBLE);
             code = null;
-            if (getIntent().getStringExtra("type") == "DoiMatKhau") {
+            if (getIntent().getStringExtra("type").equals("DoiMatKhau")) {
                 Intent intent = new Intent(getApplicationContext(), ResetPasswordActivity.class);
                 intent.putExtra("email", getIntent().getStringExtra("email"));
                 intent.putExtra("userID", getIntent().getStringExtra("userID"));
