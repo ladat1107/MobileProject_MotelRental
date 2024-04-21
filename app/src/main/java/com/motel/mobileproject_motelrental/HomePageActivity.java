@@ -59,8 +59,8 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clearPrefernce();
+                preferenceManager.putInt(Constants.KEY_COUNT_LIKE,0);
                 Intent intent = new Intent(getApplicationContext(), OwnerTypeOfRoomActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });
@@ -414,7 +414,10 @@ public class HomePageActivity extends AppCompatActivity {
                 Constants.KEY_END_TIME,
                 Constants.KEY_STATUS_MOTEL,
                 Constants.KEY_IMAGE_LIST,
-                Constants.KEY_TYPE_ID
+                Constants.KEY_TYPE_ID,
+                Constants.KEY_CITY_NAME,
+                Constants.KEY_DISTRICT_NAME,
+                Constants.KEY_WARD_NAME
         );
     }
     private void getToken() {

@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgcolor"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".Fillter2Activity">
+    tools:context=".RoomPostedListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/white"
             android:layout_weight="1"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -50,12 +50,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    >
 
                     <TextView
                         android:id="@+id/txtSoKQ"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="Tìm thấy 100 kết quả"
                         android:textSize="18dp" />
@@ -63,7 +64,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewKetQua"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"/>
                 </LinearLayout>
             </ScrollView>
         </androidx.core.widget.NestedScrollView>
@@ -73,22 +74,17 @@
         android:orientation="vertical">
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@color/grey" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp">
-            <ImageView
-                android:id="@+id/imgGoHead"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/img_ld_up"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -96,8 +92,9 @@
                 app:backgroundTint="@null"
                 android:textColor="@color/ld_color"
                 android:textSize="18dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="85dp"
                 android:fontFamily="@font/roboto_black"
+                android:elevation="5dp"
                 android:text="Ẩn tất cả"
                 />
             <Button
@@ -109,6 +106,7 @@
                 android:textSize="18dp"
                 android:fontFamily="@font/roboto_black"
                 android:text="Xóa tất cả"
+                android:elevation="5dp"
                 android:layout_marginLeft="10dp"
                 />
         </LinearLayout>

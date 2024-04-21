@@ -406,9 +406,12 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
                 preferenceManager.putFloat(Constants.KEY_LATITUDE, (float) latitude);
                 preferenceManager.putFloat(Constants.KEY_LONGTITUDE, (float) longitude);
                 preferenceManager.putString(Constants.KEY_MOTEL_NUMBER, binding.txtDiaChi.getText().toString());
-                preferenceManager.putInt(Constants.KEY_CITY, spinnerProvince.getSelectedItemPosition());
-                preferenceManager.putInt(Constants.KEY_DISTRICT, spinnerDistrict.getSelectedItemPosition());
-                preferenceManager.putInt(Constants.KEY_WARD, spinnerWard.getSelectedItemPosition());
+                preferenceManager.putInt(Constants.KEY_CITY_MOTEL, spinnerProvince.getSelectedItemPosition());
+                preferenceManager.putInt(Constants.KEY_DISTRICT_MOTEL, spinnerDistrict.getSelectedItemPosition());
+                preferenceManager.putInt(Constants.KEY_WARD_MOTEL, spinnerWard.getSelectedItemPosition());
+                preferenceManager.putString(Constants.KEY_WARD_NAME, spinnerWard.getSelectedItem().toString());
+                preferenceManager.putString(Constants.KEY_DISTRICT_NAME, spinnerDistrict.getSelectedItem().toString());
+                preferenceManager.putString(Constants.KEY_CITY_NAME, spinnerProvince.getSelectedItem().toString());
                 Intent intent = new Intent(getApplicationContext(), BasicInformationActivity.class);
                 startActivity(intent);
             }
@@ -422,9 +425,9 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
     private void loadDataBack() {
         if (preferenceManager.getFloat(Constants.KEY_LATITUDE) == -1 ||
                 preferenceManager.getFloat(Constants.KEY_LONGTITUDE) == -1 ||
-                preferenceManager.getInt(Constants.KEY_DISTRICT) == -1 ||
-                preferenceManager.getInt(Constants.KEY_WARD) == -1 ||
-                preferenceManager.getInt(Constants.KEY_CITY) == -1 ||
+                preferenceManager.getInt(Constants.KEY_DISTRICT_MOTEL) == -1 ||
+                preferenceManager.getInt(Constants.KEY_WARD_MOTEL) == -1 ||
+                preferenceManager.getInt(Constants.KEY_CITY_MOTEL) == -1 ||
                 preferenceManager.getString(Constants.KEY_MOTEL_NUMBER) == null) {
             getLastLocation();
         } else {
