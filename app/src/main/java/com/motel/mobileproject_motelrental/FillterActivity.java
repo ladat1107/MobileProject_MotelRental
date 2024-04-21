@@ -52,6 +52,7 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
         listDichVu.add("Ở ghép");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, listDichVu);
         binding.cmbDichVu.setAdapter(adapter);
+        binding.imgBack.setOnClickListener(v -> onBackPressed());
         binding.sliderGia.addOnChangeListener(new RangeSlider.OnChangeListener() {
             @Override
             public void onValueChange(RangeSlider slider, float value, boolean fromUser) {

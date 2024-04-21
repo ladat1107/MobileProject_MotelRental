@@ -2,6 +2,12 @@ package com.motel.mobileproject_motelrental;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
 
 public class PreferenceManager {
     private final SharedPreferences sharedPreferences;
