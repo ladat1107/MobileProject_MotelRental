@@ -65,6 +65,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
     private FirebaseFirestore db;
     private List<Bitmap> selectedBitmaps = new ArrayList<>();
     List<String> listNameImage = new ArrayList<>();
+    List<String> imageUrls = new ArrayList<>();
     private final ActivityResultLauncher<Intent> pickMedia = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
             ClipData clipData = result.getData().getClipData();
@@ -122,25 +123,28 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         binding.btnTiepTuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialog.showConfirmationDialog(CameraActivity.this, R.drawable.ld_notification, "XÁC NHẬN", "Thông tin về bài đăng đúng sự thật", false, new ConfirmationDialogListener() {
+                if (selectedUris.size() < 2) {
+                    CustomToast.makeText(CameraActivity.this, "Bạn phải chọn ít nhất 2 ảnh để đăng bài!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+                    return;
+                } else {
+                    CustomDialog.showConfirmationDialog(CameraActivity.this, R.drawable.ld_notification, "XÁC NHẬN", "Thông tin về bài đăng đúng sự thật", false, new ConfirmationDialogListener() {
+                        @Override
+                        public void onOKClicked() {
+                            uploadFiles();
+                            if (preferenceManager.getString("motelIDTemp") != null) {
+                                updateMotel();
+                            } else {
+                                insertMotel();
+                            }
 
-                    @Override
-                    public void onOKClicked() {
-                        if (preferenceManager.getString("motelIDTemp") != null) {
-                            uploadFiles();
-                            updateMotel();
-                        } else {
-                            uploadFiles();
-                            insertMotel();
                         }
 
-                    }
+                        @Override
+                        public void onCancelClicked() {
 
-                    @Override
-                    public void onCancelClicked() {
-
-                    }
-                });
+                        }
+                    });
+                }
             }
         });
     }
@@ -154,27 +158,22 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
     private void uploadFiles() {
         listNameImage.clear();
-        if (selectedUris.size()<2) {
-            CustomToast.makeText(this, "Bạn phải chọn ít nhất 2 ảnh để đăng bài!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-            return;
-        } else {
-            for (Uri uri : selectedUris) {
-                StorageReference fileRef = storageRef.child("uploads/" + System.currentTimeMillis());
-                String fileName = fileRef.getName();
-                listNameImage.add(fileName);
-                fileRef.putFile(uri)
-                        .addOnSuccessListener(taskSnapshot -> {
-                        })
-                        .addOnFailureListener(e -> {
-                            // Xử lý việc tải lên không thành công
-                            CustomToast.makeText(this, "Tải lên thất bại: " + e.getMessage(), CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-                            return;
-                        });
-            }
-            CustomToast.makeText(CameraActivity.this, "Tải lên thành công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
-            selectedUris.clear();
-            adapter.notifyDataSetChanged();
+        for (Uri uri : selectedUris) {
+            StorageReference fileRef = storageRef.child("uploads/" + System.currentTimeMillis());
+            String fileName = fileRef.getName();
+            listNameImage.add(fileName);
+            fileRef.putFile(uri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                    })
+                    .addOnFailureListener(e -> {
+                        // Xử lý việc tải lên không thành công
+                        CustomToast.makeText(this, "Tải lên thất bại: " + e.getMessage(), CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+                        return;
+                    });
         }
+        CustomToast.makeText(CameraActivity.this, "Tải lên thành công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+        selectedUris.clear();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -205,6 +204,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         Map<String, Object> data = upDataToMap();
         db.collection("images").document(preferenceManager.getString("motelIDTemp")).update(data).addOnSuccessListener(aVoid -> {
                     clearPrefernce();
+                    deleteOldImagesFromFirebase();
                     Intent intent = new Intent(CameraActivity.this, HomePageActivity.class);
                     startActivity(intent);
                     Log.d(TAG, "Dữ liệu đã được cập nhật thành công.");
@@ -213,6 +213,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                     Log.e(TAG, "Lỗi khi cập nhật dữ liệu: " + e.getMessage());
                 });
     }
+
     private void clearPrefernce() {
         preferenceManager.clearSpecificPreferences(
                 "motelIDTemp",
@@ -248,6 +249,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                 Constants.KEY_WARD_NAME
         );
     }
+
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -265,6 +267,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
             showErrorMessage("Không thể mở ứng dụng quay video");
         }
     }
+
     private void showErrorMessage(String message) {
         CustomToast.makeText(this, message, CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
     }
@@ -322,7 +325,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         DocumentReference docRef = db.collection("images").document(preferenceManager.getString("motelIDTemp"));
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                List<String> imageUrls = (List<String>) documentSnapshot.get(Constants.KEY_IMAGE_LIST);
+                imageUrls = (List<String>) documentSnapshot.get(Constants.KEY_IMAGE_LIST);
                 if (imageUrls != null && !imageUrls.isEmpty()) {
                     if (adapter == null) {
                         adapter = new GalleryAdapter(selectedUris, CameraActivity.this, CameraActivity.this);
@@ -343,7 +346,8 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                             // Kiểm tra xem Uri có hợp lệ không trước khi thêm vào danh sách
                             if (imageUri != null) {
                                 selectedUris.add(imageUri);
-                                adapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+                                adapter.notifyDataSetChanged();
+                                // Cập nhật RecyclerView
                             } else {
                                 Log.e(TAG, "Không thể lưu ảnh vào bộ nhớ trong.");
                             }
@@ -394,6 +398,17 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         data.put(Constants.KEY_TYPE_ID, preferenceManager.getInt(Constants.KEY_TYPE_ID));
         data.put(Constants.KEY_IMAGE_LIST, listNameImage);
         return data;
+    }
+
+    private void deleteOldImagesFromFirebase() {
+        for (String imageName : imageUrls) {
+            StorageReference fileRef = storageRef.child("uploads/" + imageName);
+            fileRef.delete().addOnSuccessListener(aVoid -> {
+                Log.d(TAG, "Ảnh đã được xóa");
+            }).addOnFailureListener(e -> {
+                Log.e(TAG, "Xóa ảnh thất bại");
+            });
+        }
     }
 }
 
