@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
+import com.motel.mobileproject_motelrental.Interface.OnItemLongClickListener;
 import com.motel.mobileproject_motelrental.Item.InfoMotelItem;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.R;
@@ -19,6 +20,8 @@ import java.util.List;
 public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.MotelViewHolder> {
     private List<InfoMotelItem> infoMotelItemList;
     private OnItemClickListener onItemClickListener;
+    private OnItemLongClickListener itemLongClickListener;
+
     public InfoMotelAdapter(List<InfoMotelItem> motelItemList) {
         this.infoMotelItemList = motelItemList;
     }
@@ -43,6 +46,20 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(itemPosition); // Sử dụng biến final này trong phương thức onClick
                 }
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (itemLongClickListener != null) {
+                    try {
+                        itemLongClickListener.onItemLongClick(itemPosition);
+                    } catch (NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -81,4 +98,8 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
     public void setOnItemRecycleClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.itemLongClickListener = listener;
+    }
+
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_update"
+        android:icon="@drawable/ld_editmenu"
+        android:title="Cập nhật thông tin"
+        />
+    <item
+        android:id="@+id/action_view"
+        android:icon="@drawable/ld_viewmenu"
+        android:title="Xem chi tiết"
+        />
+    <item
+        android:id="@+id/action_hide"
+        android:icon="@drawable/ld_hidemenu"
+        android:title="Ẩn bài đăng"
+        />
+    <item
+        android:id="@+id/action_display"
+        android:icon="@drawable/ld_displaymenu"
+        android:title="Hiển thị bài đăng" />
+</menu>

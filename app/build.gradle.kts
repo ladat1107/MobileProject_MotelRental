@@ -63,8 +63,9 @@ dependencies {
     implementation (platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.libraries.places:places:3.4.0")
-    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.firebase:firebase-messaging:23.4.1")
+    implementation("androidx.mediarouter:mediarouter:1.7.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("androidx.activity:activity:1.8.2")
     testImplementation("junit:junit:4.13.2")
@@ -76,7 +77,6 @@ dependencies {
     implementation("com.makeramen:roundedimageview:2.3.0")
     implementation("com.hbb20:ccp:2.7.0")
     implementation ("com.google.firebase:firebase-storage:20.3.0")
-    implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.squareup.picasso:picasso:2.71828")
     // https://mvnrepository.com/artifact/com.sun.mail/android-mail
@@ -85,4 +85,6 @@ dependencies {
     implementation("com.sun.mail:android-activation:1.6.7")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
 }

@@ -30,6 +30,9 @@ public class Constants {
     public static final String KEY_WARD_MOTEL = "ward";              //xã, phường                                   string
     public static final String KEY_DISTRICT_MOTEL = "district";      //quận, huyện                                  string
     public static final String KEY_CITY_MOTEL = "city";             // tỉnh, thành phố                              string
+    public static final String KEY_WARD_NAME = "ward name";              //xã, phường                                string
+    public static final String KEY_DISTRICT_NAME = "district name";      //quận, huyện                               string
+    public static final String KEY_CITY_NAME = "city name";             // tỉnh, thành phố                          string
     public static final String KEY_PRICE = "price";                 // giá thuê trọ                                 number
     public static final String KEY_ELECTRICITY_PRICE = "electricity price";// giá thuê trọ                          number
     public static final String KEY_WATER_PRICE = "water price";     // giá thuê trọ                                 number

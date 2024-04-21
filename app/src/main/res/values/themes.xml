@@ -3,6 +3,11 @@
     <style name="Base.Theme.MobileProject_MotelRental" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="popupMenuBackground">@drawable/ld_custom_menubackground</item>
+        <item name="android:popupMenuStyle">@style/popupBGStyle</item>
+     </style>
+    <style name="popupBGStyle" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/ld_custom_menubackground</item>
     </style>
 
     <style name="Theme.MobileProject_MotelRental" parent="Base.Theme.MobileProject_MotelRental" />

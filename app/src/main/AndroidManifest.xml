@@ -25,9 +25,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileProject_MotelRental"
         tools:targetApi="31">
-        <activity
-            android:name=".RoomPostedListActivity"
-            android:exported="false" />
         <!--
      TODO: Before you run your application, you need a Google Maps API key.
 
@@ -44,6 +41,9 @@
             android:value="AIzaSyDtwGeH4QGHxEGStp3FWK0JFKDG6GSZObs" />
 
         <activity
+            android:name=".HomePageActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangeInfomationActivity"
             android:exported="false" />
         <activity
@@ -56,7 +56,7 @@
             android:name=".ListFavoriteActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePageActivity"
+            android:name=".SplashActivity"
             android:exported="false" />
         <activity
             android:name=".ResetPasswordActivity"
@@ -102,13 +102,12 @@
             android:exported="false" />
         <activity
             android:name=".AccountPageActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".RoomPostedListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
