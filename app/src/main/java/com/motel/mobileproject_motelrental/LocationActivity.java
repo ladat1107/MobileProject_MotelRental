@@ -433,11 +433,11 @@ public class LocationActivity extends AppCompatActivity implements Comparator<St
         } else {
             longitude = preferenceManager.getFloat(Constants.KEY_LONGTITUDE);
             latitude = preferenceManager.getFloat(Constants.KEY_LATITUDE);
-            spinnerProvince.setSelection(preferenceManager.getInt(Constants.KEY_CITY), false);
+            spinnerProvince.setSelection(preferenceManager.getInt(Constants.KEY_CITY_MOTEL), false);
             loadDistricts(spinnerProvince.getSelectedItem().toString());
-            spinnerDistrict.setSelection(preferenceManager.getInt(Constants.KEY_DISTRICT), false);
+            spinnerDistrict.setSelection(preferenceManager.getInt(Constants.KEY_DISTRICT_MOTEL), false);
             loadWards(spinnerDistrict.getSelectedItem().toString());
-            spinnerWard.setSelection(preferenceManager.getInt(Constants.KEY_WARD));
+            spinnerWard.setSelection(preferenceManager.getInt(Constants.KEY_WARD_MOTEL));
             binding.txtDiaChi.setText(preferenceManager.getString(Constants.KEY_MOTEL_NUMBER));
             getLastLocation();
         }

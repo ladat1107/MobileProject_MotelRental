@@ -19,7 +19,7 @@ public class Constants {
 
 
 
-    public static final String KEY_COLLECTION_MOTELS = "motels";    // tên collection
+    public static final String KEY_COLLECTION_MOTELS = "motelrentals";    // tên collection
     public static final String KEY_POST_AUTHOR = "post author";     // documentID của người dùng đăng trọ           string
     public static final String KEY_TITLE = "title";                 // tiêu đề của bài viết                         string
     public static final String KEY_COUNT_LIKE = "like";             // số lượng like của trọ                        number
