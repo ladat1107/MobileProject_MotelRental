@@ -35,11 +35,33 @@ public class AccountPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_account_page);
+        ChuyenSangDangTro();
+        ChuyenSangDanhSachPhongDang();
         ChuyenSangDanhSachYeuThich();
         ChuyenSangDoiMatKhau();
         ChuyenSangDoiThongTin();
         ChuyenSangDoiAvatar();
         GetAvatarOnFireBase();
+    }
+    private void ChuyenSangDangTro(){
+        btnDangTro = (Button) findViewById(R.id.btnDangPhong);
+        btnDangTro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AccountPageActivity.this, OwnerTypeOfRoomActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void ChuyenSangDanhSachPhongDang(){
+        btnTroDaDang = (Button) findViewById(R.id.btnPhongDaDang);
+        btnTroDaDang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AccountPageActivity.this, RoomPostedListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     private void ChuyenSangDanhSachYeuThich(){
         btnDanhSachYeuThich = (Button) findViewById(R.id.btnDanhSachYeuThich);
