@@ -120,7 +120,7 @@ public class OwnerTypeOfRoomActivity extends AppCompatActivity {
 
     private void getMotel() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("images").document(motelId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection(Constants.KEY_COLLECTION_MOTELS).document(motelId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {

@@ -159,7 +159,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
     private void uploadFiles() {
         listNameImage.clear();
         for (Uri uri : selectedUris) {
-            StorageReference fileRef = storageRef.child("uploads/" + System.currentTimeMillis());
+            StorageReference fileRef = storageRef.child("Image/ImageMotel/" + System.currentTimeMillis());
             String fileName = fileRef.getName();
             listNameImage.add(fileName);
             fileRef.putFile(uri)
@@ -183,7 +183,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
     private void insertMotel() {
         Map<String, Object> data = upDataToMap();
-        db.collection("images").add(data)
+        db.collection(Constants.KEY_COLLECTION_MOTELS).add(data)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -202,7 +202,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
     private void updateMotel() {
         Map<String, Object> data = upDataToMap();
-        db.collection("images").document(preferenceManager.getString("motelIDTemp")).update(data).addOnSuccessListener(aVoid -> {
+        db.collection(Constants.KEY_COLLECTION_MOTELS).document(preferenceManager.getString("motelIDTemp")).update(data).addOnSuccessListener(aVoid -> {
                     clearPrefernce();
                     deleteOldImagesFromFirebase();
                     Intent intent = new Intent(CameraActivity.this, HomePageActivity.class);
@@ -322,7 +322,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
     }
 
     private void getImagesForMotel() {//Lấy ảnh từ FireBase rồi hiển thị lên recycleView
-        DocumentReference docRef = db.collection("images").document(preferenceManager.getString("motelIDTemp"));
+        DocumentReference docRef = db.collection(Constants.KEY_COLLECTION_MOTELS).document(preferenceManager.getString("motelIDTemp"));
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 imageUrls = (List<String>) documentSnapshot.get(Constants.KEY_IMAGE_LIST);
@@ -337,7 +337,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
                     for (String imageName : imageUrls) {
                         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                        StorageReference pathReference = storageReference.child("uploads/" + imageName);
+                        StorageReference pathReference = storageReference.child("Image/ImageMotel/" + imageName);
                         pathReference.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
                             // Chuyển mảng byte thành Bitmap
                             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -402,7 +402,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
     private void deleteOldImagesFromFirebase() {
         for (String imageName : imageUrls) {
-            StorageReference fileRef = storageRef.child("uploads/" + imageName);
+            StorageReference fileRef = storageRef.child("Image/ImageMotel/" + imageName);
             fileRef.delete().addOnSuccessListener(aVoid -> {
                 Log.d(TAG, "Ảnh đã được xóa");
             }).addOnFailureListener(e -> {
