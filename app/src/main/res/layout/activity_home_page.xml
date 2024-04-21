@@ -171,17 +171,20 @@
                     android:background="@drawable/bgheader"
                     app:layout_collapseMode="pin">
 
-                    <ImageView
-                        android:id="@+id/imgBack"
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/imageProfile"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        app:srcCompat="@drawable/imgavatar" />
+                        android:background="@drawable/background_image"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/avatar_default"
+                        app:riv_oval="true" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvUserName"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
-                        android:text="Hi, Duong!"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -190,7 +193,7 @@
                         android:id="@+id/imgFilter"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:layout_marginLeft="140dp"
+                        android:layout_marginStart="20dp"
                         android:src="@drawable/img_filter" />
                 </androidx.appcompat.widget.Toolbar>
 

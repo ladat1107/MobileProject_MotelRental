@@ -5,22 +5,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.motel.mobileproject_motelrental.Adapter.MotelAdapter;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.Item.MotelItem;
 import com.motel.mobileproject_motelrental.databinding.ActivityHomePageBinding;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,13 +45,16 @@ public class HomePageActivity extends AppCompatActivity {
     private ActivityHomePageBinding binding;
     private String TAG = "HomePageActivity";
     PreferenceManager preferenceManager;
-
+    StorageReference storageReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext()) ;
+        displayavatar();
+        getToken();
+        setContentView(binding.getRoot());
+        binding.tvUserName.setText(preferenceManager.getString(Constants.KEY_NAME ));
         binding.dangtro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +105,7 @@ public class HomePageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(HomePageActivity.this, FillterActivity.class);
                 startActivity(intent);
+
             }
         });
 
@@ -136,6 +151,22 @@ public class HomePageActivity extends AppCompatActivity {
         MenuClick();
     }
 
+    private void displayavatar() {
+        storageReference = FirebaseStorage.getInstance().getReference().child("images/" + preferenceManager.getString(Constants.KEY_IMAGE));
+        try{
+            File localfile = File.createTempFile("tempfile", ".jpg");
+            storageReference.getFile(localfile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
+                    binding.imageProfile.setImageBitmap(bitmap);
+                }
+            });
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void MenuClick(){
         binding.btnhome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,7 +182,7 @@ public class HomePageActivity extends AppCompatActivity {
                 return true;
             } else if(id == R.id.message){
                 startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
-                finish();
+
                 return true;
             } else if(id == R.id.love){
                 startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
@@ -385,5 +416,17 @@ public class HomePageActivity extends AppCompatActivity {
                 Constants.KEY_IMAGE_LIST,
                 Constants.KEY_TYPE_ID
         );
+    }
+    private void getToken() {
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
+    }
+
+    private void updateToken(String token) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(preferenceManager.getString(Constants.KEY_USER_ID));
+        documentReference.update(Constants.KEY_FCM_TOKEN, token).addOnFailureListener(e -> showToast("Unable update token"));
+    }
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

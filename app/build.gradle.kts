@@ -78,7 +78,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
-
+    implementation("com.squareup.picasso:picasso:2.71828")
     // https://mvnrepository.com/artifact/com.sun.mail/android-mail
     implementation ("com.sun.mail:android-mail:1.6.7")
     // https://mvnrepository.com/artifact/com.sun.mail/android-activation
