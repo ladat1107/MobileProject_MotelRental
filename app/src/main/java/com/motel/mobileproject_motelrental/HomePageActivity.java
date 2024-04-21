@@ -145,7 +145,7 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
-        FillListBinhLuan();
+        //FillListBinhLuan();
         FillListPhoBien();
         FillListYeuThich();
         MenuClick();
@@ -185,8 +185,8 @@ public class HomePageActivity extends AppCompatActivity {
 
                 return true;
             } else if(id == R.id.love){
-                startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
-                finish();
+                /*startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
+                finish();*/
                 return true;
             } else if(id == R.id.user){
                 startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
@@ -203,8 +203,8 @@ public class HomePageActivity extends AppCompatActivity {
         MotelAdapter adapterYeuThich = new MotelAdapter(motelList);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("motels")
-                .orderBy("like", Query.Direction.DESCENDING)
+        db.collection(Constants.KEY_COLLECTION_MOTELS)
+                .orderBy(Constants.KEY_COUNT_LIKE, Query.Direction.DESCENDING)
                 .limit(10)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -212,14 +212,19 @@ public class HomePageActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        String id = document.getId();
-                        String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
-                        int like = document.getLong("like").intValue();
-                        String title = document.getString("title");
-                        MotelItem motel = new MotelItem(id, R.drawable.imgroom, title, motelAddress, like);
+                       if(document.getBoolean(Constants.KEY_STATUS_MOTEL) == true){
+                           String id = document.getId();
+                           String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getLong(Constants.KEY_WARD) + ", " + document.getLong(Constants.KEY_DISTRICT) + ", " + document.getLong(Constants.KEY_CITY);
+                           int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
+                           String title = document.getString(Constants.KEY_TITLE);
+                           List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                           String imgRes = imageUrls.get(1);
 
-                        // Thêm đối tượng Motel vào danh sách
-                        motelList.add(motel);
+                           MotelItem motel = new MotelItem(id, imgRes, title, motelAddress, like);
+
+                           // Thêm đối tượng Motel vào danh sách
+                           motelList.add(motel);
+                       }
                     }
                     // Cập nhật giao diện
                     binding.recyclerViewYeuThich.setAdapter(adapterYeuThich);
@@ -240,7 +245,7 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    public void FillListBinhLuan(){
+    /*public void FillListBinhLuan(){
         LinearLayoutManager layoutManagerBinhLuan = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         binding.recyclerViewDanhGia.setLayoutManager(layoutManagerBinhLuan);
 
@@ -250,7 +255,7 @@ public class HomePageActivity extends AppCompatActivity {
         List<String> sortedMotelIDs = new ArrayList<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("comments")
+        db.collection(Constants.KEY_COLLECTION_COMMENTS)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -299,7 +304,11 @@ public class HomePageActivity extends AppCompatActivity {
                                                         String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
                                                         int like = document.getLong("like").intValue();
                                                         String title = document.getString("title");
-                                                        MotelItem motel = new MotelItem(id, R.drawable.imgroom, title, motelAddress, like);
+
+                                                        List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                                                        String imgRes = imageUrls.get(1);
+
+                                                        MotelItem motel = new MotelItem(id, imgRes, title, motelAddress, like);
 
                                                         // Thêm đối tượng Motel vào danh sách
                                                         motelList.add(motel);
@@ -340,9 +349,7 @@ public class HomePageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-
+    }*/
 
     public void FillListPhoBien(){
         LinearLayoutManager layoutManagerPhoBien = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -351,7 +358,7 @@ public class HomePageActivity extends AppCompatActivity {
         MotelAdapter adapterPhoBien = new MotelAdapter(motelList);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("motels")
+        db.collection(Constants.KEY_COLLECTION_MOTELS)
                 .limit(10)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -359,14 +366,21 @@ public class HomePageActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        String id = document.getId();
-                        String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
-                        int like = document.getLong("like").intValue();
-                        String title = document.getString("title");
-                        MotelItem motel = new MotelItem(id, R.drawable.imgroom, title, motelAddress, like);
+                        if(document.getBoolean(Constants.KEY_STATUS_MOTEL) == true){
+                            String id = document.getId();
+                            String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getLong(Constants.KEY_WARD) + ", " + document.getLong(Constants.KEY_DISTRICT) + ", " + document.getLong(Constants.KEY_CITY);
+                            int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
+                            String title = document.getString(Constants.KEY_TITLE);
 
-                        // Thêm đối tượng Motel vào danh sách
-                        motelList.add(motel);
+                            List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                            String imgRes = imageUrls.get(1);
+
+                            MotelItem motel = new MotelItem(id, imgRes, title, motelAddress, like);
+
+                            // Thêm đối tượng Motel vào danh sách
+                            motelList.add(motel);
+                        }
+
                     }
                     // Cập nhật giao diện
                     binding.recyclerViewPhobien.setAdapter(adapterPhoBien);

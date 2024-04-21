@@ -75,13 +75,14 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
             public void onClick(View v) {
                 ArrayList<String> infoFill = new ArrayList<>();
                 //Lấy giá trị từ spinner
-                String tinh = binding.cmbTinh.getSelectedItem().toString();
-                String quan = binding.cmbQuan.getSelectedItem().toString();
-                String xa = binding.cmbXa.getSelectedItem().toString();
+                int tinh = binding.cmbTinh.getSelectedItemPosition();
+                int quan = binding.cmbQuan.getSelectedItemPosition();
 
-                infoFill.add(tinh);
-                infoFill.add(quan);
-                infoFill.add(xa);
+                String tinhStr = String.valueOf(tinh);
+                String quanStr = String.valueOf(quan);
+
+                infoFill.add(tinhStr);
+                infoFill.add(quanStr);
 
                 //Lấy giá trị từ RangeSlider
                 int minValue = binding.sliderGia.getValues().get(0).intValue() * 100000;
@@ -89,6 +90,14 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
 
                 infoFill.add(String.valueOf(minValue));
                 infoFill.add(String.valueOf(maxValue));
+
+                if(binding.chipall.isChecked()){
+                    infoFill.add("Tất cả giá");
+                } else if(binding.chiptang.isChecked()){
+                    infoFill.add("Giá tăng dần");
+                } else{
+                    infoFill.add("Giá giảm dần");
+                }
 
                 //Lấy giá trị từ loại dịch vụ
                 String loaiDichVu = binding.cmbDichVu.getSelectedItem().toString();
@@ -183,7 +192,7 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedDistrict = (String) parent.getItemAtPosition(position);
-                loadWards(selectedDistrict);
+                //loadWards(selectedDistrict);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -220,37 +229,6 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
         binding.cmbQuan.setSelection(-1);
     }
 
-    private void loadWards(String selectedDistrict) {
-        wardList = new ArrayList<>();
-        wardList.add("-- Chọn xã/phường --");
-        try {
-            JSONObject jsonObject = new JSONObject(loadJSONFromAsset("data.json"));
-            JSONArray dataArray = jsonObject.getJSONArray("data");
-            for (int i = 0; i < dataArray.length(); i++) {
-                JSONObject provinceObject = dataArray.getJSONObject(i);
-                JSONArray districtArray = provinceObject.getJSONArray("level2s");
-                for (int j = 0; j < districtArray.length(); j++) {
-                    JSONObject districtObject = districtArray.getJSONObject(j);
-                    String districtName = districtObject.getString("name");
-                    if (districtName.equals(selectedDistrict)) {
-                        JSONArray wardArray = districtObject.getJSONArray("level3s");
-                        for (int k = 0; k < wardArray.length(); k++) {
-                            JSONObject wardObject = wardArray.getJSONObject(k);
-                            String wardName = wardObject.getString("name");
-                            wardList.add(wardName);
-                        }
-                        break;
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        ArrayAdapter<String> wardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, wardList);
-        wardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.cmbXa.setAdapter(wardAdapter);
-        binding.cmbXa.setSelection(-1);
-    }
 
     private String loadJSONFromAsset(String filename) {
         String json = null;

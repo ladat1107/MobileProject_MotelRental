@@ -8,9 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.motel.mobileproject_motelrental.Item.Image;
 import com.motel.mobileproject_motelrental.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -32,7 +35,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        holder.imageView.setImageResource(imageList.get(position).getImage());
+        //holder.imageView.setImageResource(imageList.get(position).getImage());
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference pathReference = storageReference.child("Image/ImageMotel/"+ imageList.get(position).getImage());
+
+        pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
+            Picasso.get().load(uri).into(holder.imageView);
+        }).addOnFailureListener(exception -> {});
     }
 
     @Override

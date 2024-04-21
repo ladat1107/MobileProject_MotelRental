@@ -9,9 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.Item.MotelItem;
 import com.motel.mobileproject_motelrental.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -66,7 +69,13 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
         }
 
         public void bind(MotelItem motelItem) {
-            motelImage.setImageResource(motelItem.getMotelImage());
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference pathReference = storageReference.child("Image/ImageMotel/"+ motelItem.getMotelImage());
+
+            pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                Picasso.get().load(uri).into(motelImage);
+            }).addOnFailureListener(exception -> {});
+
             title.setText(motelItem.getTitle());
             address.setText(motelItem.getAddress());
             likeCount.setText(motelItem.getLikeCount() + " lượt yêu thích.");

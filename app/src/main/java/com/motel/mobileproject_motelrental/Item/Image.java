@@ -1,13 +1,13 @@
 package com.motel.mobileproject_motelrental.Item;
 
 public class Image {
-    private int image;
+    private String image;
 
-    public Image(int image){
+    public Image(String image){
         this.image=image;
     }
 
-    public int getImage(){
+    public String getImage(){
         return image;
     }
 }

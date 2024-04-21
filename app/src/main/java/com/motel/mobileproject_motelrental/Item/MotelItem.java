@@ -2,12 +2,12 @@ package com.motel.mobileproject_motelrental.Item;
 
 public class MotelItem {
     private String id;
-    private int motelImage;
+    private String motelImage;
     private String title;
     private String address;
     private int likeCount;
 
-    public MotelItem(String id, int motelImage, String title, String address, int likeCount) {
+    public MotelItem(String id, String motelImage, String title, String address, int likeCount) {
         this.id = id;
         this.motelImage = motelImage;
         this.title = title;
@@ -19,7 +19,7 @@ public class MotelItem {
         return id;
     }
 
-    public int getMotelImage() {
+    public String getMotelImage() {
         return motelImage;
     }
 

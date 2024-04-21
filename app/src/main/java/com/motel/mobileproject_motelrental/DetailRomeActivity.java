@@ -34,8 +34,9 @@ public class DetailRomeActivity extends AppCompatActivity {
     private ImageAdapter adapter;
     private String TAG = "DetailRomeActivity";
     private String motelId;
+    long likeCount;
     DecimalFormat decimalFormat = new DecimalFormat("#,###");
-    boolean isFavorite = false;
+    boolean isFavorite = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,6 @@ public class DetailRomeActivity extends AppCompatActivity {
         binding.viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         motelId = getIntent().getStringExtra("motelId");
 
-        FillImage();
         FillDetail();
         FillComment();
 
@@ -54,28 +54,21 @@ public class DetailRomeActivity extends AppCompatActivity {
                 // Đổi icon khi click
                 if (isFavorite) {
                     binding.btnYeuThich.setImageResource(R.drawable.img_love_red);
+                    likeCount ++;
                     isFavorite = false;
                 } else {
                     binding.btnYeuThich.setImageResource(R.drawable.img_love);
+                    likeCount --;
                     isFavorite = true;
                 }
+                binding.txtLove.setText(likeCount + " lượt yêu thích");
             }
         });
     }
 
-    public void FillImage(){
-        imageList = new ArrayList<>();
-        imageList.add(new Image(R.drawable.imgroom));
-        imageList.add(new Image(R.drawable.imgroom));
-        imageList.add(new Image(R.drawable.imgroom));
-        imageList.add(new Image(R.drawable.imgroom));
-        adapter = new ImageAdapter(imageList, binding.viewPager2);
-        binding.viewPager2.setAdapter(adapter);
-    }
-
     public void FillDetail(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("motels").document(motelId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection(Constants.KEY_COLLECTION_MOTELS).document(motelId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -83,34 +76,43 @@ public class DetailRomeActivity extends AppCompatActivity {
                     if (document.exists()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
                         // Hiển thị dữ liệu từ document lên giao diện
-                        binding.txtTitle.setText(document.getString("title"));
-                        long likeCount = document.getLong("like");
+                        binding.txtTitle.setText(document.getString(Constants.KEY_TITLE));
+                        likeCount = document.getLong(Constants.KEY_COUNT_LIKE);
                         binding.txtLove.setText(likeCount + " lượt yêu thích");
-                        binding.txtAddress.setText(document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city"));
-                        binding.txtCharac.setText(document.getString("characteristic"));
-                        long price = document.getLong("price");
+                        binding.txtAddress.setText(document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getLong(Constants.KEY_WARD_MOTEL) + ", " + document.getLong(Constants.KEY_DISTRICT_MOTEL) + ", " + document.getLong(Constants.KEY_CITY_MOTEL));
+                        binding.txtCharac.setText(document.getString(Constants.KEY_CHARACTERISTIC));
+                        long price = document.getLong(Constants.KEY_PRICE);
                         String formattedMinValue = decimalFormat.format(price);
                         binding.txtPrice.setText(formattedMinValue + " VND/tháng");
 
-                        binding.txtDescription.setText(document.getString("description"));
-                        binding.bedroom.setText(document.getLong("bedroom") + " phòng ngủ");
-                        binding.bathroom.setText(document.getLong("bathroom") + " phòng tắm");
-                        binding.area.setText(document.getLong("acreage") + " m2");
+                        imageList = new ArrayList<>();
+                        List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                        for(String url : imageUrls){
+                            imageList.add(new Image(url));
+                        }
+                        adapter = new ImageAdapter(imageList, binding.viewPager2);
+                        binding.viewPager2.setAdapter(adapter);
+
+                        binding.txtDescription.setText(document.getString(Constants.KEY_DESCRIPTION));
+
+                        if(document.getLong(Constants.KEY_PRICE_PARKING) >= 0) binding.bedroom.setText("Bãi đậu xe");
+                        else binding.bedroom.setText("Không có bãi đậu xe");
+
+                        if(document.getBoolean(Constants.KEY_NO_HOST) == true) binding.bathroom.setText("Chung chủ");
+                        else binding.bathroom.setText("Không chung chủ");
+
+                        binding.area.setText(document.getLong(Constants.KEY_ACREAGE) + " m2");
 
                         List<TagItem> listTag = new ArrayList<>();
-                        //if(document.getLong("fridge") > 0) listTag.add(new TagItem("Tủ lạnh"));
-                        //if(document.getLong("air conditioning") > 0) listTag.add(new TagItem("Điều hòa"));
-                        //if(document.getLong("washing machine") > 0) listTag.add(new TagItem("Máy giặt"));
-                        //if(document.getLong("garet") > 0) listTag.add(new TagItem("Gác lửng"));
-                        //if(document.getLong("car park") > 0) listTag.add(new TagItem("Bãi đậu xe"));
-                        //if(document.getLong("Wireless") >= 0) listTag.add(new TagItem("Wifi"));
-                        //if (document.getString("starttime") == null) listTag.add(new TagItem("Giờ giấc tự do"));
+                        if(document.getLong(Constants.KEY_COUNT_FRIDGE) > 0) listTag.add(new TagItem("Tủ lạnh"));
+                        if(document.getLong(Constants.KEY_COUNT_AIRCONDITIONER) > 0) listTag.add(new TagItem("Điều hòa"));
+                        if(document.getLong(Constants.KEY_COUNT_WASHING_MACHINE) > 0) listTag.add(new TagItem("Máy giặt"));
+                        if(document.getBoolean(Constants.KEY_GARET) == true) listTag.add(new TagItem("Gác lửng"));
 
-                        listTag.add(new TagItem("Tủ lạnh"));
-                        listTag.add(new TagItem("Điều hòa"));
-                        listTag.add(new TagItem("Máy giặt"));
-                        listTag.add(new TagItem("Gác lửng"));
-                        listTag.add(new TagItem("Bãi đậu xe"));
+                        /////////////////////////////
+                        //if(document.getLong("Wireless") >= 0) listTag.add(new TagItem("Wifi"));
+                        ////////////////////////////
+                        if (document.getString(Constants.KEY_START_TIME) == null) listTag.add(new TagItem("Giờ giấc tự do"));
 
                         TagAdapter adapterTag = new TagAdapter(listTag);
                         adapterTag.attachToFlowLayout(binding.flowtag);
