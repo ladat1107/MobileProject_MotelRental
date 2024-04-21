@@ -50,6 +50,12 @@ public class RoomPostedListActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         FillList();
+        binding.btnHideAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideAllMotel();
+            }
+        });
         binding.sendback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +64,35 @@ public class RoomPostedListActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void hideAllMotel() {
+        Query query = db.collection("images").whereEqualTo(Constants.KEY_POST_AUTHOR, "hdUDaeIQeIbErYFNakZw");
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        DocumentReference docRef = db.collection("images").document(id);
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put(Constants.KEY_STATUS_MOTEL, false);
+                        docRef.update(updates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d(TAG, "Document hide all successfully");
+                                        } else {
+                                            Log.w(TAG, "Error hide all document", task.getException());
+                                        }
+                                    }
+                                });
+                    }
+                }
+            }
+        });
+    }
+
     public void FillList() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.recyclerViewKetQua.setLayoutManager(layoutManager);
