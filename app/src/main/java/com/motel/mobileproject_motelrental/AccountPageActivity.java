@@ -16,6 +16,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,6 +27,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 import java.util.HashMap;
 
 public class AccountPageActivity extends AppCompatActivity {
@@ -34,6 +37,9 @@ public class AccountPageActivity extends AppCompatActivity {
     PreferenceManager preferenceManager;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageReference;
+
+    PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,9 +148,8 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         }
     }
-
-    private void GetAvatarOnFireBase() {
-        DocumentReference docRef = db.collection("users").document("hdUDaeIQeIbErYFNakZw");
+    private void GetAvatarOnFireBase(){
+        DocumentReference docRef = db.collection("users").document("mCaJHMcCp9utfUBjF3eu");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -152,12 +157,12 @@ public class AccountPageActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
-                        StorageReference httpsReference = storage.getReferenceFromUrl(document.getString("image"));
-                        httpsReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                        storageReference = FirebaseStorage.getInstance().getReference();
+                        StorageReference  pathReference = storageReference.child("images/"+document.getString(Constants.KEY_IMAGE));
+                        pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
                             Picasso.get().load(uri).into(imgAvatar);
-                        }).addOnFailureListener(exception -> {
-                        });
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getString("image"));
+                        }).addOnFailureListener(exception -> {});
+                        Log.d(TAG, "DocumentSnapshot data: " + pathReference);
                     } else {
                         Log.d(TAG, "No such document");
                     }
