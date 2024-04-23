@@ -112,10 +112,11 @@ public class VerificateActivity extends AppCompatActivity {
             showToast("Thành công");
             preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
             preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-            Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }).addOnFailureListener(exception -> {
+            Log.e("That bai:", "Thuaaa");
             showToast(exception.getMessage());
         });
     }
@@ -138,6 +139,7 @@ public class VerificateActivity extends AppCompatActivity {
             ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.e("Thành công", "");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
