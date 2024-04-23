@@ -8,14 +8,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.Interface.OnItemLongClickListener;
 import com.motel.mobileproject_motelrental.Item.InfoMotelItem;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.List;
+
 
 public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.MotelViewHolder> {
     private List<InfoMotelItem> infoMotelItemList;
@@ -86,9 +91,16 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
         }
 
         public void bind(InfoMotelItem motelItem) {
-            imageView.setImageResource(motelItem.getImageResource());
+
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference pathReference = storageReference.child("Image/ImageMotel/"+ motelItem.getImageResource());
+
+            pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                Picasso.get().load(uri).into(imageView);
+            }).addOnFailureListener(exception -> {});
+
             txtTitle.setText(motelItem.getTitle());
-            txtLike.setText(String.valueOf(motelItem.getLikeCount()) + " lượt yêu thích");
+            txtLike.setText(motelItem.getLikeCount() + " lượt yêu thích");
             String formattedMinValue = decimalFormat.format(motelItem.getPrice());
             txtPrice.setText(formattedMinValue);
             txtAddress.setText(motelItem.getAddress());

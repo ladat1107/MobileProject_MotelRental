@@ -3,7 +3,6 @@ package com.motel.mobileproject_motelrental;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,30 +12,24 @@ import android.view.View;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.motel.mobileproject_motelrental.Adapter.ChipAdapter;
 import com.motel.mobileproject_motelrental.Adapter.InfoMotelAdapter;
-import com.motel.mobileproject_motelrental.Adapter.MotelAdapter;
 import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
-import com.motel.mobileproject_motelrental.Interface.OnQueryCompleteListener;
 import com.motel.mobileproject_motelrental.Item.ChipItem;
 import com.motel.mobileproject_motelrental.Item.InfoMotelItem;
-import com.motel.mobileproject_motelrental.Item.MotelItem;
 import com.motel.mobileproject_motelrental.databinding.ActivityFillter2Binding;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class Fillter2Activity extends AppCompatActivity {
     private ActivityFillter2Binding binding;
@@ -86,10 +79,15 @@ public class Fillter2Activity extends AppCompatActivity {
 
     public void FillChip(String[] receivedArray){
         List<ChipItem> chipItemList = new ArrayList<>();
-        if (receivedArray.length >= 5) {
-            for (int i = 5; i < receivedArray.length; i++) {
+        if (receivedArray.length >= 4) {
+            for (int i = 4; i < receivedArray.length; i++) {
                 String chip = receivedArray[i];
-                chipItemList.add(new ChipItem(chip));
+
+                if(chip.equals("Tất cả")) {
+                }
+                else {
+                    chipItemList.add(new ChipItem(chip));
+                }
             }
         } else {
             String chip = receivedArray[0];
@@ -113,29 +111,36 @@ public class Fillter2Activity extends AppCompatActivity {
         List<InfoMotelItem> motelList = new ArrayList<>();
         InfoMotelAdapter adapterInfo = new InfoMotelAdapter(motelList);
 
-        Query query;
+        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS);
 
-        if(fillter.equals("Phòng trọ")){
-            query = db.collection("motels").whereEqualTo("typeID", 1);
-        } else if(fillter.equals("Chung cư")){
-            query = db.collection("motels").whereEqualTo("typeID", 2);
-        }else if(fillter.equals("Ở ghép")){
-            query = db.collection("motels").whereEqualTo("typeID", 4);
-        }else if(fillter.equals("Được yêu thích")){
-            query = db.collection("motels").orderBy("like", Query.Direction.DESCENDING);
-        }else if(fillter.equals("Bình luận nhiều")){
-            FillListBinhLuan(adapterInfo, motelList);
-            return;
-        }else {
-            query = db.collection("motels");
-        }
-
-        if(putType != 0){
-            handelFilterPage(query, receivedArray, adapterInfo, motelList);
-        } else {
+        if(putType == 0){
+            if(fillter.equals("Phòng trọ")){
+                query = query.whereEqualTo(Constants.KEY_TYPE_ID, 1);
+            } else if(fillter.equals("Chung cư")) {
+                query = query.whereEqualTo(Constants.KEY_TYPE_ID, 2);
+            } else if(fillter.equals("Nhà nguyên căn")) {
+                query = query.whereEqualTo(Constants.KEY_TYPE_ID, 3);
+            } else if(fillter.equals("Ở ghép")) {
+                query = query.whereEqualTo(Constants.KEY_TYPE_ID, 4);
+            }else if(fillter.equals("Được yêu thích")){
+                query = db.collection(Constants.KEY_COLLECTION_MOTELS).orderBy("like", Query.Direction.DESCENDING);
+            }else if(fillter.equals("Bình luận nhiều")){
+                //FillListBinhLuan(adapterInfo, motelList);
+                return;
+            } else {
+                query = db.collection(Constants.KEY_COLLECTION_MOTELS);
+            }
             handleHomePage(query, adapterInfo, motelList);
+        } else{
+            if(receivedArray[4].equals("Giá tăng dần")){
+                query = query.orderBy(Constants.KEY_PRICE, Query.Direction.ASCENDING);
+            } else if(receivedArray[4].equals("Giá giảm dần")){
+                query = query.orderBy(Constants.KEY_PRICE, Query.Direction.DESCENDING);
+            }else {
+                query = db.collection(Constants.KEY_COLLECTION_MOTELS);
+            }
+            handelFilterPage(query, fillter, receivedArray, adapterInfo, motelList);
         }
-
         adapterInfo.setOnItemRecycleClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -163,18 +168,24 @@ public class Fillter2Activity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     int sl = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        String id = document.getId();
-                        String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
-                        int like = document.getLong("like").intValue();
-                        long price = document.getLong("price");
-                        String title = document.getString("title");
+                        if(document.getBoolean(Constants.KEY_STATUS_MOTEL) == true){
+                            String id = document.getId();
+                            String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getLong(Constants.KEY_WARD_MOTEL) + ", " + document.getLong(Constants.KEY_DISTRICT_MOTEL) + ", " + document.getLong(Constants.KEY_CITY_MOTEL);
+                            int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
+                            long price = document.getLong(Constants.KEY_PRICE);
+                            String title = document.getString(Constants.KEY_TITLE);
 
-                        InfoMotelItem motel = new InfoMotelItem(id, R.drawable.imgroom, title, like, price, motelAddress, 0 );
-                        motelList.add(motel);
+                            List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                            String imgRes = imageUrls.get(0);
 
-                        sl++;
+                            InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0 );
+                            motelList.add(motel);
+
+                            sl++;
+                        }
                     }
                     binding.recyclerViewKetQua.setAdapter(adapterInfo);
+                    adapterInfo.notifyDataSetChanged();
                     binding.txtSoKQ.setText("Tìm thấy " + sl + " kết quả");
                 } else {
                     Log.w(TAG, "Error getting documents.", task.getException());
@@ -183,10 +194,24 @@ public class Fillter2Activity extends AppCompatActivity {
         });
     }
 
-    public void handelFilterPage(Query query, String[] receivedArray, InfoMotelAdapter adapterInfo, List<InfoMotelItem> motelList){
+    public void handelFilterPage(Query query, String fillter, String[] receivedArray, InfoMotelAdapter adapterInfo, List<InfoMotelItem> motelList){
 
-        int minValue = Integer.parseInt(receivedArray[3]);
-        int maxValue = Integer.parseInt(receivedArray[4]);
+        int tinh = Integer.parseInt(receivedArray[0]);
+        int quan = Integer.parseInt(receivedArray[1]);
+
+        int minValue = Integer.parseInt(receivedArray[2]);
+        int maxValue = Integer.parseInt(receivedArray[3]);
+
+        long type = 0;
+        if(fillter.equals("Phòng trọ")){
+            type = 1;
+        } else if(fillter.equals("Chung cư")) {
+            type = 2;
+        } else if(fillter.equals("Nhà nguyên căn")) {
+            type = 3;
+        } else if(fillter.equals("Ở ghép")) {
+            type = 4;
+        }
 
         List<String> listChipType = new ArrayList<>();
 
@@ -207,65 +232,101 @@ public class Fillter2Activity extends AppCompatActivity {
                 listChipType.add("car park");
             }
         }
+        long finalType = type;
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     int sl = 0;
                     for(QueryDocumentSnapshot document : task.getResult()){
-                        int check = 0;
+                        int checkStatus = 0, checkType = 0, checkAddress = 0, checkPrice = 0, checkChip = 0;
                         if (putType != 0) {
-                            long price = document.getLong("price");
+
+                            Boolean status = document.getBoolean(Constants.KEY_STATUS_MOTEL);
+                            if(status == false){
+                                checkStatus = 1;
+                            }
+
+                            long typeID = document.getLong(Constants.KEY_TYPE_ID);
+                            if (typeID != finalType) {
+                                checkType = 1;
+                            }
+
+                            if(finalType == 0) checkType = 0;
+
+                            long city = document.getLong(Constants.KEY_CITY_MOTEL);
+                            long district = document.getLong(Constants.KEY_DISTRICT_MOTEL);
+
+                            if(tinh == 0){
+                                checkAddress = 0;
+                            } else if(quan == 0){
+                                if(city != tinh){
+                                    checkAddress = 1;
+                                }
+                            }
+                            else {
+                                if(city != tinh || district != quan){
+                                    checkAddress = 1;
+                                }
+                            }
+
+                            long price = document.getLong(Constants.KEY_PRICE);
                             if (price < minValue || price > maxValue) {
-                                check = 1;
+                                checkPrice = 1;
                             } else {
                                 for (String item : listChipType) {
-                                    long value = document.getLong(item);
+                                    if(document.get(item) == null){
+                                        checkChip = 1;
+                                        break;
+                                    }
+                                    int value = document.getLong(item).intValue();
                                     switch (item) {
-                                        case "fridge":
-                                        case "air conditioning":
-                                        case "washing machine":
-                                        case "garet":
-                                        case "car park":
-                                            if (value > 0) {
-                                                check = 0;
-                                            } else {
-                                                check = 1;
+                                        case Constants.KEY_COUNT_FRIDGE:
+                                        case Constants.KEY_COUNT_AIRCONDITIONER:
+                                        case Constants.KEY_COUNT_WASHING_MACHINE:
+                                            if (value == 0) {
+                                                checkChip = 1;
                                                 break;
                                             }
                                             break;
-                                        case "Wireless":
-                                            if (value >= 0) {
-                                                check = 0;
-                                            } else {
-                                                check = 1;
+                                        case Constants.KEY_PRICE_WIFI:
+                                        case Constants.KEY_PRICE_PARKING:
+                                            if (value < 0) {
+                                                checkChip = 1;
                                                 break;
                                             }
                                             break;
-                                        case "starttime":
-                                            if (document.getString("starttime") == null) {
-                                                check = 0;
-                                            } else {
-                                                check = 1;
+                                        case Constants.KEY_GARET:
+                                            if (document.getBoolean(Constants.KEY_GARET) != true) {
+                                                checkChip = 1;
+                                                break;
+                                            }
+                                            break;
+                                        case Constants.KEY_START_TIME:
+                                            if (document.getString(Constants.KEY_START_TIME) != null) {
+                                                checkChip = 1;
                                                 break;
                                             }
                                             break;
                                     }
-                                    if (check == 1) {
+                                    if (checkChip == 1) {
                                         break;
                                     }
                                 }
                             }
                         }
 
-                        if(check == 0){
+                        if(checkChip == 0 && checkPrice == 0 && checkAddress == 0 && checkType == 0 && checkStatus == 0){
                             String id = document.getId();
-                            String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
-                            int like = document.getLong("like").intValue();
-                            long price = document.getLong("price");
-                            String title = document.getString("title");
+                            String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getLong(Constants.KEY_WARD_MOTEL) + ", " + document.getLong(Constants.KEY_DISTRICT_MOTEL) + ", " + document.getLong(Constants.KEY_CITY_MOTEL);
+                            int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
+                            long price = document.getLong(Constants.KEY_PRICE);
+                            String title = document.getString(Constants.KEY_TITLE);
 
-                            InfoMotelItem motel = new InfoMotelItem(id, R.drawable.imgroom, title, like, price, motelAddress, 0 );
+                            List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                            String imgRes = imageUrls.get(0);
+
+                            InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0 );
                             motelList.add(motel);
 
                             sl++;
@@ -281,7 +342,7 @@ public class Fillter2Activity extends AppCompatActivity {
         });
     }
 
-    public void FillListBinhLuan(InfoMotelAdapter adapterBinhLuan, List<InfoMotelItem> motelList){
+  /*  public void FillListBinhLuan(InfoMotelAdapter adapterBinhLuan, List<InfoMotelItem> motelList){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.recyclerViewKetQua.setLayoutManager(layoutManager);
 
@@ -375,5 +436,5 @@ public class Fillter2Activity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
+    }*/
 }

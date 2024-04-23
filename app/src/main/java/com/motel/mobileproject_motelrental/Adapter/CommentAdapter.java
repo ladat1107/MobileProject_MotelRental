@@ -9,8 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.motel.mobileproject_motelrental.Item.CommentItem;
 import com.motel.mobileproject_motelrental.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -52,7 +55,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
 
         public void bind(CommentItem commentItem) {
-            avatarImageView.setImageResource(commentItem.getAvatarResource());
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference pathReference = storageReference.child("avatar/"+ commentItem.getAvatarResource());
+
+            pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                Picasso.get().load(uri).into(avatarImageView);
+            }).addOnFailureListener(exception -> {});
+
             nameTextView.setText(commentItem.getName());
             dayTextView.setText(commentItem.getDay());
             contentTextView.setText(commentItem.getContent());
