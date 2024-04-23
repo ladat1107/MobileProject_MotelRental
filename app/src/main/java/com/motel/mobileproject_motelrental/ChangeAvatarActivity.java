@@ -81,7 +81,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     if(photo != null) {
-                        UploadPhotoToStorage("hdUDaeIQeIbErYFNakZw");
+                        UploadPhotoToStorage("mCaJHMcCp9utfUBjF3eu");
                         photo = null;
                         imvAvatar.setImageURI(null);
                     }
@@ -172,14 +172,12 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CANADA);
         Date now = new Date();
         String fileName = formatter.format(now);
-        storageReference = FirebaseStorage.getInstance().getReference("avatar/"+fileName);
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+fileName);
         storageReference.putFile(photo).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                    DocumentReference userRef = db.collection("users").document(documentPath);
-                    userRef.update("image", uri.toString());
-                });
+                DocumentReference userRef = db.collection("users").document(documentPath);
+                userRef.update(Constants.KEY_IMAGE, fileName);
                 Toast.makeText(ChangeAvatarActivity.this,"Successfully Uploaded",Toast.LENGTH_SHORT).show();
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
