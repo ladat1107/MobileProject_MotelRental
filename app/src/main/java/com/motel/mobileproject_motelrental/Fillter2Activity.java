@@ -131,19 +131,16 @@ public class Fillter2Activity extends AppCompatActivity {
                 query = db.collection(Constants.KEY_COLLECTION_MOTELS);
             }
             handleHomePage(query, adapterInfo, motelList);
-            return;
+        } else{
+            if(receivedArray[4].equals("Giá tăng dần")){
+                query = query.orderBy(Constants.KEY_PRICE, Query.Direction.ASCENDING);
+            } else if(receivedArray[4].equals("Giá giảm dần")){
+                query = query.orderBy(Constants.KEY_PRICE, Query.Direction.DESCENDING);
+            }else {
+                query = db.collection(Constants.KEY_COLLECTION_MOTELS);
+            }
+            handelFilterPage(query, fillter, receivedArray, adapterInfo, motelList);
         }
-
-        if(receivedArray[4].equals("Giá tăng dần")){
-            query = query.orderBy(Constants.KEY_PRICE, Query.Direction.ASCENDING);
-        } else if(receivedArray[4].equals("Giá giảm dần")){
-            query = query.orderBy(Constants.KEY_PRICE, Query.Direction.DESCENDING);
-        }else {
-            query = db.collection(Constants.KEY_COLLECTION_MOTELS);
-        }
-
-        handelFilterPage(query, fillter, receivedArray, adapterInfo, motelList);
-
         adapterInfo.setOnItemRecycleClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -188,6 +185,7 @@ public class Fillter2Activity extends AppCompatActivity {
                         }
                     }
                     binding.recyclerViewKetQua.setAdapter(adapterInfo);
+                    adapterInfo.notifyDataSetChanged();
                     binding.txtSoKQ.setText("Tìm thấy " + sl + " kết quả");
                 } else {
                     Log.w(TAG, "Error getting documents.", task.getException());

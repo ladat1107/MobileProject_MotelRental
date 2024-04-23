@@ -108,7 +108,10 @@ public class RoomPostedListActivity extends AppCompatActivity {
                         int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
                         long price = document.getLong(Constants.KEY_PRICE);
                         String title = document.getString(Constants.KEY_TITLE);
-                        InfoMotelItem motel = new InfoMotelItem(id, R.drawable.imgroom, title, like, price, motelAddress, 0);
+
+                        List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                        String imgRes = imageUrls.get(0);
+                        InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0);
                         motelList.add(motel);
                         sl++;
                     }
