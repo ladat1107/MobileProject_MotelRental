@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -52,7 +53,8 @@ public class HomePageActivity extends AppCompatActivity {
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         preferenceManager = new PreferenceManager(getApplicationContext()) ;
         //displayavatar();
-        //getToken();
+        binding.imageProfile.setImageBitmap(getBitmapFromEncodedString(preferenceManager.getString(Constants.KEY_IMAGE)));
+        getToken();
         setContentView(binding.getRoot());
         binding.tvUserName.setText(preferenceManager.getString(Constants.KEY_NAME ));
         binding.dangtro.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +191,7 @@ public class HomePageActivity extends AppCompatActivity {
                 finish();*/
                 return true;
             } else if(id == R.id.user){
-                startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
+                startActivity(new Intent(getApplicationContext(), AccountPageActivity.class));
                 finish();
                 return true;
             }
@@ -446,5 +448,10 @@ public class HomePageActivity extends AppCompatActivity {
     }
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+    private Bitmap getBitmapFromEncodedString(String encodedImage) {
+        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);;
+        return bitmap;
     }
 }

@@ -1,5 +1,6 @@
 package com.motel.mobileproject_motelrental;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,9 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -17,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.motel.mobileproject_motelrental.databinding.ActivityMainBinding;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -37,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(getApplicationContext());
         binding.txt.setText("Xin chào " + preferenceManager.getString(Constants.KEY_USER_ID));
         binding.imageSignOut.setOnClickListener(v -> SignOut());
-        displayavatar();
+        //displayavatar();
 
-//        binding.imageProfile.setImageBitmap(getBitmapFromEncodedString(preferenceManager.getString(Constants.KEY_IMAGE)));
+        binding.imageProfile.setImageBitmap(getBitmapFromEncodedString(preferenceManager.getString(Constants.KEY_IMAGE)));
         getToken();
     }
 
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private Bitmap getBitmapFromEncodedString(String encodedImage) {
         byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);;
+        return bitmap;
     }
 }
