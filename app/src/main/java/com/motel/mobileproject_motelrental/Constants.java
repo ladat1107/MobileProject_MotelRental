@@ -7,8 +7,8 @@ public class Constants {
     public static final String KEY_BIRTHDAY = "day of birth";           // ngày sinh                                timestamp
     public static final String KEY_HOUSE_NUMBER = "house number";       // số nhà                                   string
     public static final String KEY_WARD = "ward user";                       //xã, phường                                string
-    public static final String KEY_DISTRICT = "district  user";               //quận, huyện                               string
-    public static final String KEY_CITY = "city  user";                       // tỉnh, thành phố                          string
+    public static final String KEY_DISTRICT = "district user";               //quận, huyện                               string
+    public static final String KEY_CITY = "city user";                       // tỉnh, thành phố                          string
     public static final String KEY_EMAIL = "email";                     // email (cũng là tài khoản đăng nhập)      string
     public static final String KEY_PASSWORD = "password";               // mật khẩu                                 string
     public static final String KEY_IMAGE = "image";                     // ảnh đại diện người dùng                  string

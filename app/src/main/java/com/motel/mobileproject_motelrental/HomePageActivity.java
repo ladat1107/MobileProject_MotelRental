@@ -51,8 +51,8 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         preferenceManager = new PreferenceManager(getApplicationContext()) ;
-        displayavatar();
-        getToken();
+        //displayavatar();
+        //getToken();
         setContentView(binding.getRoot());
         binding.tvUserName.setText(preferenceManager.getString(Constants.KEY_NAME ));
         binding.dangtro.setOnClickListener(new View.OnClickListener() {
