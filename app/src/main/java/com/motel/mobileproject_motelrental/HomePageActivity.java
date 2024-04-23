@@ -199,7 +199,8 @@ public class HomePageActivity extends AppCompatActivity {
 
     public void FillListYeuThich(){
         LinearLayoutManager layoutManagerYeuThich = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        binding.recyclerViewYeuThich.setLayoutManager(layoutManagerYeuThich);List<MotelItem> motelList = new ArrayList<>();
+        binding.recyclerViewYeuThich.setLayoutManager(layoutManagerYeuThich);
+        List<MotelItem> motelList = new ArrayList<>();
         MotelAdapter adapterYeuThich = new MotelAdapter(motelList);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

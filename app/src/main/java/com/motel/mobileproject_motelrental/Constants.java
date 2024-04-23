@@ -57,7 +57,9 @@ public class Constants {
     public static final String KEY_NAME_TYPE = "type";          // tên loại trọ (trọ, chung cư, nhà nguyên căn)     string
 
     public static final String KEY_COLLECTION_COMMENTS = "comments"; // tên collection
-    public static final String KEY_COMMENTER = "commenter";         // documentid của người bình luận               string
+    public static final String KEY_COMMENTER = "commenter";         // documentid của người bình luận
+    public static final String KEY_COMMENTER_NAME = "commenter name"; // tên người bình luận                         string
+    public static final String KEY_COMMENTER_IMAGE = "commenter image"; // ảnh đại diện người bình luận              string
     public static final String KEY_COMMENT_MOTEL = "comment motel"; //documentid của trọ được đăng bài              string
     public static final String KEY_TIME_COMMENT = "time comment";   // thòi gian bình luận                          timestamp
     public static final String KEY_CONTENT_COMMENT = "content comment"; // nội dung của bình luận                   string
