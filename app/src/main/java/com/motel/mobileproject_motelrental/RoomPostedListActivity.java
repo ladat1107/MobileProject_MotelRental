@@ -79,6 +79,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
+                                            FillList();
                                             Log.d(TAG, "Document hide all successfully");
                                         } else {
                                             Log.w(TAG, "Error hide all document", task.getException());
@@ -96,7 +97,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
         binding.recyclerViewKetQua.setLayoutManager(layoutManager);
         List<InfoMotelItem> motelList = new ArrayList<>();
         InfoMotelAdapter adapterInfo = new InfoMotelAdapter(motelList);
-        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, "hdUDaeIQeIbErYFNakZw");
+        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, "T4bY78MCThCeOlObu3z2");
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -104,15 +105,17 @@ public class RoomPostedListActivity extends AppCompatActivity {
                     int sl = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String id = document.getId();
-                        String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getLong(Constants.KEY_WARD_MOTEL) + ", " + document.getLong(Constants.KEY_DISTRICT_MOTEL) + ", " + document.getLong(Constants.KEY_CITY_MOTEL);
+                        String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getString(Constants.KEY_WARD_NAME) + ", " + document.getString(Constants.KEY_DISTRICT_NAME) + ", " + document.getString(Constants.KEY_CITY_NAME);
                         int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
                         long price = document.getLong(Constants.KEY_PRICE);
                         String title = document.getString(Constants.KEY_TITLE);
-
+                        boolean status = document.getBoolean(Constants.KEY_STATUS_MOTEL);
                         List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
                         String imgRes = imageUrls.get(0);
-                        InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0);
+
+                        InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0 ,status);
                         motelList.add(motel);
+
                         sl++;
                     }
                     binding.recyclerViewKetQua.setAdapter(adapterInfo);
@@ -172,6 +175,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
+                                                FillList();
                                                 Log.d(TAG, "Document updated successfully");
                                             } else {
                                                 Log.w(TAG, "Error updating document", task.getException());
@@ -187,6 +191,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
+                                                FillList();
                                                 Log.d(TAG, "Document updated successfully");
                                             } else {
                                                 Log.w(TAG, "Error updating document", task.getException());

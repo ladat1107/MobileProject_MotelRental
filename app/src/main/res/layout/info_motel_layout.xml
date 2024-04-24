@@ -103,6 +103,18 @@
                     android:text="100 bình luận"
                     android:textColor="#a7a7a7"/>
             </LinearLayout>
+            <TextView
+                android:id="@+id/tvHide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã ẩn"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/ld_hide"
+                android:textSize="20dp"
+                android:fontFamily="@font/roboto_medium"
+                android:visibility="gone"
+                />
         </LinearLayout>
     </LinearLayout>
 

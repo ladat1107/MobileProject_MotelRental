@@ -129,6 +129,15 @@ public class DetailRomeActivity extends AppCompatActivity {
         });
 
         binding.imgBack.setOnClickListener(v -> onBackPressed());
+        binding.btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailRomeActivity.this, MapActivity.class);
+                intent.putExtra("lo", binding.tvHideLo.getText());
+                intent.putExtra("la",binding.tvHideLa.getText());
+                startActivity(intent);
+            }
+        });
         binding.btnYeuThich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -320,6 +329,8 @@ public class DetailRomeActivity extends AppCompatActivity {
                         long price = document.getLong(Constants.KEY_PRICE);
                         String formattedMinValue = decimalFormat.format(price);
                         binding.txtPrice.setText(formattedMinValue + " VND/tháng");
+                        binding.tvHideLa.setText(document.getDouble(Constants.KEY_LATITUDE).toString());
+                        binding.tvHideLo.setText(document.getDouble(Constants.KEY_LONGTITUDE).toString());
 
                         imageList = new ArrayList<>();
                         List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
