@@ -3,6 +3,7 @@ package com.motel.mobileproject_motelrental;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +37,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     TextInputLayout layoutOldPass, layoutNewPass, layoutRepeatPass;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Button btnQuenMatKhau;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         EditTextAction(etRepeatPass, layoutRepeatPass);
         UpdatePass();
         GetBack();
+        QuenMatKhau();
     }
     private void GetBack(){
         btnBack = (Button) findViewById(R.id.btnBack);
@@ -79,6 +83,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 layout.setBoxStrokeColor(Color.parseColor("#0c7094"));
                 layout.setHelperText("");
                 return false;
+            }
+        });
+    }
+    private void QuenMatKhau(){
+        btnQuenMatKhau = findViewById(R.id.btnQuenMatKhau);
+        btnQuenMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+                startActivity(intent);
             }
         });
     }

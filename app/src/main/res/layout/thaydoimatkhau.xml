@@ -140,6 +140,17 @@
                         app:boxBackgroundColor="@color/bluesee"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:layout_marginTop="330dp"
+                    android:layout_marginLeft="170dp"
+                    android:id="@+id/btnQuenMatKhau"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quên mật khẩu?"
+                    android:textColor="@color/bluesee"
+                    app:background="@null"
+                    android:textAllCaps="false"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
