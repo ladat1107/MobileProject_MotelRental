@@ -69,7 +69,8 @@ public class BasicInformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_basic_information);
         binding = ActivityBasicInformationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        String formattedDate = dateFormat.format(myCalendar.getTime());
+        binding.etNgayChuyenToi.setText(formattedDate);
         db = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(getApplicationContext());
         loadDataBack();

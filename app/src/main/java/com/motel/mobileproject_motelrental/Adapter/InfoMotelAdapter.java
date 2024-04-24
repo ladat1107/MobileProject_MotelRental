@@ -106,6 +106,8 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
             txtPrice.setText(formattedMinValue);
             txtAddress.setText(motelItem.getAddress());
             txtComment.setText(String.valueOf(motelItem.getCommentCount()));
+            if(motelItem.isStatus()==true) txtHide.setVisibility(View.GONE);
+            else txtHide.setVisibility(View.VISIBLE);
         }
     }
     public void setOnItemRecycleClickListener(OnItemClickListener onItemClickListener) {

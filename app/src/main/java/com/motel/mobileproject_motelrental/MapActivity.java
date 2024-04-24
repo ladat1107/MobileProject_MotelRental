@@ -71,11 +71,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         binding = ActivityMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        if(getIntent().getStringExtra("lo")!=null)
+            longitude= Double.parseDouble(getIntent().getStringExtra("lo"));
+        if(getIntent().getStringExtra("la")!=null)
+            latitude= Double.parseDouble(getIntent().getStringExtra("la"));
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMapHome);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(MapActivity.this);
-
         binding.btnHienTai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,14 +121,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return false;
             }
         });
-
-
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
-        getLastLocation();
+        if(longitude!=0 && latitude!=0){
+            LatLng latLng = new LatLng(latitude, longitude);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        }
+        else {
+            getLastLocation();
+        }
+
         googleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {

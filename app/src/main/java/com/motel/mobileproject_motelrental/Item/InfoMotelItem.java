@@ -10,7 +10,7 @@ public class InfoMotelItem {
     private int commentCount;
     private  boolean status;
 
-    public InfoMotelItem(String id, String imageResource, String title, int likeCount, double price, String address, int commentCount) {
+    public InfoMotelItem(String id, String imageResource, String title, int likeCount, double price, String address, int commentCount, boolean status) {
         this.id = id;
         this.imageResource = imageResource;
         this.title = title;

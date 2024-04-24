@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -53,7 +54,10 @@ import java.util.List;
 import java.util.Map;
 
 public class CameraActivity extends AppCompatActivity implements GalleryAdapter.OnItemClickListener {
+    private static final int STORAGE_PERMISSION_CODE = 1003;
     private ActivityCameraBinding binding;
+    private static final int REQUEST_CAMERA_PERMISSION = 1001;
+    private static final int REQUEST_VIDEO_PERMISSION = 1002;
     private static final String TAG = "CameraActivity";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_VIDEO_CAPTURE = 2;
@@ -86,6 +90,9 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         setContentView(R.layout.activity_camera);
         binding = ActivityCameraBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        requestVideoPermission();
+        requestCameraPermission();
+        requestStoragePermission();
         db = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerView);
@@ -249,13 +256,12 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                 Constants.KEY_WARD_NAME
         );
     }
-
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         } else {
-            showErrorMessage("Không thể mở camera");
+            CustomToast.makeText(this, "Không thể mở camera", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
         }
     }
 
@@ -264,12 +270,8 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
         } else {
-            showErrorMessage("Không thể mở ứng dụng quay video");
+            CustomToast.makeText(this, "Không thể mở ứng dụng quay video", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
         }
-    }
-
-    private void showErrorMessage(String message) {
-        CustomToast.makeText(this, message, CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
     }
 
     @Override
@@ -281,9 +283,10 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 Uri imageUri = getImageUri(this, imageBitmap);
                 selectedUris.add(imageUri);
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged(); // Update RecyclerView
             } else {
                 CustomToast.makeText(this, "Không có mục nào được chọn", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+
             }
         } else if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK && data != null) {
             Uri videoUri = data.getData();
@@ -293,13 +296,33 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
     }
 
     private Uri getImageUri(CameraActivity context, Bitmap bitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        /*ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
-        return Uri.parse(path);
+        return Uri.parse(path);*/
+        File imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imageFile = new File(imagesDir, "image_" + System.currentTimeMillis() + ".jpg");
+
+        try {
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
+            return Uri.fromFile(imageFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    private Uri saveImageToInternalStorage(Bitmap bitmap) {
+
+
+    private void showErrorMessage(String message) {
+        CustomToast.makeText(this, message, CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+    }
+
+
+
+    /*private Uri saveImageToInternalStorage(Bitmap bitmap) {
         // Tạo thư mục để lưu ảnh trong bộ nhớ trong của ứng dụng
         File directory = new File(getFilesDir() + "/images");
         if (!directory.exists()) {
@@ -319,7 +342,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     private void getImagesForMotel() {//Lấy ảnh từ FireBase rồi hiển thị lên recycleView
         DocumentReference docRef = db.collection(Constants.KEY_COLLECTION_MOTELS).document(preferenceManager.getString("motelIDTemp"));
@@ -342,12 +365,11 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                             // Chuyển mảng byte thành Bitmap
                             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                             // Lưu ảnh vào bộ nhớ trong và nhận Uri của tệp ảnh đã lưu
-                            Uri imageUri = saveImageToInternalStorage(bitmap);
+                            Uri imageUri = getImageUri(this, bitmap);
                             // Kiểm tra xem Uri có hợp lệ không trước khi thêm vào danh sách
                             if (imageUri != null) {
                                 selectedUris.add(imageUri);
                                 adapter.notifyDataSetChanged();
-                                // Cập nhật RecyclerView
                             } else {
                                 Log.e(TAG, "Không thể lưu ảnh vào bộ nhớ trong.");
                             }
@@ -410,6 +432,44 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
             });
         }
     }
+    private void requestCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        }
+    }
+
+    private void requestVideoPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, REQUEST_VIDEO_PERMISSION);
+        }
+    }
+    private void requestStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Quyền camera đã được cấp, thực hiện các hành động cần thiết ở đây
+            } else {
+                showErrorMessage("Không thể mở ứng dụng Camera");
+            }
+        }
+        else if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Quyền truy cập bộ nhớ đã được cấp, thực hiện các hành động cần thiết ở đây
+            } else {
+                showErrorMessage("Không có quyền bộ nhớ");
+            }
+        }
+    }
+
+
+
 }
 
 

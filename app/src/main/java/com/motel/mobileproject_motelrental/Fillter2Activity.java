@@ -199,7 +199,7 @@ public class Fillter2Activity extends AppCompatActivity {
                             List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
                             String imgRes = imageUrls.get(0);
 
-                            InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0 );
+                            InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0, true);
                             motelList.add(motel);
 
                             sl++;
@@ -347,7 +347,7 @@ public class Fillter2Activity extends AppCompatActivity {
                             List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
                             String imgRes = imageUrls.get(0);
 
-                            InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0 );
+                            InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0, true );
                             motelList.add(motel);
 
                             sl++;
@@ -422,7 +422,7 @@ public class Fillter2Activity extends AppCompatActivity {
                                                         List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
                                                         String imgRes = imageUrls.get(0);
 
-                                                        InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0 );
+                                                        InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0, true );
                                                         motelList.add(motel);
 
                                                         sl[0]++;

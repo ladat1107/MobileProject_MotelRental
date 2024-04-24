@@ -46,7 +46,6 @@ public class HomePageActivity extends AppCompatActivity {
     private ActivityHomePageBinding binding;
     private String TAG = "HomePageActivity";
     PreferenceManager preferenceManager;
-    StorageReference storageReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
