@@ -20,21 +20,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 public class AccountPageActivity extends AppCompatActivity {
     Button btnDanhSachYeuThich, btnDangTro, btnTroDaDang, btnDoiThongTin, btnDangXuat, btnThayDoiMatKhau, btnDoiAvatar;
     ImageView imgAvatar;
+    PreferenceManager preferenceManager;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_account_page);
+
         ChuyenSangDangTro();
         ChuyenSangDanhSachPhongDang();
         ChuyenSangDanhSachYeuThich();
@@ -42,8 +48,25 @@ public class AccountPageActivity extends AppCompatActivity {
         ChuyenSangDoiThongTin();
         ChuyenSangDoiAvatar();
         GetAvatarOnFireBase();
+        btnDangXuat = findViewById(R.id.btnDangXuat);
+        btnDangXuat.setOnClickListener(v -> {
+            showToast("Signing out...");
+        preferenceManager = new PreferenceManager(getApplicationContext());
+            db = FirebaseFirestore.getInstance();
+            DocumentReference documentReference = db.collection(Constants.KEY_COLLECTION_USERS).document(preferenceManager.getString(Constants.KEY_USER_ID));
+            HashMap<String, Object> updates = new HashMap<>();
+            updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+            documentReference.update(updates).addOnSuccessListener(unused -> {preferenceManager.clear();
+                startActivity(new Intent(getApplicationContext(),SignInActivity.class));}).addOnFailureListener(e -> showToast("Unable to sign out"));
+        });
     }
-    private void ChuyenSangDangTro(){
+
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void ChuyenSangDangTro() {
         btnDangTro = (Button) findViewById(R.id.btnDangPhong);
         btnDangTro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +76,8 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         });
     }
-    private void ChuyenSangDanhSachPhongDang(){
+
+    private void ChuyenSangDanhSachPhongDang() {
         btnTroDaDang = (Button) findViewById(R.id.btnPhongDaDang);
         btnTroDaDang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +87,8 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         });
     }
-    private void ChuyenSangDanhSachYeuThich(){
+
+    private void ChuyenSangDanhSachYeuThich() {
         btnDanhSachYeuThich = (Button) findViewById(R.id.btnDanhSachYeuThich);
         btnDanhSachYeuThich.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +98,8 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         });
     }
-    private void ChuyenSangDoiAvatar(){
+
+    private void ChuyenSangDoiAvatar() {
         btnDoiAvatar = (Button) findViewById(R.id.btnDoiAvatar);
         btnDoiAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +109,8 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         });
     }
-    private void ChuyenSangDoiMatKhau(){
+
+    private void ChuyenSangDoiMatKhau() {
         btnThayDoiMatKhau = (Button) findViewById(R.id.btnThayDoiMatKhau);
         btnThayDoiMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +120,8 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         });
     }
-    private void ChuyenSangDoiThongTin(){
+
+    private void ChuyenSangDoiThongTin() {
         btnDoiThongTin = (Button) findViewById(R.id.btnThayDoiThongTin);
         btnDoiThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +131,7 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -113,7 +142,8 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         }
     }
-    private void GetAvatarOnFireBase(){
+
+    private void GetAvatarOnFireBase() {
         DocumentReference docRef = db.collection("users").document("hdUDaeIQeIbErYFNakZw");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -125,7 +155,8 @@ public class AccountPageActivity extends AppCompatActivity {
                         StorageReference httpsReference = storage.getReferenceFromUrl(document.getString("image"));
                         httpsReference.getDownloadUrl().addOnSuccessListener(uri -> {
                             Picasso.get().load(uri).into(imgAvatar);
-                        }).addOnFailureListener(exception -> {});
+                        }).addOnFailureListener(exception -> {
+                        });
                         Log.d(TAG, "DocumentSnapshot data: " + document.getString("image"));
                     } else {
                         Log.d(TAG, "No such document");

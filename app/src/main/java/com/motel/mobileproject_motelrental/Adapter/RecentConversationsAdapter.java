@@ -1,4 +1,4 @@
-package com.example.testchatapp.adapters;
+package com.motel.mobileproject_motelrental.Adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.testchatapp.databinding.ItemContainerRecentConversionBinding;
-import com.example.testchatapp.listeners.ConversionListener;
-import com.example.testchatapp.models.ChatMessage;
-import com.example.testchatapp.models.User;
+
+import com.motel.mobileproject_motelrental.Interface.ConversionListener;
+import com.motel.mobileproject_motelrental.Model.ChatMessage;
+import com.motel.mobileproject_motelrental.Model.User;
+import com.motel.mobileproject_motelrental.databinding.ItemContainerRecentConversionBinding;
 
 import java.util.List;
 

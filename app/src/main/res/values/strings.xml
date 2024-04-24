@@ -12,6 +12,7 @@
     <string name="phone_number">Số điện thoại</string>
     <string name="anh_v_video"><![CDATA[Ảnh & Video]]></string>
     <string name="ReSendCode"><![CDATA[Gửi lại mã ]]></string>
+    <string name="online">Đang hoạt động</string>
     <array name="initial_slider_values">
         <item>0</item>
         <item>500</item>

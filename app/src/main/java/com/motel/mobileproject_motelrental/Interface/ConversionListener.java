@@ -1,6 +1,7 @@
-package com.example.testchatapp.listeners;
+package com.motel.mobileproject_motelrental.Interface;
 
-import com.example.testchatapp.models.User;
+
+import com.motel.mobileproject_motelrental.Model.User;
 
 public interface ConversionListener {
     void onConversionClicked(User user);

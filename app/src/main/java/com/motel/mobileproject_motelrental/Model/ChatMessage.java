@@ -1,2 +1,9 @@
-package com.motel.mobileproject_motelrental.Model;public class ChatMessage {
+package com.motel.mobileproject_motelrental.Model;
+
+import java.util.Date;
+
+public class ChatMessage {
+    public String senderId, receiverId, message, dateTime;
+    public Date dateObject;
+    public String conversionId, conversionName, conversionImage;
 }

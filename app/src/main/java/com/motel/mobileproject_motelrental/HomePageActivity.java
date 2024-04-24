@@ -167,8 +167,7 @@ public class HomePageActivity extends AppCompatActivity {
             if(id == R.id.map){
                 return true;
             } else if(id == R.id.message){
-                startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
-
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 return true;
             } else if(id == R.id.love){
                 /*startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
