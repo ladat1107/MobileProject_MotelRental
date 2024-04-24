@@ -19,6 +19,7 @@ import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private List<CommentItem> commentItemList;
+    boolean islike = false;
 
     public CommentAdapter(List<CommentItem> commentItemList) {
         this.commentItemList = commentItemList;
@@ -35,6 +36,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         CommentItem commentItem = commentItemList.get(position);
         holder.bind(commentItem);
+
+        holder.imgLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(islike == false){
+                    holder.imgLike.setImageResource(R.drawable.imglikeblue);
+                    islike = true;
+                } else {
+                    holder.imgLike.setImageResource(R.drawable.img_like);
+                    islike = false;
+                }
+            }
+        });
     }
 
     @Override
@@ -43,12 +57,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
-        private ImageView avatarImageView;
+        private ImageView avatarImageView, imgLike;
         private TextView nameTextView, dayTextView, contentTextView;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             avatarImageView = itemView.findViewById(R.id.cmtavatar);
+            imgLike = itemView.findViewById(R.id.cmtlike);
             nameTextView = itemView.findViewById(R.id.cmtname);
             dayTextView = itemView.findViewById(R.id.cmtday);
             contentTextView = itemView.findViewById(R.id.cmtcontent);

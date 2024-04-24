@@ -29,7 +29,7 @@ public class Constants {
     public static final String KEY_MOTEL_NUMBER = "motel number";   // số nhà của trọ                               string
     public static final String KEY_WARD_MOTEL = "ward";              //xã, phường                                   string
     public static final String KEY_DISTRICT_MOTEL = "district";      //quận, huyện                                  string
-    public static final String KEY_CITY_MOTEL = "city";             // tỉnh, thành phố                              string
+     public static final String KEY_CITY_MOTEL = "city";             // tỉnh, thành phố                              string
     public static final String KEY_WARD_NAME = "ward name";              //xã, phường                                string
     public static final String KEY_DISTRICT_NAME = "district name";      //quận, huyện                               string
     public static final String KEY_CITY_NAME = "city name";             // tỉnh, thành phố                          string
@@ -64,10 +64,15 @@ public class Constants {
     public static final String KEY_TIME_COMMENT = "time comment";   // thòi gian bình luận                          timestamp
     public static final String KEY_CONTENT_COMMENT = "content comment"; // nội dung của bình luận                   string
 
-    public static final String KEY_COLLECTION_LIKES = "likes";  // tên collection
-    public static final String KEY_POST_LIKER = "post liker";   //documentid của người like                         string
+    public static final String KEY_COLLECTION_LIKES = "likemotels";  // tên collection
+    public static final String KEY_MOTEL_LIKER = "liker";   //documentid của người like                         string
     public static final String KEY_LIKED_MOTEL = "liked motel"; //documentid của trọ                                string
-    public static final String KEY_TIME_LIKE = "time like";     // thời gian like                                   timestamp
+    public static final String KEY_LIKED_MOTEL_TITLE = "motel title";
+    public static final String KEY_LIKED_MOTEL_IMAGE = "motel image";
+    public static final String KEY_LIKED_MOTEL_LIKE_COUNT = "motel like";
+    public static final String KEY_LIKED_MOTEL_PRICE = "motel price";
+    public static final String KEY_LIKED_MOTEL_ADDRESS = "motel address";
+    public static final String KEY_LIKED_MOTEL_COMMENT_COUNT = "motel comment";
 
     public static final String KEY_PREFERENCE_NAME = "MotelRentalAppPreference";
     public static final String KEY_IS_SIGNED_IN = "isSignedIn";

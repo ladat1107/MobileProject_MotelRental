@@ -147,26 +147,10 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
-        //FillListBinhLuan();
+        FillListBinhLuan();
         FillListPhoBien();
         FillListYeuThich();
         MenuClick();
-    }
-
-    private void displayavatar() {
-        storageReference = FirebaseStorage.getInstance().getReference().child("images/" + preferenceManager.getString(Constants.KEY_IMAGE));
-        try{
-            File localfile = File.createTempFile("tempfile", ".jpg");
-            storageReference.getFile(localfile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
-                    binding.imageProfile.setImageBitmap(bitmap);
-                }
-            });
-        }catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void MenuClick(){
@@ -217,7 +201,10 @@ public class HomePageActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                        if(document.getBoolean(Constants.KEY_STATUS_MOTEL) == true){
                            String id = document.getId();
-                           String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getLong(Constants.KEY_WARD) + ", " + document.getLong(Constants.KEY_DISTRICT) + ", " + document.getLong(Constants.KEY_CITY);
+                           String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", "
+                                   + document.getString(Constants.KEY_WARD_NAME) + ", "
+                                   + document.getString(Constants.KEY_DISTRICT_NAME) + ", "
+                                   + document.getString(Constants.KEY_CITY_NAME);
                            int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
                            String title = document.getString(Constants.KEY_TITLE);
                            List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
@@ -248,7 +235,7 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    /*public void FillListBinhLuan(){
+    public void FillListBinhLuan(){
         LinearLayoutManager layoutManagerBinhLuan = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         binding.recyclerViewDanhGia.setLayoutManager(layoutManagerBinhLuan);
 
@@ -268,11 +255,11 @@ public class HomePageActivity extends AppCompatActivity {
 
                             // Đếm số lượng comment cho mỗi motelID
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String motelID = document.getString("motelID");
-                                if (commentCounts.containsKey(motelID)) {
-                                    commentCounts.put(motelID, commentCounts.get(motelID) + 1);
+                                String id = document.getString(Constants.KEY_COMMENT_MOTEL);
+                                if (commentCounts.containsKey(id)) {
+                                    commentCounts.put(id, commentCounts.get(id) + 1);
                                 } else {
-                                    commentCounts.put(motelID, 1);
+                                    commentCounts.put(id, 1);
                                 }
                             }
 
@@ -288,47 +275,50 @@ public class HomePageActivity extends AppCompatActivity {
                             // Tạo danh sách chứa chỉ các motelID đã sắp xếp
 
                             for (Map.Entry<String, Integer> entry : sortedComments) {
-                                String motelID = entry.getKey();
-                                sortedMotelIDs.add(motelID);
+                                String id = entry.getKey();
+                                sortedMotelIDs.add(id);
                             }
 
                             // Lấy thông tin chi tiết của các motel từ Firestore
-                            for (String motelID : sortedMotelIDs) {
-                                db.collection("motels")
-                                        .document(motelID)
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    DocumentSnapshot document = task.getResult();
-                                                    if (document.exists()) {
-                                                        String id = document.getId();
-                                                        String motelAddress = document.getString("motel number") + ", " + document.getString("ward") + ", " + document.getString("district") + ", " + document.getString("city");
-                                                        int like = document.getLong("like").intValue();
-                                                        String title = document.getString("title");
+                            for (String id : sortedMotelIDs) {
+                                    db.collection(Constants.KEY_COLLECTION_MOTELS)
+                                            .document(id)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document.getBoolean(Constants.KEY_STATUS_MOTEL) == true && document.exists()) {
+                                                            String id = document.getId();
+                                                            String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", "
+                                                                    + document.getString(Constants.KEY_WARD_NAME) + ", "
+                                                                    + document.getString(Constants.KEY_DISTRICT_NAME) + ", "
+                                                                    + document.getString(Constants.KEY_CITY_NAME);
+                                                            int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
+                                                            String title = document.getString(Constants.KEY_TITLE);
+                                                            List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                                                            String imgRes = imageUrls.get(1);
 
-                                                        List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
-                                                        String imgRes = imageUrls.get(1);
+                                                            MotelItem motel = new MotelItem(id, imgRes, title, motelAddress, like);
 
-                                                        MotelItem motel = new MotelItem(id, imgRes, title, motelAddress, like);
+                                                            // Thêm đối tượng Motel vào danh sách
+                                                            motelList.add(motel);
 
-                                                        // Thêm đối tượng Motel vào danh sách
-                                                        motelList.add(motel);
-
-                                                        // Kiểm tra nếu đã lấy thông tin của tất cả các motel thì cập nhật giao diện
-                                                        if (motelList.size() == sortedMotelIDs.size()) {
-                                                            // Cập nhật giao diện
-                                                            adapterBinhLuan.notifyDataSetChanged();
+                                                            // Kiểm tra nếu đã lấy thông tin của tất cả các motel thì cập nhật giao diện
+                                                            if (motelList.size() == sortedMotelIDs.size()) {
+                                                                // Cập nhật giao diện
+                                                                adapterBinhLuan.notifyDataSetChanged();
+                                                            }
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
                                                         }
                                                     } else {
-                                                        Log.d(TAG, "No such document");
+                                                        Log.d(TAG, "get failed with ", task.getException());
                                                     }
-                                                } else {
-                                                    Log.d(TAG, "get failed with ", task.getException());
                                                 }
-                                            }
-                                        });
+                                            });
+
                             }
 
                             // Nếu không có motel nào trong danh sách motelIDs, cập nhật giao diện ngay lập tức
@@ -352,7 +342,7 @@ public class HomePageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }*/
+    }
 
     public void FillListPhoBien(){
         LinearLayoutManager layoutManagerPhoBien = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -371,7 +361,7 @@ public class HomePageActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if(document.getBoolean(Constants.KEY_STATUS_MOTEL) == true){
                             String id = document.getId();
-                            String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getLong(Constants.KEY_WARD) + ", " + document.getLong(Constants.KEY_DISTRICT) + ", " + document.getLong(Constants.KEY_CITY);
+                            String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getString(Constants.KEY_WARD_NAME) + ", " + document.getString(Constants.KEY_DISTRICT_NAME) + ", " + document.getString(Constants.KEY_CITY_NAME);
                             int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
                             String title = document.getString(Constants.KEY_TITLE);
 
