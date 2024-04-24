@@ -164,13 +164,16 @@ public class HomePageActivity extends AppCompatActivity {
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if(id == R.id.map){
+                startActivity(new Intent(getApplicationContext(), MapActivity.class));
+                finish();
                 return true;
             } else if(id == R.id.message){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
                 return true;
             } else if(id == R.id.love){
-                /*startActivity(new Intent(getApplicationContext(), Fillter2Activity.class));
-                finish();*/
+                startActivity(new Intent(getApplicationContext(), ListFavoriteActivity.class));
+                finish();
                 return true;
             } else if(id == R.id.user){
                 startActivity(new Intent(getApplicationContext(), AccountPageActivity.class));
