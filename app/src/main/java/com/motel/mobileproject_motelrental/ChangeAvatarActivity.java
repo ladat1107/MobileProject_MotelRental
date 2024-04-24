@@ -59,11 +59,12 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     StorageReference storageReference;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    PreferenceManager preferenceManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.thaydoiavatar);
+        preferenceManager = new PreferenceManager(getApplicationContext());
         ChangeAvatarAction();
     }
     private void ChangeAvatarAction(){
@@ -81,7 +82,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     if(photo != null) {
-                        UploadPhotoToStorage("mCaJHMcCp9utfUBjF3eu");
+                        UploadPhotoToStorage(preferenceManager.getString(Constants.KEY_USER_ID));
                         photo = null;
                         imvAvatar.setImageURI(null);
                     }

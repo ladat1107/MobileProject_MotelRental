@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,29 +20,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.motel.mobileproject_motelrental.databinding.ActivityHomePageBinding;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
 public class AccountPageActivity extends AppCompatActivity {
-    Button btnDanhSachYeuThich, btnDangTro, btnTroDaDang, btnDoiThongTin, btnDangXuat, btnThayDoiMatKhau, btnDoiAvatar;
+
+    Button btnDanhSachYeuThich, btnDangTro, btnTroDaDang, btnDoiThongTin, btnDangXuat, btnThayDoiMatKhau, btnDoiAvatar, btnHome;
     ImageView imgAvatar;
+    TextView txtName, txtDateOfBirth, txtAddress;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageReference;
 
+    BottomNavigationView bottomNavigation;
     PreferenceManager preferenceManager;
-
+    HomePageActivity homePageActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_account_page);
+        preferenceManager = new PreferenceManager(getApplicationContext());
         ChuyenSangDangTro();
         ChuyenSangDanhSachPhongDang();
         ChuyenSangDanhSachYeuThich();
@@ -121,7 +128,7 @@ public class AccountPageActivity extends AppCompatActivity {
         }
     }
     private void GetAvatarOnFireBase(){
-        DocumentReference docRef = db.collection("users").document("mCaJHMcCp9utfUBjF3eu");
+        DocumentReference docRef = db.collection("users").document(preferenceManager.getString(Constants.KEY_USER_ID));
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
