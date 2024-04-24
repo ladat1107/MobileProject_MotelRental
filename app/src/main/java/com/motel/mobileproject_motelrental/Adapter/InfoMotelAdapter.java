@@ -76,7 +76,7 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
 
     public class MotelViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
-        private TextView txtTitle, txtLike, txtPrice, txtAddress, txtComment;
+        private TextView txtTitle, txtLike, txtPrice, txtAddress, txtComment, txtHide;
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
 
 
@@ -88,6 +88,7 @@ public class InfoMotelAdapter extends RecyclerView.Adapter<InfoMotelAdapter.Mote
             txtPrice = itemView.findViewById(R.id.txtGia);
             txtAddress = itemView.findViewById(R.id.txtDiaChi);
             txtComment = itemView.findViewById(R.id.txtBinhLuan);
+            txtHide = itemView.findViewById(R.id.tvHide);
         }
 
         public void bind(InfoMotelItem motelItem) {

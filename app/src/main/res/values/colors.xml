@@ -7,6 +7,7 @@
     <color name="dark_gray">#8A8A8A</color>
     <color name="ld_color">#077BB4</color>
     <color name="ld_edittext">#81cffd</color>
+    <color name="ld_hide">#FFC400</color>
     <color name="bluebutton">#00639C</color>
     <color name="bgcolor">#F7FCFF</color>
     <color name="bluecustom">#85d3df</color>

@@ -7,12 +7,14 @@ public class MotelItem {
     private String address;
     private int likeCount;
 
+
     public MotelItem(String id, String motelImage, String title, String address, int likeCount) {
         this.id = id;
         this.motelImage = motelImage;
         this.title = title;
         this.address = address;
         this.likeCount = likeCount;
+
     }
 
     public String getId() {

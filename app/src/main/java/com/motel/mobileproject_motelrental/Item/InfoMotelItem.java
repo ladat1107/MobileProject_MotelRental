@@ -8,6 +8,7 @@ public class InfoMotelItem {
     private double price;
     private String address;
     private int commentCount;
+    private  boolean status;
 
     public InfoMotelItem(String id, String imageResource, String title, int likeCount, double price, String address, int commentCount) {
         this.id = id;
@@ -17,6 +18,7 @@ public class InfoMotelItem {
         this.price = price;
         this.address = address;
         this.commentCount = commentCount;
+        this.status = status;
     }
     public String getId() {
         return id;
@@ -44,6 +46,14 @@ public class InfoMotelItem {
 
     public int getCommentCount() {
         return commentCount;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
 
