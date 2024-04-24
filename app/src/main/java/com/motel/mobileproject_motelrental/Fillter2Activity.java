@@ -236,7 +236,7 @@ public class Fillter2Activity extends AppCompatActivity {
 
         List<String> listChipType = new ArrayList<>();
 
-        for(int i = 6; i<receivedArray.length; i++){
+        for(int i = 0; i<receivedArray.length; i++){
             if(receivedArray[i].equals("Tủ lạnh")){
                 listChipType.add("fridge");
             } else if(receivedArray[i].equals("Máy lạnh")){
