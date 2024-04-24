@@ -31,10 +31,6 @@ public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
     private PreferenceManager preferenceManager;
     StorageReference storageReference;
-    private CountdownTimerHelper countdownTimerHelper;
-
-
-    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,8 +173,5 @@ public class SignInActivity extends AppCompatActivity {
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
-    private void CountDownTimer() {
 
-
-    }
 }
