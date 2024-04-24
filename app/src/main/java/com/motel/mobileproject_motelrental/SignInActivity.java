@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.motel.mobileproject_motelrental.Interface.BitmapCallback;
 import com.motel.mobileproject_motelrental.databinding.ActivitySignInBinding;
 
 import java.io.ByteArrayOutputStream;
@@ -83,22 +84,19 @@ public class SignInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_EMAIL, documentSnapshot.getString(Constants.KEY_EMAIL));
                         preferenceManager.putString(Constants.KEY_PASSWORD, documentSnapshot.getString(Constants.KEY_PASSWORD));
                         preferenceManager.putString(Constants.KEY_PHONE_NUMBER, documentSnapshot.getString(Constants.KEY_PHONE_NUMBER));
-                        endcodeImage(documentSnapshot.getString(Constants.KEY_IMAGE), new BitmapCallback() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap) {
-                                    if (bitmap != null) {
-                                        Log.e("Step2", "");
-                                        String base64String = bitmapToBase64(bitmap);
-                                        preferenceManager.putString(Constants.KEY_IMAGE, base64String);
-                                        Log.e("Step4", "");
-                                        Log.e("Step5", "");
-                                        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        Log.e("Step6", "");
-                                    }
-                                }
-                            });
+                        endcodeImage(documentSnapshot.getString(Constants.KEY_IMAGE), bitmap -> {
+                            if (bitmap != null) {
+                                Log.e("Step2", "");
+                                String base64String = bitmapToBase64(bitmap);
+                                preferenceManager.putString(Constants.KEY_IMAGE, base64String);
+                                Log.e("Step4", "");
+                                Log.e("Step5", "");
+                                Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                Log.e("Step6", "");
+                            }
+                        });
 
 
                     } else {
@@ -160,10 +158,7 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    // Interface để định nghĩa callback
-    interface BitmapCallback {
-        void onBitmapLoaded(Bitmap bitmap);
-    }
+
 
 
     public String bitmapToBase64(Bitmap bitmap) {

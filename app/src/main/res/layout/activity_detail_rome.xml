@@ -434,19 +434,47 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
         android:background="@color/white">
-
         <Button
+            android:id="@+id/btnLienHe"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_button"
+            app:icon = "@drawable/ic_phone"
+            app:backgroundTint="@color/red"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="15dp"
+            android:text="Liên hệ"
+        />
+        <Button
+            android:id="@+id/btnNhanTin"
+            android:layout_marginStart="10dp"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_button"
+            app:icon = "@drawable/ic_chat"
+            app:backgroundTint = "@color/green"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="15sp"
+            android:text="Nhắn tin"
+            />
+        <Button
+            android:layout_marginStart="10dp"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="120dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="235dp"
-            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto_bold"
             android:background="@drawable/rounded_button"
             android:text="Thuê ngay"
-            android:textStyle="bold"
+            android:textSize="15sp"
             app:backgroundTint="@null" />
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

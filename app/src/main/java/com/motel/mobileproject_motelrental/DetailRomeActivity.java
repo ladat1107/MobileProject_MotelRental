@@ -2,15 +2,21 @@ package com.motel.mobileproject_motelrental;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -29,15 +35,18 @@ import com.google.firebase.storage.StorageReference;
 import com.motel.mobileproject_motelrental.Adapter.CommentAdapter;
 import com.motel.mobileproject_motelrental.Adapter.ImageAdapter;
 import com.motel.mobileproject_motelrental.Adapter.TagAdapter;
+import com.motel.mobileproject_motelrental.Chat.ChatActivity;
+import com.motel.mobileproject_motelrental.Interface.BitmapCallback;
+import com.motel.mobileproject_motelrental.Interface.StringCallback;
 import com.motel.mobileproject_motelrental.Item.CommentItem;
 import com.motel.mobileproject_motelrental.Item.Image;
 import com.motel.mobileproject_motelrental.Item.InfoMotelItem;
 import com.motel.mobileproject_motelrental.Item.TagItem;
+import com.motel.mobileproject_motelrental.Model.User;
 import com.motel.mobileproject_motelrental.databinding.ActivityDetailRomeBinding;
 import com.squareup.picasso.Picasso;
 
-import org.checkerframework.checker.units.qual.C;
-
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -57,16 +66,22 @@ public class DetailRomeActivity extends AppCompatActivity {
     private ImageAdapter adapter;
     private String TAG = "DetailRomeActivity";
     private String motelId;
+    private String phoneNumber;
     long likeCount;
+    PreferenceManager preferenceManager;
+    StorageReference storageReference;
+
     boolean likeStatus = true;
     DecimalFormat decimalFormat = new DecimalFormat("#,###");
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailRomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        preferenceManager = new PreferenceManager(getApplicationContext());
+        user = new User();
         binding.viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         motelId = getIntent().getStringExtra("motelId");
         CheckLiked(new CallBack() {
@@ -90,9 +105,30 @@ public class DetailRomeActivity extends AppCompatActivity {
         }).addOnFailureListener(exception -> {
         });
 
+        //Lấy thông tin người đăng trọ để setting cho liên hệ
+
+
         FillDetail();
         FillComment();
+        binding.btnLienHe.setOnClickListener(v ->
+        {
 
+            if (ContextCompat.checkSelfPermission(DetailRomeActivity.this, android.Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.e("gọi điện thoại", "phương án 1");
+                // Nếu đã có quyền CALL_PHONE, thực hiện cuộc gọi
+                String dial = "tel:" + phoneNumber;
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(dial));
+                startActivity(intent);
+            } else {
+                Log.e("gọi điện thoại", "phương án 2");
+                // Nếu chưa có quyền CALL_PHONE, yêu cầu cấp quyền từ người dùng
+                ActivityCompat.requestPermissions(DetailRomeActivity.this,
+                        new String[]{Manifest.permission.CALL_PHONE}, 1);
+            }
+        });
+
+        binding.imgBack.setOnClickListener(v -> onBackPressed());
         binding.btnYeuThich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +164,11 @@ public class DetailRomeActivity extends AppCompatActivity {
         });
     }
 
+    private void getInforAuth(String idAuth, StringCallback callback) {
+        if (callback != null) {
+            callback.onStringLoaded(idAuth);
+        }
+    }
     private void CheckLiked(CallBack islike) {
 
         db.collection(Constants.KEY_COLLECTION_LIKES)
@@ -240,6 +281,39 @@ public class DetailRomeActivity extends AppCompatActivity {
                         // Hiển thị dữ liệu từ document lên giao diện
                         binding.txtTitle.setText(document.getString(Constants.KEY_TITLE));
                         likeCount = document.getLong(Constants.KEY_COUNT_LIKE);
+                        getInforAuth(document.getString(Constants.KEY_POST_AUTHOR), id -> {
+                            if (id != null) {
+                                db.collection(Constants.KEY_COLLECTION_USERS).document(id).get()
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful() && task1.getResult() != null) {
+                                                DocumentSnapshot document1 = task1.getResult();
+                                                user.id = id;
+                                                phoneNumber = document1.getString(Constants.KEY_PHONE_NUMBER);
+                                                user.name = document1.getString(Constants.KEY_NAME);
+                                                user.email = document1.getString(Constants.KEY_EMAIL);
+                                                user.token = document1.getString(Constants.KEY_FCM_TOKEN);
+                                                //Log.e("ảnh: ", document1.getString(Constants.KEY_IMAGE));
+                                                endcodeImage(document1.getString(Constants.KEY_IMAGE), bitmap -> {
+                                                    if(bitmap!=null) {
+                                                        user.image = bitmapToBase64(bitmap);
+                                                        binding.btnNhanTin.setOnClickListener(v -> {
+                                                            Log.e("Thông tin user1", user.id);
+                                                            Log.e("Thông tin user2", user.name);
+                                                            Log.e("Thông tin user3", user.email);
+                                                            Log.e("Thông tin user4", phoneNumber);
+                                                            Log.e("Thông tin user5", user.image);
+                                                            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                                                            intent.putExtra(Constants.KEY_USER, user);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        });
+                                                    }
+                                                });
+
+                                            }
+                                        });
+                            }
+                        });
                         binding.txtLove.setText(likeCount + " lượt yêu thích");
                         binding.txtAddress.setText(document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getString(Constants.KEY_WARD_NAME) + ", " + document.getString(Constants.KEY_DISTRICT_NAME) + ", " + document.getString(Constants.KEY_CITY_NAME));
                         binding.txtCharac.setText(document.getString(Constants.KEY_CHARACTERISTIC));
@@ -370,5 +444,36 @@ public class DetailRomeActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void endcodeImage(String ID, BitmapCallback callback) {
+        storageReference = FirebaseStorage.getInstance().getReference().child("images/" + ID);
+        try {
+            File localfile = File.createTempFile("tempfile", ".jpg");
+            storageReference.getFile(localfile).addOnSuccessListener(taskSnapshot -> {
+                Log.e("Step 1", "");
+                Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
+
+                // Gọi callback và chuyển bitmap tới nó
+                if (callback != null) {
+                    callback.onBitmapLoaded(bitmap);
+                }
+            }).addOnFailureListener(exception -> {
+                // Xử lý lỗi nếu quá trình tải xuống thất bại
+                Log.e("TAG", "Download failed: " + exception.getMessage());
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String bitmapToBase64(Bitmap bitmap) {
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 }
