@@ -67,7 +67,9 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
     String provinceUser, districtUser, wardUser;
     List<String> districtList, wardList;
     ProgressDialog progressDialog;
-    TextInputLayout layoutHoVaTen;
+    TextInputLayout layoutHoVaTen, layoutSoDienThoai, layoutSoNha;
+    PreferenceManager preferenceManager;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,16 +83,19 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
         rbNam = (RadioButton) findViewById(R.id.rbNam);
         rbNu = (RadioButton) findViewById(R.id.rbNu);
         layoutHoVaTen = findViewById(R.id.layoutHoVaTen);
+        layoutSoDienThoai = findViewById(R.id.layoutSoDienThoai);
+        layoutSoNha = findViewById(R.id.layoutSoNha);
+        preferenceManager = new PreferenceManager(getApplicationContext());
         GetDataOnFireBase();
         loadJSONData();
         GetBack();
         UpdateInformation();
-        EditTextAction(edHoVaTen);
-        EditTextAction(edSoDienThoai);
-        EditTextAction(edSoNha);
+        EditTextAction(edHoVaTen, layoutHoVaTen);
+        EditTextAction(edSoDienThoai, layoutSoDienThoai);
+        EditTextAction(edSoNha, layoutSoNha);
     }
     @SuppressLint("ClickableViewAccessibility")
-    private void EditTextAction(EditText editText){
+    private void EditTextAction(EditText editText, TextInputLayout layout){
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -103,8 +108,8 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
         editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                layoutHoVaTen.setBoxStrokeColor(Color.parseColor("#0c7094"));
-                layoutHoVaTen.setHelperText("");
+                layout.setBoxStrokeColor(Color.parseColor("#0c7094"));
+                layout.setHelperText("");
                 return false;
             }
         });
@@ -311,8 +316,9 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
                 UpdateUserInformation();
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(btnChinhSua.getWindowToken(), 0);
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
+                edSoNha.clearFocus();
+                edHoVaTen.clearFocus();
+                edSoDienThoai.clearFocus();
             }
         });
     }
@@ -322,18 +328,44 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
         progressDialog.show();
         try {
             int count = 0;
-            DocumentReference docRef = db.collection("users").document("mCaJHMcCp9utfUBjF3eu");
+            DocumentReference docRef = db.collection("users").document(preferenceManager.getString(Constants.KEY_USER_ID));
             if(edHoVaTen.getText().toString().isEmpty()){
                 edHoVaTen.requestFocus();
                 layoutHoVaTen.setBoxStrokeColor(Color.parseColor("#ff5d6c"));
                 layoutHoVaTen.setHelperText("Bắt buộc!");
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                return;
+            }
+            else if(edSoNha.getText().toString().isEmpty()){
+                edHoVaTen.requestFocus();
+                layoutSoNha.setBoxStrokeColor(Color.parseColor("#ff5d6c"));
+                layoutSoNha.setHelperText("Bắt buộc!");
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                return;
+            }
+            String phoneNumber = edSoDienThoai.getText().toString();
+            if(phoneNumber.isEmpty()){
+                edSoDienThoai.requestFocus();
+                layoutSoDienThoai.setBoxStrokeColor(Color.parseColor("#ff5d6c"));
+                layoutSoDienThoai.setHelperText("Bắt buộc!");
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                return;
+            }
+            else if(phoneNumber.length() != 10 || !phoneNumber.matches("[0-9]+")){
+                edSoDienThoai.requestFocus();
+                layoutSoDienThoai.setBoxStrokeColor(Color.parseColor("#ff5d6c"));
+                layoutSoDienThoai.setHelperText("Số điện thoại sai!");
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
                 return;
             }
             else {
-                docRef.update(Constants.KEY_NAME, edHoVaTen.getText().toString());
+                docRef.update(Constants.KEY_PHONE_NUMBER, edSoDienThoai.getText().toString());
             }
-
-            docRef.update(Constants.KEY_PHONE_NUMBER, edSoDienThoai.getText().toString());
+            docRef.update(Constants.KEY_NAME, edHoVaTen.getText().toString());
             docRef.update(Constants.KEY_HOUSE_NUMBER, edSoNha.getText().toString());
             docRef.update(Constants.KEY_CITY, spinnerProvince.getSelectedItem().toString());
             docRef.update(Constants.KEY_DISTRICT, spinnerDistrict.getSelectedItem().toString());
@@ -352,7 +384,7 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
         }
     }
     private void GetDataOnFireBase(){
-        DocumentReference docRef = db.collection("users").document("mCaJHMcCp9utfUBjF3eu");
+        DocumentReference docRef = db.collection("users").document(preferenceManager.getString(Constants.KEY_USER_ID));
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
