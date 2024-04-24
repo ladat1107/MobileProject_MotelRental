@@ -93,6 +93,7 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
         EditTextAction(edHoVaTen, layoutHoVaTen);
         EditTextAction(edSoDienThoai, layoutSoDienThoai);
         EditTextAction(edSoNha, layoutSoNha);
+        setUpSpinners();
     }
     @SuppressLint("ClickableViewAccessibility")
     private void EditTextAction(EditText editText, TextInputLayout layout){
@@ -101,7 +102,7 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(edHoVaTen.getWindowToken(), 0);
+                    inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 }
             }
         });
@@ -316,9 +317,6 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
                 UpdateUserInformation();
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(btnChinhSua.getWindowToken(), 0);
-                edSoNha.clearFocus();
-                edHoVaTen.clearFocus();
-                edSoDienThoai.clearFocus();
             }
         });
     }
@@ -327,7 +325,6 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
         progressDialog.setTitle("Updating...");
         progressDialog.show();
         try {
-            int count = 0;
             DocumentReference docRef = db.collection("users").document(preferenceManager.getString(Constants.KEY_USER_ID));
             if(edHoVaTen.getText().toString().isEmpty()){
                 edHoVaTen.requestFocus();
@@ -363,17 +360,51 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
                 return;
             }
             else {
-                docRef.update(Constants.KEY_PHONE_NUMBER, edSoDienThoai.getText().toString());
+                docRef.update(Constants.KEY_PHONE_NUMBER, edSoDienThoai.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        preferenceManager.putString(Constants.KEY_PHONE_NUMBER, edSoDienThoai.getText().toString());
+                    }
+                });
             }
-            docRef.update(Constants.KEY_NAME, edHoVaTen.getText().toString());
-            docRef.update(Constants.KEY_HOUSE_NUMBER, edSoNha.getText().toString());
-            docRef.update(Constants.KEY_CITY, spinnerProvince.getSelectedItem().toString());
-            docRef.update(Constants.KEY_DISTRICT, spinnerDistrict.getSelectedItem().toString());
-            docRef.update(Constants.KEY_WARD, spinnerWard.getSelectedItem().toString());
+            docRef.update(Constants.KEY_NAME, edHoVaTen.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    preferenceManager.putString(Constants.KEY_NAME, edHoVaTen.getText().toString());
+                }
+            });
+            docRef.update(Constants.KEY_HOUSE_NUMBER, edSoNha.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    preferenceManager.putString(Constants.KEY_HOUSE_NUMBER, edSoNha.getText().toString());
+                }
+            });
+            docRef.update(Constants.KEY_CITY, spinnerProvince.getSelectedItem().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    preferenceManager.putString(Constants.KEY_CITY, spinnerProvince.getSelectedItem().toString());
+                }
+            });
+            docRef.update(Constants.KEY_DISTRICT, spinnerDistrict.getSelectedItem().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    preferenceManager.putString(Constants.KEY_DISTRICT, spinnerDistrict.getSelectedItem().toString());
+                }
+            });
+            docRef.update(Constants.KEY_WARD, spinnerWard.getSelectedItem().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    preferenceManager.putString(Constants.KEY_WARD, spinnerWard.getSelectedItem().toString());
+                }
+            });
             docRef.update(Constants.KEY_GENDER, !rbNam.isChecked()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
+                    preferenceManager.putBoolean(Constants.KEY_GENDER, !rbNam.isChecked());
                     Toast.makeText(ChangeInfomationActivity.this, "Successfully Updated", Toast.LENGTH_SHORT).show();
+                    edSoNha.clearFocus();
+                    edHoVaTen.clearFocus();
+                    edSoDienThoai.clearFocus();
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
                 }
@@ -384,33 +415,18 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
         }
     }
     private void GetDataOnFireBase(){
-        DocumentReference docRef = db.collection("users").document(preferenceManager.getString(Constants.KEY_USER_ID));
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        edHoVaTen.setText(document.getString(Constants.KEY_NAME));
-                        edSoDienThoai.setText(document.getString(Constants.KEY_PHONE_NUMBER));
-                        edSoNha.setText(document.getString(Constants.KEY_HOUSE_NUMBER));
-                        provinceUser = document.getString(Constants.KEY_CITY);
-                        districtUser = document.getString(Constants.KEY_DISTRICT);
-                        wardUser = document.getString(Constants.KEY_WARD);
-                        setUpSpinners();
-                        if (Boolean.TRUE.equals(document.getBoolean(Constants.KEY_GENDER))){
-                            rbNu.setChecked(true);
-                        }
-                        else {
-                            rbNam.setChecked(true);
-                        }
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+        edHoVaTen.setText(preferenceManager.getString(Constants.KEY_NAME).toString());
+        edSoDienThoai.setText(preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
+        edSoNha.setText(preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
+        provinceUser = preferenceManager.getString(Constants.KEY_CITY);
+        districtUser = preferenceManager.getString(Constants.KEY_DISTRICT);
+        wardUser = preferenceManager.getString(Constants.KEY_WARD);
+
+        if (Boolean.TRUE.equals(preferenceManager.getBoolean(Constants.KEY_GENDER))){
+            rbNu.setChecked(true);
+        }
+        else {
+            rbNam.setChecked(true);
+        }
     }
 }
