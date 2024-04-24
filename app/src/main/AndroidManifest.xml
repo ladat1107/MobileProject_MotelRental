@@ -41,7 +41,7 @@
             android:value="AIzaSyDtwGeH4QGHxEGStp3FWK0JFKDG6GSZObs" />
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".HomePageActivity"
             android:exported="false" />
         <activity
             android:name=".ChangeInfomationActivity"
@@ -101,7 +101,7 @@
             android:name=".AccountPageActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePageActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
