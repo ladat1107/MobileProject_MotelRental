@@ -146,7 +146,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         intent.putExtra("uriImage", imageUri);
         intent.putExtra("type", "DangKy");
         startActivity(intent);
-
+        finish();
 //        loading(true);
 ////        Log.e(TAG,"signUp: "+ImageID);
 //        database = FirebaseFirestore.getInstance();
