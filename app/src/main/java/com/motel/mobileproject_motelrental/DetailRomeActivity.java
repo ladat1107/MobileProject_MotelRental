@@ -306,11 +306,11 @@ public class DetailRomeActivity extends AppCompatActivity {
                                                     if(bitmap!=null) {
                                                         user.image = bitmapToBase64(bitmap);
                                                         binding.btnNhanTin.setOnClickListener(v -> {
-                                                            Log.e("Thông tin user1", user.id);
+                                                           /* Log.e("Thông tin user1", user.id);
                                                             Log.e("Thông tin user2", user.name);
                                                             Log.e("Thông tin user3", user.email);
                                                             Log.e("Thông tin user4", phoneNumber);
-                                                            Log.e("Thông tin user5", user.image);
+                                                            Log.e("Thông tin user5", user.image);*/
                                                             Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                                                             intent.putExtra(Constants.KEY_USER, user);
                                                             startActivity(intent);

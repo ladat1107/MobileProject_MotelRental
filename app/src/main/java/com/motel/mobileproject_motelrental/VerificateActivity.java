@@ -2,33 +2,37 @@ package com.motel.mobileproject_motelrental;
 
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.motel.mobileproject_motelrental.Interface.BitmapCallback;
+import com.motel.mobileproject_motelrental.Item.Image;
 import com.motel.mobileproject_motelrental.databinding.ActivityVerificateBinding;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.lang.Thread;
+
+import javax.security.auth.login.LoginException;
 
 public class VerificateActivity extends AppCompatActivity {
     private static String TAG = "VerificateActivity";
@@ -36,11 +40,12 @@ public class VerificateActivity extends AppCompatActivity {
     private CountdownTimerHelper countdownTimerHelper;
     private PreferenceManager preferenceManager;
     FirebaseFirestore database;
-
+    private String encodedImage;
     StorageReference storageReference;
     private String ImageID;
 
     private String code = null;
+    HashMap<String, Object> user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class VerificateActivity extends AppCompatActivity {
         binding = ActivityVerificateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.txtEmail.setText(getIntent().getStringExtra("email"));
+        user = new HashMap<>();
         setListener();
         initState();
 
@@ -81,7 +87,11 @@ public class VerificateActivity extends AppCompatActivity {
                 intent.putExtra("userID", getIntent().getStringExtra("userID"));
                 startActivity(intent);
             } else {
-                signUp();
+                try {
+                    signUp();
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
         } else {
@@ -90,35 +100,19 @@ public class VerificateActivity extends AppCompatActivity {
         }
     }
 
-    private void signUp() {
+    private void signUp() throws FileNotFoundException {
 
         preferenceManager = new PreferenceManager(getApplicationContext());
         uploadImage(getIntent().getParcelableExtra("uriImage"));
-        database = FirebaseFirestore.getInstance();
-        HashMap<String, Object> user = new HashMap<>();
-        user.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
-        user.put(Constants.KEY_GENDER, preferenceManager.getBoolean(Constants.KEY_GENDER));
-        user.put(Constants.KEY_BIRTHDAY, preferenceManager.getString(Constants.KEY_BIRTHDAY));
-        user.put(Constants.KEY_HOUSE_NUMBER, preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
-        user.put(Constants.KEY_WARD, preferenceManager.getString(Constants.KEY_WARD));
-        user.put(Constants.KEY_DISTRICT, preferenceManager.getString(Constants.KEY_DISTRICT));
-        user.put(Constants.KEY_CITY, preferenceManager.getString(Constants.KEY_CITY));
-        user.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
-        user.put(Constants.KEY_PASSWORD, preferenceManager.getString(Constants.KEY_PASSWORD));
-        user.put(Constants.KEY_IMAGE, ImageID);
-        user.put(Constants.KEY_PHONE_NUMBER, preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
-        user.put(Constants.KEY_STATUS_USER, true);
-        database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
-            showToast("Thành công");
-            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-            Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }).addOnFailureListener(exception -> {
-            Log.e("That bai:", "Thuaaa");
-            showToast(exception.getMessage());
-        });
+
+    }
+
+    public String bitmapToBase64(Bitmap bitmap) {
+        Log.e("Step3", "");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
     private void showToast(String message) {
@@ -126,27 +120,83 @@ public class VerificateActivity extends AppCompatActivity {
     }
 
     private void uploadImage(Uri file) {
-        if (file == null) {
-            if (!preferenceManager.getBoolean(Constants.KEY_GENDER))
-                ImageID = "avatar-nam.jpg";
-            else
-                ImageID = "avatar-nu.jpg";
-        } else {
-            ImageID = UUID.randomUUID().toString();
-            Log.e(TAG, "uploadImage: " + ImageID);
-            storageReference = FirebaseStorage.getInstance().getReference();
-            StorageReference ref = storageReference.child("images/" + ImageID);
-            ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.e("Thành công", "");
+
+        upLoadThread uploadImage = new upLoadThread(preferenceManager.getBoolean(Constants.KEY_GENDER) ,file);
+        uploadImage.start();
+
+        try {
+            uploadImage.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ImageID = uploadImage.getImageID();
+        Log.e("ID ảnh: â", ImageID);
+        endcodeImage(ImageID, bitmap -> {
+            if (bitmap != null) {
+                Log.e("bitmap khác null","â");
+                String base64String = bitmapToBase64(bitmap);
+                preferenceManager.putString(Constants.KEY_IMAGE, base64String);
+                user.put(Constants.KEY_IMAGE, ImageID);
+                database = FirebaseFirestore.getInstance();
+                Log.e("mã hóa hình ảnh thành công", "â");
+                user.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                user.put(Constants.KEY_GENDER, preferenceManager.getBoolean(Constants.KEY_GENDER));
+                user.put(Constants.KEY_BIRTHDAY, preferenceManager.getString(Constants.KEY_BIRTHDAY));
+                user.put(Constants.KEY_HOUSE_NUMBER, preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
+                user.put(Constants.KEY_WARD, preferenceManager.getString(Constants.KEY_WARD));
+                user.put(Constants.KEY_DISTRICT, preferenceManager.getString(Constants.KEY_DISTRICT));
+                user.put(Constants.KEY_CITY, preferenceManager.getString(Constants.KEY_CITY));
+                user.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
+                user.put(Constants.KEY_PASSWORD, preferenceManager.getString(Constants.KEY_PASSWORD));
+                user.put(Constants.KEY_PHONE_NUMBER, preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
+                user.put(Constants.KEY_STATUS_USER, true);
+
+                database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
+                    Log.e("Put in database: ", "â");
+                    showToast("Thành công");
+                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                    Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    Log.e("Preference_Log", "ID: " +preferenceManager.getString(Constants.KEY_USER_ID));
+                    Log.e("Preference_Log", "Name: " + preferenceManager.getString(Constants.KEY_NAME));
+                    Log.e("Preference_Log", "Gender: " + preferenceManager.getBoolean(Constants.KEY_GENDER));
+                    Log.e("Preference_Log", "Birthday: " + preferenceManager.getString(Constants.KEY_BIRTHDAY));
+                    Log.e("Preference_Log", "House Number: " + preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
+                    Log.e("Preference_Log", "Ward: " + preferenceManager.getString(Constants.KEY_WARD));
+                    Log.e("Preference_Log", "District: " + preferenceManager.getString(Constants.KEY_DISTRICT));
+                    Log.e("Preference_Log", "City: " + preferenceManager.getString(Constants.KEY_CITY));
+                    Log.e("Preference_Log", "Email: " + preferenceManager.getString(Constants.KEY_EMAIL));
+                    Log.e("Preference_Log", "Password: " + preferenceManager.getString(Constants.KEY_PASSWORD));
+                    Log.e("Preference_Log", "Phone Number: " + preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
+                    Log.e("Preference_Log", "Image: " +preferenceManager.getString(Constants.KEY_IMAGE));
+                    startActivity(intent);
+                    finish();
+                }).addOnFailureListener(exception -> {
+                    Log.e("That bai:", "Thuaaa");
+                    showToast(exception.getMessage());
+                });
+            }
+        });
+    }
+
+    private void endcodeImage(String ID, BitmapCallback callback) {
+        storageReference = FirebaseStorage.getInstance().getReference().child("images/" + ID);
+        try {
+            File localfile = File.createTempFile("tempfile", ".jpg");
+            storageReference.getFile(localfile).addOnSuccessListener(taskSnapshot -> {
+                Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
+
+                // Gọi callback và chuyển bitmap tới nó
+                if (callback != null) {
+                    callback.onBitmapLoaded(bitmap);
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(VerificateActivity.this, "Failed!" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            }).addOnFailureListener(exception -> {
+                // Xử lý lỗi nếu quá trình tải xuống thất bại
+                Log.e("TAG", "Download failed: " + exception.getMessage());
             });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -287,4 +337,38 @@ public class VerificateActivity extends AppCompatActivity {
         countdownTimerHelper.startCountdown();
     }
 
+}
+class upLoadThread extends Thread
+{
+    private final Uri file;
+    boolean gender;
+    private String imageID;
+
+    public upLoadThread(boolean gender, Uri file)
+    {
+        this.gender = gender;
+        this.file = file;
+    }
+
+    public String getImageID() {
+        return imageID;
+    }
+
+    @Override
+    public void run() {
+
+        if (file == null) {
+            if (!gender)
+                imageID = "avatar-nam.jpg";
+            else
+                imageID = "avatar-nu.jpg";
+        } else {
+            imageID = UUID.randomUUID().toString();
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference ref = storageReference.child("images/" + imageID);
+            ref.putFile(file).addOnSuccessListener(taskSnapshot -> {
+                Log.e("Up ảnh", "");
+            });
+        }
+    }
 }

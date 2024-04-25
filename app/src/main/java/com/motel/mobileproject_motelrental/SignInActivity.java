@@ -94,6 +94,7 @@ public class SignInActivity extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
+                                finish();
                                 Log.e("Step6", "");
                             }
                         });
