@@ -99,8 +99,6 @@ public class SignInActivity extends AppCompatActivity {
                                 Log.e("Step6", "");
                             }
                         });
-
-
                     } else {
                         loading(false);
                         showToast("Đăng nhập thất bại");

@@ -15,46 +15,39 @@ import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.motel.mobileproject_motelrental.Adapter.InfoMotelAdapter;
+import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.Item.InfoMotelItem;
 import com.motel.mobileproject_motelrental.databinding.ActivityMapBinding;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private String TAG = "MapActivity";
@@ -65,16 +58,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     double latitude = 0;
     double longitude = 0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private List<Marker> markerList = new ArrayList<>();
+    List<InfoMotelItem> motelList = new ArrayList<>();
+    InfoMotelAdapter adapterPhoBien = new InfoMotelAdapter(motelList);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        if(getIntent().getStringExtra("lo")!=null)
-            longitude= Double.parseDouble(getIntent().getStringExtra("lo"));
-        if(getIntent().getStringExtra("la")!=null)
-            latitude= Double.parseDouble(getIntent().getStringExtra("la"));
+        if (getIntent().getStringExtra("lo") != null)
+            longitude = Double.parseDouble(getIntent().getStringExtra("lo"));
+        if (getIntent().getStringExtra("la") != null)
+            latitude = Double.parseDouble(getIntent().getStringExtra("la"));
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMapHome);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(MapActivity.this);
@@ -126,11 +121,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
-        if(longitude!=0 && latitude!=0){
+        if (longitude != 0 || latitude != 0) {
             LatLng latLng = new LatLng(latitude, longitude);
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-        }
-        else {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
+        } else {
             getLastLocation();
         }
 
@@ -141,37 +135,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
         addPermanentMarkers();
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                String id = (String) marker.getTag();
+                for (Marker marker1 : markerList) {
+                    if (marker1.getTag() != null && marker1.getTag().equals(id)) {
+                        binding.recyclerView.scrollToPosition(markerList.indexOf(marker1));
+                    }
+                }
+                return false;
+            }
+        });
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onInfoWindowClick(Marker marker) {
-                PopupMenu popupMenu = new PopupMenu(MapActivity.this, binding.getRoot(), Gravity.CENTER);
-                popupMenu.inflate(R.menu.ld_menu_marker);
-                try {
-                    popupMenu.getClass().getDeclaredMethod("setForceShowIcon", boolean.class).invoke(popupMenu, true);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                } catch (InvocationTargetException | NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                }
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int itemIdid = item.getItemId();
-                        if (itemIdid == R.id.action_view_details) {
-                            // Lấy id từ tag của marker
-                            String id = (String) marker.getTag();
-                            Intent intent = new Intent(MapActivity.this, DetailRomeActivity.class);
-                            intent.putExtra("motelId", id);
-                            startActivity(intent);
-                            return true;
-                        }
-                        else {
-                                return false;
-                        }
-                    }
-                });
-                popupMenu.show();
+
+                // Lấy id từ tag của marker
+                String id = (String) marker.getTag();
+
+                Intent intent = new Intent(MapActivity.this, DetailRomeActivity.class);
+                intent.putExtra("motelId", id);
+                startActivity(intent);
             }
         });
     }
@@ -200,7 +185,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
     }
+
     private void addPermanentMarkers() {
+        LinearLayoutManager layoutManagerPhoBien = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        binding.recyclerView.setLayoutManager(layoutManagerPhoBien);
         Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_STATUS_MOTEL, true);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -210,20 +198,60 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         String id = document.getId();
                         double la = document.getDouble(Constants.KEY_LATITUDE);
                         double lo = document.getDouble(Constants.KEY_LONGTITUDE);
+                        String motelAddress = document.getString(Constants.KEY_MOTEL_NUMBER) + ", " + document.getString(Constants.KEY_WARD_NAME) + ", " + document.getString(Constants.KEY_DISTRICT_NAME) + ", " + document.getString(Constants.KEY_CITY_NAME);
+                        int like = document.getLong(Constants.KEY_COUNT_LIKE).intValue();
                         String title = document.getString(Constants.KEY_TITLE);
                         LatLng latLng = new LatLng(la, lo);
+                        long price = document.getLong(Constants.KEY_PRICE);
+                        List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
+                        String imgRes = imageUrls.get(0);
+
+                        InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0, true);
+                        motelList.add(motel);
+
                         Marker marker = googleMap.addMarker(new MarkerOptions()
                                 .position(latLng)
                                 .title(title)
                                 .draggable(false)
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.img_icon_marker)));
                         marker.setTag(id);
+                        markerList.add(marker);
                     }
-
+                    binding.recyclerView.setAdapter(adapterPhoBien);
                 } else {
                     Log.e(TAG, "Error getting documents: ", task.getException());
                 }
+
+            }
+
+        });
+
+        adapterPhoBien.setOnItemRecycleClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String motelId = motelList.get(position).getId();
+                Marker marker = selectMarkerById(motelId);
+                if (marker != null) {
+                    moveCameraToMarker(marker);
+                }
             }
         });
+
     }
+
+    private void moveCameraToMarker(Marker marker) {
+        LatLng markerPosition = marker.getPosition();
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerPosition, 18));
+    }
+
+    private Marker selectMarkerById(String id) {
+        for (Marker marker : markerList) {
+            if (marker.getTag() != null && marker.getTag().equals(id)) {
+                return marker;
+            }
+        }
+        return null;
+    }
+
+
 }
