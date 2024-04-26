@@ -25,6 +25,7 @@ import com.motel.mobileproject_motelrental.databinding.ActivityFillter2Binding;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class Fillter2Activity extends AppCompatActivity {
             receivedArray[0] = fillter;
         } else {
             receivedArray = getIntent().getStringArrayExtra("infoFill");
-            fillter = receivedArray[5];
+            fillter = receivedArray[7];
         }
 
         binding.sendback.setOnClickListener(new View.OnClickListener() {
@@ -78,14 +79,24 @@ public class Fillter2Activity extends AppCompatActivity {
     }
 
     public void FillChip(String fillter, String[] receivedArray){
-        List<ChipItem> chipItemList = new ArrayList<>();
-        if (receivedArray.length >= 4) {
-            for (int i = 4; i < receivedArray.length; i++) {
-                String chip = receivedArray[i];
 
-                if(chip.equals("Tất cả")) {
-                }
-                else {
+        int city = Integer.parseInt(receivedArray[2]);
+        int district = Integer.parseInt(receivedArray[3]);
+        String txt = "";
+        if(city == 0){
+            txt = "Tất cả khu vực. ";
+        }else if(district == 0){
+            txt = receivedArray[0];
+        }else{
+            txt = receivedArray[1] + ", " + receivedArray[0];
+        }
+        binding.edtKhuVuc.setText(txt);
+
+        List<ChipItem> chipItemList = new ArrayList<>();
+        if (receivedArray.length >= 6) {
+            for (int i = 6; i < receivedArray.length; i++) {
+                String chip = receivedArray[i];
+                if(!chip.equals("Tất cả")) {
                     chipItemList.add(new ChipItem(chip));
                 }
             }
@@ -100,7 +111,11 @@ public class Fillter2Activity extends AppCompatActivity {
             public void onItemClick(int position) {
                 binding.flowchip.removeViewAt(position);
                 chipItemList.remove(position);
+                for (ChipItem item : chipItemList) {
+                    Log.e(TAG, item.getChipText());
+                }
                 String[] updatedArray = updateReceivedArray(receivedArray, chipItemList);
+                Log.e(TAG, "Remove Chip click: " + Arrays.toString(updatedArray));
                 FillList(fillter, updatedArray);
             }
         });
@@ -111,11 +126,19 @@ public class Fillter2Activity extends AppCompatActivity {
         List<String> updatedList = new ArrayList<>();
 
         // Thêm các phần tử cố định từ originalArray
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             updatedList.add(originalArray[i]);
         }
 
-        // Thêm các chip từ danh sách chipItemList vào updatedList
+        List<String> chipTextList = new ArrayList<>();
+        for (ChipItem chipItem : chipItemList) {
+            chipTextList.add(chipItem.getChipText());
+        }
+
+        // Xóa các phần tử từ originalArray có trong chipItemList
+        updatedList.removeAll(chipTextList);
+
+        // Thêm lại các phần tử từ danh sách chipItemList vào updatedList
         for (ChipItem chipItem : chipItemList) {
             updatedList.add(chipItem.getChipText());
         }
@@ -151,7 +174,7 @@ public class Fillter2Activity extends AppCompatActivity {
             }
             handleHomePage(query, adapterInfo, motelList);
         } else{
-            for(int i = 0; i<receivedArray.length; i++){
+            for(int i = 2; i<receivedArray.length; i++){
                 if(receivedArray[i].equals("Giá tăng dần")){
                     query = query.orderBy(Constants.KEY_PRICE, Query.Direction.ASCENDING);
                 } else if(receivedArray[i].equals("Giá giảm dần")){
@@ -217,11 +240,11 @@ public class Fillter2Activity extends AppCompatActivity {
 
     public void handelFilterPage(Query query, String fillter, String[] receivedArray, InfoMotelAdapter adapterInfo, List<InfoMotelItem> motelList){
 
-        int tinh = Integer.parseInt(receivedArray[0]);
-        int quan = Integer.parseInt(receivedArray[1]);
+        int tinh = Integer.parseInt(receivedArray[2]);
+        int quan = Integer.parseInt(receivedArray[3]);
 
-        int minValue = Integer.parseInt(receivedArray[2]);
-        int maxValue = Integer.parseInt(receivedArray[3]);
+        int minValue = Integer.parseInt(receivedArray[4]);
+        int maxValue = Integer.parseInt(receivedArray[5]);
 
         long type = 0;
         if(fillter.equals("Phòng trọ")){
@@ -236,7 +259,7 @@ public class Fillter2Activity extends AppCompatActivity {
 
         List<String> listChipType = new ArrayList<>();
 
-        for(int i = 0; i<receivedArray.length; i++){
+        for(int i = 2; i<receivedArray.length; i++){
             if(receivedArray[i].equals("Tủ lạnh")){
                 listChipType.add("fridge");
             } else if(receivedArray[i].equals("Máy lạnh")){
@@ -300,19 +323,19 @@ public class Fillter2Activity extends AppCompatActivity {
                                         checkChip = 1;
                                         break;
                                     }
-                                    int value = document.getLong(item).intValue();
+
                                     switch (item) {
                                         case Constants.KEY_COUNT_FRIDGE:
                                         case Constants.KEY_COUNT_AIRCONDITIONER:
                                         case Constants.KEY_COUNT_WASHING_MACHINE:
-                                            if (value == 0) {
+                                            if (document.getLong(item) == 0) {
                                                 checkChip = 1;
                                                 break;
                                             }
                                             break;
                                         case Constants.KEY_PRICE_WIFI:
                                         case Constants.KEY_PRICE_PARKING:
-                                            if (value < 0) {
+                                            if (document.getLong(item) < 0) {
                                                 checkChip = 1;
                                                 break;
                                             }
