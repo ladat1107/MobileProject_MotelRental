@@ -3,7 +3,6 @@ package com.motel.mobileproject_motelrental;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
-
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -33,7 +31,6 @@ import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
 import com.motel.mobileproject_motelrental.databinding.ActivitySignUpBinding;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +44,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SignUpActivity extends AppCompatActivity implements Comparator<String> {
 

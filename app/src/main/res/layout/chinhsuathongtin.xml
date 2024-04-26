@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ThayDoiMatKhau"
+    tools:context=".ChangeInfomationActivity"
     android:background="@color/white">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
-        android:layout_width="360dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/bgheader">
         <RelativeLayout
@@ -20,12 +26,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/backwhite" />
+
             <Button
+                android:id="@+id/btnBack"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="#00FFFFFF"
-                android:text="."
-                android:id="@+id/btnBack"/>
+                android:text="." />
         </RelativeLayout>
         <TextView
             android:id="@+id/tvChinhSuaThongTin"
@@ -40,70 +47,86 @@
             android:textStyle="bold" />
     </RelativeLayout>
     <RelativeLayout
-        android:layout_width="360dp"
-        android:layout_height="650dp"
-        android:layout_marginTop="65dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="30dp">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Họ và tên: "
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="20dp"/>
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="30dp"
-            android:hint="Nguyễn Văn A"
-            android:textColor="@color/black"
-            android:background="@drawable/ld_custom_edittext"
-            android:ems="10"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:id="@+id/etHoTen"/>
+            android:textSize="18dp"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutHoVaTen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="30dp"
+            app:helperTextTextColor="@color/red"
+            app:boxStrokeColor="@color/bluesee"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/etHoVaTen"
+                android:hint="Họ và tên"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            android:layout_marginTop="120dp"
-            android:layout_marginLeft="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="125dp"
             android:text="Số điện thoại: "
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="20dp"/>
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:textSize="18dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutSoDienThoai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="155dp"
-            android:layout_marginLeft="30dp"
-            android:hint="Bao gồm 10 chữ số"
-            android:id="@+id/etSDT"
-            android:textColor="@color/black"
-            android:background="@drawable/ld_custom_edittext"
-            android:ems="10"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"/>
+            android:layout_marginRight="30dp"
+            app:helperTextTextColor="@color/red"
+            app:boxStrokeColor="@color/bluesee"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/etSoDienThoai"
+                android:hint="Số điện thoại"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                app:boxBackgroundColor="@color/bluesee"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            android:layout_marginTop="225dp"
-            android:layout_marginLeft="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="235dp"
             android:text="Giới tính: "
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="20dp"/>
+            android:textSize="18dp"/>
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="260dp">
+            android:layout_marginTop="265dp">
             <RadioButton
                 android:id="@+id/rbNam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="30dp"
                 android:text="Nam"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
@@ -118,57 +141,88 @@
         </RadioGroup>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            android:layout_marginTop="330dp"
-            android:layout_marginLeft="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="345dp"
             android:text="Địa chỉ: "
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="20dp"/>
+            android:textSize="18dp"/>
         <Spinner
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="365dp"
-            android:layout_marginLeft="30dp"
-            android:background="#00ffffff"
-            android:id="@+id/spTinhThanhPho"/>
-        <Spinner
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="425dp"
-            android:layout_marginLeft="30dp"
-            android:background="#00ffffff"
-            android:id="@+id/spQuanHuyen"/>
-        <Spinner
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="485dp"
-            android:layout_marginLeft="30dp"
-            android:background="#00ffffff"
-            android:id="@+id/spXaPhuong"/>
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="545dp"
-            android:layout_marginLeft="30dp"
-            android:hint="Số nhà"
-            android:textColor="@color/black"
-            android:id="@+id/etSoNha"
-            android:background="@drawable/ld_custom_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="375dp"
+            android:layout_marginRight="30dp"
+            android:completionThreshold="1"
             android:ems="10"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"/>
+            android:id="@+id/spTinhThanhPho"
+            android:padding="10dp"
+            android:textSize="16dp"
+            android:textColor="@color/black" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="425dp"
+            android:layout_marginRight="30dp"
+            android:completionThreshold="1"
+            android:ems="10"
+            android:id="@+id/spQuanHuyen"
+            android:padding="10dp"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="475dp"
+            android:layout_marginRight="30dp"
+            android:completionThreshold="1"
+            android:ems="10"
+            android:padding="10dp"
+            android:textSize="16dp"
+            android:id="@+id/spXaPhuong"
+            android:textColor="@color/black"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutSoNha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="525dp"
+            android:layout_marginRight="30dp"
+            app:helperTextTextColor="@color/red"
+            app:boxStrokeColor="@color/bluesee"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/etSoNha"
+                android:hint="Số nhà"
+                android:textColor="@color/black"
+                app:boxBackgroundColor="@color/bluesee"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
     </RelativeLayout>
-    <Button
-        android:layout_width="340dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="742dp"
-        app:backgroundTint="@null"
-        android:background="@drawable/rounded_button"
-        android:text="Chỉnh sửa"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:textSize="15dp"
-        android:id="@+id/btnChinhSuaThongTin"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="715dp"
+        android:layout_marginRight="13dp"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnChinhSua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ld_custom_button_tieptuc"
+            android:elevation="25dp"
+            android:text="Chỉnh sửa"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+    </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

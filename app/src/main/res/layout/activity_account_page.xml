@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgcolor"
+    android:background="#F7FCFF"
     android:orientation="vertical"
     tools:context=".AccountPageActivity">
     <RelativeLayout
@@ -12,7 +12,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bgheader">
         <ImageView
             android:layout_width="20dp"
@@ -59,22 +59,18 @@
             android:textColor="@color/white"
             android:textSize="12dp" />
         <TextView
-            android:id="@+id/tvJoinDay"
+            android:id="@+id/tvDateOfBirth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="50dp"
-            android:text="Ngày tham gia: 15/4/2024"
+            android:text="Ngày sinh nhật: 15/4/2024"
             android:textColor="@color/white"
             android:textSize="12dp" />
     </RelativeLayout>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F7FCFF"
-        android:elevation="7dp"
-        tools:ignore="MissingConstraints">
+        android:layout_height="wrap_content">
         <Button
             android:layout_marginTop="12dp"
             android:layout_marginLeft="20dp"
@@ -153,6 +149,15 @@
             app:iconTint="@color/black"
             android:textAllCaps="false"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+    </RelativeLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:background="@null"
+        android:elevation="7dp"
+        tools:ignore="MissingConstraints">
+
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
@@ -163,6 +168,7 @@
             app:backgroundTint="@color/white">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigation"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@color/transparent"
@@ -171,6 +177,7 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnhome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"

@@ -53,7 +53,7 @@
             android:value="AIzaSyDtwGeH4QGHxEGStp3FWK0JFKDG6GSZObs" />
 
         <activity
-            android:name=".HomePageActivity"
+            android:name=".AccountPageActivity"
             android:exported="false" />
         <activity
             android:name=".ChangeInfomationActivity"
@@ -107,19 +107,20 @@
             android:name=".AddDetailRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AccountPageActivity"
+            android:name=".HomePageActivity"
             android:exported="false" />
         <activity
             android:name=".MapActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
