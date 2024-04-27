@@ -334,8 +334,13 @@ public class DetailRomeActivity extends AppCompatActivity {
 
                         imageList = new ArrayList<>();
                         List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
-                        for (String url : imageUrls) {
-                            imageList.add(new Image(url));
+                        if (imageUrls != null) {
+                            for (String url : imageUrls) {
+                                boolean isVideo = checkIfVideo(url); // Kiểm tra xem URL có phải là video hay không
+                                Image image = new Image(url, null, isVideo);
+
+                                imageList.add(image);
+                            }
                         }
                         adapter = new ImageAdapter(imageList, binding.viewPager2);
                         binding.viewPager2.setAdapter(adapter);
@@ -430,6 +435,7 @@ public class DetailRomeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         commentItemList.clear();
                         if (task.isSuccessful()) {
+                            int sl = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (document.getString(Constants.KEY_COMMENT_MOTEL).equals(motelId)) {
                                     String day = document.getString(Constants.KEY_TIME_COMMENT);
@@ -447,9 +453,11 @@ public class DetailRomeActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
                                     commentItemList.add(new CommentItem(avatar, name, formattedTime, content));
+                                    sl++;
                                 }
                             }
                             binding.recyclerViewBinhLuan.setAdapter(adapterCmt);
+                            binding.cmtcount.setText(sl + " bình luận");
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
@@ -486,5 +494,18 @@ public class DetailRomeActivity extends AppCompatActivity {
         previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private boolean checkIfVideo(String url) {
+        String fileExtension = getFileExtension(url);
+        return fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("mov");
+    }
+
+    private String getFileExtension(String url) {
+        int dotIndex = url.lastIndexOf(".");
+        if (dotIndex != -1 && dotIndex < url.length() - 1) {
+            return url.substring(dotIndex + 1).toLowerCase();
+        }
+        return "";
     }
 }

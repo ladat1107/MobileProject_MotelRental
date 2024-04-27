@@ -84,5 +84,5 @@ dependencies {
     implementation("com.sun.mail:android-activation:1.6.7")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation ("com.firebaseui:firebase-ui-storage:7.1.1")
-
+    implementation ("com.google.android.exoplayer:exoplayer:2.16.1")
 }
