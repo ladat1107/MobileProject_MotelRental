@@ -21,13 +21,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.motel.mobileproject_motelrental.Interface.BitmapCallback;
-import com.motel.mobileproject_motelrental.Item.Image;
 import com.motel.mobileproject_motelrental.databinding.ActivityVerificateBinding;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.UUID;
 import java.lang.Thread;
@@ -95,16 +95,20 @@ public class VerificateActivity extends AppCompatActivity {
             }
 
         } else {
-            Log.e(TAG, "Xác thực thất bại");
+            log("Xác thực thất bại!");
+            code = null;
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
     private void signUp() throws FileNotFoundException {
-
+        log("Bắt đầu đăng ký");
         preferenceManager = new PreferenceManager(getApplicationContext());
         uploadImage(getIntent().getParcelableExtra("uriImage"));
+    }
 
+    private void log(String message) {
+        Log.e("Quy trình: ", message);
     }
 
     public String bitmapToBase64(Bitmap bitmap) {
@@ -120,63 +124,78 @@ public class VerificateActivity extends AppCompatActivity {
     }
 
     private void uploadImage(Uri file) {
-
-        upLoadThread uploadImage = new upLoadThread(preferenceManager.getBoolean(Constants.KEY_GENDER) ,file);
-        uploadImage.start();
-
-        try {
-            uploadImage.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        ImageID = uploadImage.getImageID();
-        Log.e("ID ảnh: â", ImageID);
-        endcodeImage(ImageID, bitmap -> {
-            if (bitmap != null) {
-                Log.e("bitmap khác null","â");
-                String base64String = bitmapToBase64(bitmap);
-                preferenceManager.putString(Constants.KEY_IMAGE, base64String);
-                user.put(Constants.KEY_IMAGE, ImageID);
-                database = FirebaseFirestore.getInstance();
-                Log.e("mã hóa hình ảnh thành công", "â");
-                user.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                user.put(Constants.KEY_GENDER, preferenceManager.getBoolean(Constants.KEY_GENDER));
-                user.put(Constants.KEY_BIRTHDAY, preferenceManager.getString(Constants.KEY_BIRTHDAY));
-                user.put(Constants.KEY_HOUSE_NUMBER, preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
-                user.put(Constants.KEY_WARD, preferenceManager.getString(Constants.KEY_WARD));
-                user.put(Constants.KEY_DISTRICT, preferenceManager.getString(Constants.KEY_DISTRICT));
-                user.put(Constants.KEY_CITY, preferenceManager.getString(Constants.KEY_CITY));
-                user.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
-                user.put(Constants.KEY_PASSWORD, preferenceManager.getString(Constants.KEY_PASSWORD));
-                user.put(Constants.KEY_PHONE_NUMBER, preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
-                user.put(Constants.KEY_STATUS_USER, true);
-
-                database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
-                    Log.e("Put in database: ", "â");
-                    showToast("Thành công");
-                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                    Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    Log.e("Preference_Log", "ID: " +preferenceManager.getString(Constants.KEY_USER_ID));
-                    Log.e("Preference_Log", "Name: " + preferenceManager.getString(Constants.KEY_NAME));
-                    Log.e("Preference_Log", "Gender: " + preferenceManager.getBoolean(Constants.KEY_GENDER));
-                    Log.e("Preference_Log", "Birthday: " + preferenceManager.getString(Constants.KEY_BIRTHDAY));
-                    Log.e("Preference_Log", "House Number: " + preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
-                    Log.e("Preference_Log", "Ward: " + preferenceManager.getString(Constants.KEY_WARD));
-                    Log.e("Preference_Log", "District: " + preferenceManager.getString(Constants.KEY_DISTRICT));
-                    Log.e("Preference_Log", "City: " + preferenceManager.getString(Constants.KEY_CITY));
-                    Log.e("Preference_Log", "Email: " + preferenceManager.getString(Constants.KEY_EMAIL));
-                    Log.e("Preference_Log", "Password: " + preferenceManager.getString(Constants.KEY_PASSWORD));
-                    Log.e("Preference_Log", "Phone Number: " + preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
-                    Log.e("Preference_Log", "Image: " +preferenceManager.getString(Constants.KEY_IMAGE));
-                    startActivity(intent);
-                    finish();
-                }).addOnFailureListener(exception -> {
-                    Log.e("That bai:", "Thuaaa");
-                    showToast(exception.getMessage());
-                });
+        log("Vào upload");
+        if (file == null) {
+            log("file == null");
+            if (!preferenceManager.getBoolean(Constants.KEY_GENDER))
+                ImageID = "avatar-nam.jpg";
+            else
+                ImageID = "avatar-nu.jpg";
+            endcodeImage(ImageID, bitmap -> {
+                if (bitmap != null) {
+                    log("Mã hóa ảnh");
+                    encodedImage = bitmapToBase64(bitmap);
+                }
+            });
+        } else {
+            log("file != null");
+            ImageID = UUID.randomUUID().toString();
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference ref = storageReference.child("images/" + ImageID);
+            log(file.toString());
+            log("Bắt đầu upload ảnh");
+            ref.putFile(file).addOnSuccessListener(taskSnapshot -> {
+                log("Upload ảnh thành công");
+            });
+            try {
+                log("Bắt đầu lấy ảnh");
+                InputStream inputStream = getContentResolver().openInputStream(file);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                log("Mã hóa ảnh");
+                encodedImage = bitmapToBase64(bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
+        preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+        user.put(Constants.KEY_IMAGE, ImageID);
+        database = FirebaseFirestore.getInstance();
+        Log.e("mã hóa hình ảnh thành công", "â");
+        user.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
+        user.put(Constants.KEY_GENDER, preferenceManager.getBoolean(Constants.KEY_GENDER));
+        user.put(Constants.KEY_BIRTHDAY, preferenceManager.getString(Constants.KEY_BIRTHDAY));
+        user.put(Constants.KEY_HOUSE_NUMBER, preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
+        user.put(Constants.KEY_WARD, preferenceManager.getString(Constants.KEY_WARD));
+        user.put(Constants.KEY_DISTRICT, preferenceManager.getString(Constants.KEY_DISTRICT));
+        user.put(Constants.KEY_CITY, preferenceManager.getString(Constants.KEY_CITY));
+        user.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
+        user.put(Constants.KEY_PASSWORD, preferenceManager.getString(Constants.KEY_PASSWORD));
+        user.put(Constants.KEY_PHONE_NUMBER, preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
+        user.put(Constants.KEY_STATUS_USER, true);
+
+        database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
+            showToast("Thành công");
+            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+            Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Log.e("Preference_Log", "ID: " + preferenceManager.getString(Constants.KEY_USER_ID));
+            Log.e("Preference_Log", "Name: " + preferenceManager.getString(Constants.KEY_NAME));
+            Log.e("Preference_Log", "Gender: " + preferenceManager.getBoolean(Constants.KEY_GENDER));
+            Log.e("Preference_Log", "Birthday: " + preferenceManager.getString(Constants.KEY_BIRTHDAY));
+            Log.e("Preference_Log", "House Number: " + preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
+            Log.e("Preference_Log", "Ward: " + preferenceManager.getString(Constants.KEY_WARD));
+            Log.e("Preference_Log", "District: " + preferenceManager.getString(Constants.KEY_DISTRICT));
+            Log.e("Preference_Log", "City: " + preferenceManager.getString(Constants.KEY_CITY));
+            Log.e("Preference_Log", "Email: " + preferenceManager.getString(Constants.KEY_EMAIL));
+            Log.e("Preference_Log", "Password: " + preferenceManager.getString(Constants.KEY_PASSWORD));
+            Log.e("Preference_Log", "Phone Number: " + preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
+            Log.e("Preference_Log", "Image: " + preferenceManager.getString(Constants.KEY_IMAGE));
+            startActivity(intent);
+            finish();
+        }).addOnFailureListener(exception -> {
+            Log.e("That bai:", "Thuaaa");
+            showToast(exception.getMessage());
         });
     }
 
@@ -338,37 +357,4 @@ public class VerificateActivity extends AppCompatActivity {
     }
 
 }
-class upLoadThread extends Thread
-{
-    private final Uri file;
-    boolean gender;
-    private String imageID;
 
-    public upLoadThread(boolean gender, Uri file)
-    {
-        this.gender = gender;
-        this.file = file;
-    }
-
-    public String getImageID() {
-        return imageID;
-    }
-
-    @Override
-    public void run() {
-
-        if (file == null) {
-            if (!gender)
-                imageID = "avatar-nam.jpg";
-            else
-                imageID = "avatar-nu.jpg";
-        } else {
-            imageID = UUID.randomUUID().toString();
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-            StorageReference ref = storageReference.child("images/" + imageID);
-            ref.putFile(file).addOnSuccessListener(taskSnapshot -> {
-                Log.e("Up ảnh", "");
-            });
-        }
-    }
-}

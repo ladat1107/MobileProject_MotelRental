@@ -76,7 +76,6 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.makeramen:roundedimageview:2.3.0")
     implementation("com.hbb20:ccp:2.7.0")
-    implementation ("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.squareup.picasso:picasso:2.71828")
     // https://mvnrepository.com/artifact/com.sun.mail/android-mail
@@ -84,7 +83,6 @@ dependencies {
     // https://mvnrepository.com/artifact/com.sun.mail/android-activation
     implementation("com.sun.mail:android-activation:1.6.7")
     implementation("androidx.cardview:cardview:1.0.0")
-    implementation("com.squareup.picasso:picasso:2.71828")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.firebaseui:firebase-ui-storage:7.1.1")
 
 }
