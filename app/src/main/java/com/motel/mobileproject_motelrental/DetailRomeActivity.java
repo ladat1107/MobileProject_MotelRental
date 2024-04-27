@@ -157,14 +157,22 @@ public class DetailRomeActivity extends AppCompatActivity {
                 updateLike();
             }
         });
-
         binding.sendcmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String label = "Thêm bình luận thành công!";
-                addComments();
-                binding.edtcmt.setText("");
-                FillComment();
+                String label = "";
+                String cmt = binding.edtcmt.getText().toString();
+
+                if(cmt.isEmpty()){
+                    label = "Vui lòng nhập bình luận!";
+                    binding.edtcmt.setText("");
+                } else{
+                    label = "Thêm bình luận thành công!";
+                    addComments();
+                    FillComment();
+                    binding.edtcmt.setText("");
+                }
+
                 InputMethodManager imm = (InputMethodManager) DetailRomeActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 Snackbar.make(DetailRomeActivity.this.getCurrentFocus(), label, Snackbar.LENGTH_SHORT)
@@ -306,11 +314,6 @@ public class DetailRomeActivity extends AppCompatActivity {
                                                     if(bitmap!=null) {
                                                         user.image = bitmapToBase64(bitmap);
                                                         binding.btnNhanTin.setOnClickListener(v -> {
-                                                           /* Log.e("Thông tin user1", user.id);
-                                                            Log.e("Thông tin user2", user.name);
-                                                            Log.e("Thông tin user3", user.email);
-                                                            Log.e("Thông tin user4", phoneNumber);
-                                                            Log.e("Thông tin user5", user.image);*/
                                                             Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                                                             intent.putExtra(Constants.KEY_USER, user);
                                                             startActivity(intent);
@@ -438,6 +441,7 @@ public class DetailRomeActivity extends AppCompatActivity {
                             int sl = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (document.getString(Constants.KEY_COMMENT_MOTEL).equals(motelId)) {
+                                    String id = document.getId();
                                     String day = document.getString(Constants.KEY_TIME_COMMENT);
                                     String content = document.getString(Constants.KEY_CONTENT_COMMENT);
                                     String formattedTime = day;
@@ -452,7 +456,7 @@ public class DetailRomeActivity extends AppCompatActivity {
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
-                                    commentItemList.add(new CommentItem(avatar, name, formattedTime, content));
+                                    commentItemList.add(new CommentItem(id, avatar, name, formattedTime, content));
                                     sl++;
                                 }
                             }
