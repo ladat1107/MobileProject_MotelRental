@@ -3,6 +3,7 @@ package com.motel.mobileproject_motelrental;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,16 +19,12 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
 import com.motel.mobileproject_motelrental.databinding.ActivitySignUpBinding;
 
@@ -104,29 +101,33 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().getDocuments().isEmpty()) {
                         showToast("Email đã được đăng ký trước đây");
                     } else {
+                        //uploadImage(imageUri);
                         signUp();
                     }
                 });
     }
 
     private void uploadImage(Uri file) {
-
-        ImageID = UUID.randomUUID().toString();
-        Log.e(TAG, "uploadImage: " + ImageID);
-        StorageReference ref = storageReference.child("images/" + ImageID);
-        ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SignUpActivity.this, "Failed!" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        log("Vào up ảnh");
+        if (file == null) {
+            if (!preferenceManager.getBoolean(Constants.KEY_GENDER))
+                ImageID = "avatar-nam.jpg";
+            else
+                ImageID = "avatar-nu.jpg";
+        } else {
+            ImageID = UUID.randomUUID().toString();
+            Log.e(TAG, "uploadImage: " + ImageID);
+            StorageReference ref = storageReference.child("images/" + ImageID);
+            ref.putFile(file).addOnSuccessListener(taskSnapshot -> {
+                log("Upload thành công");
+            }).addOnFailureListener(e -> Toast.makeText(SignUpActivity.this, "Failed!" + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
     }
-
+    private void log(String message) {
+        Log.e("Quy trình: ", message);
+    }
     private void signUp() {
+        //preferenceManager.putString(Constants.KEY_IMAGE, ImageID);
         preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
         preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
         preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
@@ -142,7 +143,6 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         intent.putExtra("uriImage", imageUri);
         intent.putExtra("type", "DangKy");
         startActivity(intent);
-        finish();
 //        loading(true);
 ////        Log.e(TAG,"signUp: "+ImageID);
 //        database = FirebaseFirestore.getInstance();
