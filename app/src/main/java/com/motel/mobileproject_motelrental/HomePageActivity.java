@@ -146,7 +146,7 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
-        FillListBinhLuan();
+        /*FillListBinhLuan();*/
         FillListPhoBien();
         FillListYeuThich();
         MenuClick();
@@ -236,7 +236,7 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    public void FillListBinhLuan(){
+    /*public void FillListBinhLuan(){
         LinearLayoutManager layoutManagerBinhLuan = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         binding.recyclerViewDanhGia.setLayoutManager(layoutManagerBinhLuan);
 
@@ -343,7 +343,7 @@ public class HomePageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
+    }*/
 
     public void FillListPhoBien(){
         LinearLayoutManager layoutManagerPhoBien = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);

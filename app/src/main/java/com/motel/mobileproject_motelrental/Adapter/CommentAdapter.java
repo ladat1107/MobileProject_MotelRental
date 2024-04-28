@@ -25,7 +25,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.motel.mobileproject_motelrental.Constants;
+import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.Item.CommentItem;
+import com.motel.mobileproject_motelrental.Item.RepCommentItem;
 import com.motel.mobileproject_motelrental.R;
 import com.squareup.picasso.Picasso;
 
@@ -42,8 +44,8 @@ import com.motel.mobileproject_motelrental.databinding.LayoutRepCommentBinding;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private List<CommentItem> commentItemList;
-    boolean islike = false;
     boolean viewCmt = false;
+    String repname = "";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String TAG = "CommentAdapter";
 
@@ -61,20 +63,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         CommentItem commentItem = commentItemList.get(position);
+        repname = commentItem.getName();
         holder.bind(commentItem);
-
-        holder.imgLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (islike == false) {
-                    holder.imgLike.setImageResource(R.drawable.imglikeblue);
-                    islike = true;
-                } else {
-                    holder.imgLike.setImageResource(R.drawable.img_like);
-                    islike = false;
-                }
-            }
-        });
 
         holder.cmtRep.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +72,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 if (viewCmt == false) {
                     holder.llrepcomment.setVisibility(View.VISIBLE);
                     holder.cmtRep.setImageResource(R.drawable.messageblue);
+                    holder.edtRep.setHint("Trả lời " + commentItem.getName());
                     viewCmt = true;
 
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -91,8 +82,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         Picasso.get().load(uri).into(holder.userRep);
                     }).addOnFailureListener(exception -> {});
 
-                    List<CommentItem> commentItemList = new ArrayList<>();
-                    RepCommentAdapter adapterCmt = new RepCommentAdapter(commentItemList);
+                    List<RepCommentItem> commentItemList = new ArrayList<>();
+                    RepCommentAdapter adapterRepCmt = new RepCommentAdapter(commentItemList);
 
                     db.collection(Constants.KEY_COLLECTION_REP_COMMENTS)
                             .orderBy(Constants.KEY_REP_COMMENT_TIME, Query.Direction.ASCENDING)
@@ -110,6 +101,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                                 String formattedTime = day;
                                                 String avatar = document.getString(Constants.KEY_REP_COMMENTER_IMAGE);
                                                 String name = document.getString(Constants.KEY_REP_COMMENTER_NAME);
+                                                String repname = document.getString(Constants.KEY_REP_COMMENT_NAME);
                                                 try {
                                                     SimpleDateFormat sdfInput = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
                                                     Date date = sdfInput.parse(day);
@@ -119,15 +111,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                                 } catch (ParseException e) {
                                                     e.printStackTrace();
                                                 }
-                                                commentItemList.add(new CommentItem(id, avatar, name, formattedTime, content));
+                                                commentItemList.add(new RepCommentItem(id, avatar, name, repname, formattedTime, content));
                                             }
                                         }
-                                        holder.recyclerViewRepComment.setAdapter(adapterCmt);
+                                        holder.recyclerViewRepComment.setAdapter(adapterRepCmt);
                                     } else {
                                         Log.w(TAG, "Error getting documents.", task.getException());
                                     }
                                 }
                             });
+                    adapterRepCmt.setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            RepCommentItem commentItem = commentItemList.get(position);
+                            holder.edtRep.setHint("Trả lời " + commentItem.getName());
+                            repname = commentItem.getName();
+                        }
+                    });
                 } else {
                     holder.llrepcomment.setVisibility(View.GONE);
                     holder.recyclerViewRepComment.setAdapter(null);
@@ -145,7 +145,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 holder.edtRep.setText("");
 
                 //Fill lại comment
-                List<CommentItem> commentItemList = new ArrayList<>();
+                List<RepCommentItem> commentItemList = new ArrayList<>();
                 RepCommentAdapter adapterCmt = new RepCommentAdapter(commentItemList);
 
                 db.collection(Constants.KEY_COLLECTION_REP_COMMENTS)
@@ -164,6 +164,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                             String formattedTime = day;
                                             String avatar = document.getString(Constants.KEY_REP_COMMENTER_IMAGE);
                                             String name = document.getString(Constants.KEY_REP_COMMENTER_NAME);
+                                            String repname = document.getString(Constants.KEY_REP_COMMENT_NAME);
                                             try {
                                                 SimpleDateFormat sdfInput = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
                                                 Date date = sdfInput.parse(day);
@@ -173,7 +174,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                             } catch (ParseException e) {
                                                 e.printStackTrace();
                                             }
-                                            commentItemList.add(new CommentItem(id, avatar, name, formattedTime, content));
+                                            commentItemList.add(new RepCommentItem(id, avatar, name, repname, formattedTime, content));
                                         }
                                     }
                                     holder.recyclerViewRepComment.setAdapter(adapterCmt);
@@ -192,7 +193,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
-        private ImageView avatarImageView, imgLike, cmtRep, sendRepCmt;
+        private ImageView avatarImageView, cmtRep, sendRepCmt;
         private TextView nameTextView, dayTextView, contentTextView;
         private LinearLayout llrepcomment;
         private EditText edtRep;
@@ -202,7 +203,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             avatarImageView = itemView.findViewById(R.id.cmtavatar);
-            imgLike = itemView.findViewById(R.id.cmtlike);
             cmtRep = itemView.findViewById(R.id.cmtrep);
             nameTextView = itemView.findViewById(R.id.cmtname);
             dayTextView = itemView.findViewById(R.id.cmtday);
@@ -248,12 +248,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         String time = sdf.format(new Date(year - 1900, month - 1, dayOfMonth, hourOfDay, minute, second));
 
         Map<String, Object> data = new HashMap<>();
-        data.put(Constants.KEY_REP_COMMENTER, "hdUDaeIQeIbErYFNakZw");
-        data.put(Constants.KEY_REP_COMMENTER_NAME, "Nguyễn Văn B");
+        data.put(Constants.KEY_REP_COMMENTER, commentItem.getId());
+        data.put(Constants.KEY_REP_COMMENTER_NAME, commentItem.getName());
         data.put(Constants.KEY_REP_COMMENTER_IMAGE, commentItem.getAvatarResource());
 
         data.put(Constants.KEY_REP_COMMENT_ID, commentItem.getId());
-        data.put(Constants.KEY_REP_COMMENT_NAME, commentItem.getName());
+        data.put(Constants.KEY_REP_COMMENT_NAME, repname);
         data.put(Constants.KEY_REP_COMMENT_TIME, time);
         data.put(Constants.KEY_REP_COMMENT_CONTENT, repContent);
         //còn xử lý

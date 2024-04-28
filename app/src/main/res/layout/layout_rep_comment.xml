@@ -44,12 +44,24 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/cmtrepname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@Nguyễn Văn A"
+        android:textStyle="italic"
+        android:textColor="@color/bluebutton"
+        android:textSize="12dp" />
+
+    <TextView
         android:id="@+id/cmtcontent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="This formula will generate a random paragraph that could be used as a review or feedback based on a rating."
         android:textSize="12dp" />
 
@@ -73,7 +85,7 @@
             android:id="@+id/cmtrep"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/chat"
+            android:src="@drawable/message"
             android:layout_marginLeft="25dp"/>
 
         <TextView

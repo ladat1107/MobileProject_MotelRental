@@ -1,5 +1,6 @@
 package com.motel.mobileproject_motelrental.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +14,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.motel.mobileproject_motelrental.Interface.OnItemClickListener;
 import com.motel.mobileproject_motelrental.Item.CommentItem;
+import com.motel.mobileproject_motelrental.Item.RepCommentItem;
 import com.motel.mobileproject_motelrental.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RepCommentAdapter extends RecyclerView.Adapter<RepCommentAdapter.RepCommentViewHolder> {
-    private List<CommentItem> commentList;
-   // private Context context;
+    private List<RepCommentItem> commentList;
+    boolean viewCmt = false;
+    private OnItemClickListener listener;
 
-    public RepCommentAdapter(List<CommentItem> commentList) {
+    public RepCommentAdapter(List<RepCommentItem> commentList) {
         this.commentList = commentList;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -34,14 +42,23 @@ public class RepCommentAdapter extends RecyclerView.Adapter<RepCommentAdapter.Re
     }
 
     @Override
-    public void onBindViewHolder(RepCommentViewHolder holder, int position) {
-        CommentItem comment = commentList.get(position);
+    public void onBindViewHolder(RepCommentViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        RepCommentItem comment = commentList.get(position);
         holder.bind(comment);
 
         holder.cmtrep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle reply button click
+                if(listener != null){
+                    listener.onItemClick(position);
+                    if (viewCmt == false) {
+                        viewCmt = true;
+                        holder.cmtrep.setImageResource(R.drawable.messageblue);
+                    } else {
+                        viewCmt = false;
+                        holder.cmtrep.setImageResource(R.drawable.message);
+                    }
+                }
             }
         });
     }
@@ -56,8 +73,8 @@ public class RepCommentAdapter extends RecyclerView.Adapter<RepCommentAdapter.Re
         public TextView cmtname;
         public TextView cmtday;
         public TextView cmtcontent;
-        public ImageView cmtlike;
         public ImageView cmtrep;
+        public TextView cmtrepname;
 
         public RepCommentViewHolder(View view) {
             super(view);
@@ -65,11 +82,11 @@ public class RepCommentAdapter extends RecyclerView.Adapter<RepCommentAdapter.Re
             cmtname = view.findViewById(R.id.cmtname);
             cmtday = view.findViewById(R.id.cmtday);
             cmtcontent = view.findViewById(R.id.cmtcontent);
-            cmtlike = view.findViewById(R.id.cmtlike);
             cmtrep = view.findViewById(R.id.cmtrep);
+            cmtrepname = view.findViewById(R.id.cmtrepname);
         }
 
-        public void bind(CommentItem commentItem) {
+        public void bind(RepCommentItem commentItem) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             StorageReference pathReference = storageReference.child("avatar/" + commentItem.getAvatarResource());
 
@@ -80,6 +97,7 @@ public class RepCommentAdapter extends RecyclerView.Adapter<RepCommentAdapter.Re
             cmtname.setText(commentItem.getName());
             cmtday.setText(commentItem.getDay());
             cmtcontent.setText(commentItem.getContent());
+            cmtrepname.setText("@" + commentItem.getRepname());
         }
     }
 }

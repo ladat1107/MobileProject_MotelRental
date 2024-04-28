@@ -111,11 +111,7 @@ public class Fillter2Activity extends AppCompatActivity {
             public void onItemClick(int position) {
                 binding.flowchip.removeViewAt(position);
                 chipItemList.remove(position);
-                for (ChipItem item : chipItemList) {
-                    Log.e(TAG, item.getChipText());
-                }
                 String[] updatedArray = updateReceivedArray(receivedArray, chipItemList);
-                Log.e(TAG, "Remove Chip click: " + Arrays.toString(updatedArray));
                 FillList(fillter, updatedArray);
             }
         });

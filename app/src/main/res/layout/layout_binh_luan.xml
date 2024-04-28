@@ -67,20 +67,6 @@
         android:gravity="center_vertical"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp">
-        <ImageView
-            android:id="@+id/cmtlike"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/img_like"
-            android:layout_marginLeft="25dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hữu ích"
-            android:layout_marginLeft="10dp"
-            android:textColor="#a5a5a5"
-            android:textSize="12dp" />
 
         <ImageView
             android:id="@+id/cmtrep"

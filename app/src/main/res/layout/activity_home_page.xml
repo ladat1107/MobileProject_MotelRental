@@ -250,7 +250,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="100dp"
-                                android:text="Gần đây"
+                                android:text="Tất cả"
                                 android:textSize="18dp"
                                 android:textStyle="bold" />
 
