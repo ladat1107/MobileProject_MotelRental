@@ -388,7 +388,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
     private Map<String, Object> upDataToMap() {
         Map<String, Object> data = new HashMap<>();
-        data.put(Constants.KEY_POST_AUTHOR, "hdUDaeIQeIbErYFNakZw");
+        data.put(Constants.KEY_POST_AUTHOR, preferenceManager.getString(Constants.KEY_POST_AUTHOR));
         data.put(Constants.KEY_TITLE, preferenceManager.getString(Constants.KEY_TITLE));
         data.put(Constants.KEY_COUNT_LIKE, preferenceManager.getInt(Constants.KEY_COUNT_LIKE));
         data.put(Constants.KEY_COUNT_AIRCONDITIONER, preferenceManager.getInt(Constants.KEY_COUNT_AIRCONDITIONER));
