@@ -98,7 +98,7 @@ public class DetailRomeActivity extends AppCompatActivity {
         });
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference pathReference = storageReference.child("avatar/" + preferenceManager.getString(Constants.KEY_IMAGE_NOBASE64));
+        StorageReference pathReference = storageReference.child("images/" + preferenceManager.getString(Constants.KEY_IMAGE_NOBASE64));
 
         pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
             Picasso.get().load(uri).into(binding.usercmt);
@@ -471,7 +471,6 @@ public class DetailRomeActivity extends AppCompatActivity {
         try {
             File localfile = File.createTempFile("tempfile", ".jpg");
             storageReference.getFile(localfile).addOnSuccessListener(taskSnapshot -> {
-                Log.e("Step 1", "");
                 Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
 
                 // Gọi callback và chuyển bitmap tới nó

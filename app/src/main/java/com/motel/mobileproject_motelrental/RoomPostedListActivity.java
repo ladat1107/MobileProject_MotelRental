@@ -40,13 +40,14 @@ public class RoomPostedListActivity extends AppCompatActivity {
     private String TAG = "ActivityRoomPostedListBinding";
     int putType = 0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    PreferenceManager preferenceManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_posted_list);
         binding = ActivityRoomPostedListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        preferenceManager = new PreferenceManager(getApplicationContext());
         FillList();
         binding.btnHideAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +65,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
     }
 
     private void hideAllMotel() {
-        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, "hdUDaeIQeIbErYFNakZw");
+        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, preferenceManager.getString(Constants.KEY_USER_ID));
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -97,7 +98,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
         binding.recyclerViewKetQua.setLayoutManager(layoutManager);
         List<InfoMotelItem> motelList = new ArrayList<>();
         InfoMotelAdapter adapterInfo = new InfoMotelAdapter(motelList);
-        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, "T4bY78MCThCeOlObu3z2");
+        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, preferenceManager.getString(Constants.KEY_USER_ID));
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

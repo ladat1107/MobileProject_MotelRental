@@ -76,7 +76,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     viewCmt = true;
 
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                    StorageReference pathReference = storageReference.child("avatar/" + commentItem.getAvatarResource());
+                    StorageReference pathReference = storageReference.child("images/" + commentItem.getAvatarResource());
 
                     pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
                         Picasso.get().load(uri).into(holder.userRep);
@@ -219,7 +219,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         public void bind(CommentItem commentItem) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-            StorageReference pathReference = storageReference.child("avatar/" + commentItem.getAvatarResource());
+            StorageReference pathReference = storageReference.child("images/" + commentItem.getAvatarResource());
 
             pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
                 Picasso.get().load(uri).into(avatarImageView);

@@ -26,13 +26,13 @@
             <TextView
                 android:id="@+id/txtTitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:text="Nhà trọ view sông hồ"
                 android:textStyle="bold"
                 android:textSize="20dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="22dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="5dp">
                 <ImageView
@@ -52,7 +52,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="5dp">
                 <TextView
@@ -81,13 +81,13 @@
             <TextView
                 android:id="@+id/txtDiaChi"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:text="Số 1 Võ Văn Ngân, Linh Chiểu, Thủ Đức."
                 android:layout_marginTop="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp">
