@@ -79,21 +79,23 @@ public class Fillter2Activity extends AppCompatActivity {
     }
 
     public void FillChip(String fillter, String[] receivedArray){
-
-        int city = Integer.parseInt(receivedArray[2]);
-        int district = Integer.parseInt(receivedArray[3]);
+        int city = 0;
+        int district = 0;
         String txt = "";
-        if(city == 0){
-            txt = "Tất cả khu vực. ";
-        }else if(district == 0){
-            txt = receivedArray[0];
-        }else{
-            txt = receivedArray[1] + ", " + receivedArray[0];
-        }
-        binding.edtKhuVuc.setText(txt);
 
         List<ChipItem> chipItemList = new ArrayList<>();
         if (receivedArray.length >= 6) {
+            city = Integer.parseInt(receivedArray[2]);
+            district = Integer.parseInt(receivedArray[3]);
+
+            if(city == 0){
+                txt = "Tất cả khu vực. ";
+            }else if(district == 0){
+                txt = receivedArray[0];
+            }else{
+                txt = receivedArray[1] + ", " + receivedArray[0];
+            }
+
             for (int i = 6; i < receivedArray.length; i++) {
                 String chip = receivedArray[i];
                 if(!chip.equals("Tất cả")) {
@@ -104,6 +106,7 @@ public class Fillter2Activity extends AppCompatActivity {
             String chip = receivedArray[0];
             chipItemList.add(new ChipItem(chip));
         }
+        binding.edtKhuVuc.setText(txt);
 
         ChipAdapter adapter = new ChipAdapter(chipItemList);
         adapter.setOnChipItemClickListener(new OnItemClickListener() {
