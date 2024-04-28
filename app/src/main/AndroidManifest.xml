@@ -77,7 +77,7 @@
             android:name=".VerificateActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".HomePageActivity"
             android:exported="false" />
         <activity
             android:name=".CameraActivity"
@@ -113,10 +113,10 @@
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".MapActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePageActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

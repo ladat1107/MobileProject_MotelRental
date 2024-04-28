@@ -65,7 +65,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
     }
 
     private void hideAllMotel() {
-        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, preferenceManager.getString(Constants.KEY_POST_AUTHOR));
+        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, preferenceManager.getString(Constants.KEY_USER_ID));
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -98,7 +98,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
         binding.recyclerViewKetQua.setLayoutManager(layoutManager);
         List<InfoMotelItem> motelList = new ArrayList<>();
         InfoMotelAdapter adapterInfo = new InfoMotelAdapter(motelList);
-        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, preferenceManager.getString(Constants.KEY_POST_AUTHOR));
+        Query query = db.collection(Constants.KEY_COLLECTION_MOTELS).whereEqualTo(Constants.KEY_POST_AUTHOR, preferenceManager.getString(Constants.KEY_USER_ID));
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
