@@ -86,23 +86,16 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:layout_marginTop="-20dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingRight="20dp"
+                            android:paddingLeft="20dp"
                             android:layout_marginBottom="10dp">
-                            <ImageView
-                                android:id="@+id/iconfind"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:src="@drawable/find"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginLeft="15dp"/>
                             <EditText
-                                android:layout_width="wrap_content"
+                                android:id="@+id/edtKhuVuc"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="18dp"
-                                android:layout_marginTop="7dp"
-                                android:layout_marginBottom="7dp"
-                                android:textSize="20dp"
-                                android:layout_toRightOf="@+id/iconfind"
+                                android:textSize="18dp"
                                 android:hint="Nhập khu vực..."
                                 android:background="@null"/>
                         </RelativeLayout>

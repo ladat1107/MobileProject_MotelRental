@@ -75,14 +75,18 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
             public void onClick(View v) {
                 ArrayList<String> infoFill = new ArrayList<>();
                 //Lấy giá trị từ spinner
-                int tinh = binding.cmbTinh.getSelectedItemPosition();
-                int quan = binding.cmbQuan.getSelectedItemPosition();
+                int numtinh = binding.cmbTinh.getSelectedItemPosition();
+                int numquan = binding.cmbQuan.getSelectedItemPosition();
+                String tinhtemp = binding.cmbTinh.getSelectedItem().toString();
+                String quantemp = binding.cmbQuan.getSelectedItem().toString();
 
-                String tinhStr = String.valueOf(tinh);
-                String quanStr = String.valueOf(quan);
+                String numtinhStr = String.valueOf(numtinh);
+                String numquanStr = String.valueOf(numquan);
 
-                infoFill.add(tinhStr);
-                infoFill.add(quanStr);
+                infoFill.add(tinhtemp);
+                infoFill.add(quantemp);
+                infoFill.add(numtinhStr);
+                infoFill.add(numquanStr);
 
                 //Lấy giá trị từ RangeSlider
                 int minValue = binding.sliderGia.getValues().get(0).intValue() * 100000;

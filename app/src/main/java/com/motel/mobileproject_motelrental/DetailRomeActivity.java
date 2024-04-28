@@ -98,7 +98,7 @@ public class DetailRomeActivity extends AppCompatActivity {
         });
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference pathReference = storageReference.child("avatar/" + "2024_04_19_05_45_49");
+        StorageReference pathReference = storageReference.child("avatar/" + preferenceManager.getString(Constants.KEY_IMAGE_NOBASE64));
 
         pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
             Picasso.get().load(uri).into(binding.usercmt);
@@ -157,14 +157,22 @@ public class DetailRomeActivity extends AppCompatActivity {
                 updateLike();
             }
         });
-
         binding.sendcmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String label = "Thêm bình luận thành công!";
-                addComments();
-                binding.edtcmt.setText("");
-                FillComment();
+                String label = "";
+                String cmt = binding.edtcmt.getText().toString();
+
+                if(cmt.isEmpty()){
+                    label = "Vui lòng nhập bình luận!";
+                    binding.edtcmt.setText("");
+                } else{
+                    label = "Thêm bình luận thành công!";
+                    addComments();
+                    FillComment();
+                    binding.edtcmt.setText("");
+                }
+
                 InputMethodManager imm = (InputMethodManager) DetailRomeActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 Snackbar.make(DetailRomeActivity.this.getCurrentFocus(), label, Snackbar.LENGTH_SHORT)
@@ -181,7 +189,7 @@ public class DetailRomeActivity extends AppCompatActivity {
     private void CheckLiked(CallBack islike) {
 
         db.collection(Constants.KEY_COLLECTION_LIKES)
-                .whereEqualTo(Constants.KEY_MOTEL_LIKER, "hdUDaeIQeIbErYFNakZw")
+                .whereEqualTo(Constants.KEY_MOTEL_LIKER, preferenceManager.getString(Constants.KEY_USER_ID))
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -208,7 +216,6 @@ public class DetailRomeActivity extends AppCompatActivity {
     interface CallBack {
         void onLoaded(boolean islike);
     }
-
 
     private void updateLike() {
         Map<String, Object> data = updateDataToMap();
@@ -243,7 +250,7 @@ public class DetailRomeActivity extends AppCompatActivity {
 
     private void deleteListLike(){
         db.collection(Constants.KEY_COLLECTION_LIKES)
-                .whereEqualTo(Constants.KEY_MOTEL_LIKER, "hdUDaeIQeIbErYFNakZw")
+                .whereEqualTo(Constants.KEY_MOTEL_LIKER, preferenceManager.getString(Constants.KEY_USER_ID))
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
@@ -266,7 +273,7 @@ public class DetailRomeActivity extends AppCompatActivity {
 
     private Map<String, Object> insertDataToMap() {
         Map<String, Object> data = new HashMap<>();
-        data.put(Constants.KEY_MOTEL_LIKER, "hdUDaeIQeIbErYFNakZw");
+        data.put(Constants.KEY_MOTEL_LIKER, preferenceManager.getString(Constants.KEY_USER_ID));
         data.put(Constants.KEY_LIKED_MOTEL, motelId);
         data.put(Constants.KEY_LIKED_MOTEL_TITLE, binding.txtTitle.getText().toString());
         data.put(Constants.KEY_LIKED_MOTEL_LIKE_COUNT, likeCount);
@@ -286,8 +293,6 @@ public class DetailRomeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                        // Hiển thị dữ liệu từ document lên giao diện
                         binding.txtTitle.setText(document.getString(Constants.KEY_TITLE));
                         likeCount = document.getLong(Constants.KEY_COUNT_LIKE);
                         getInforAuth(document.getString(Constants.KEY_POST_AUTHOR), id -> {
@@ -306,11 +311,6 @@ public class DetailRomeActivity extends AppCompatActivity {
                                                     if(bitmap!=null) {
                                                         user.image = bitmapToBase64(bitmap);
                                                         binding.btnNhanTin.setOnClickListener(v -> {
-                                                           /* Log.e("Thông tin user1", user.id);
-                                                            Log.e("Thông tin user2", user.name);
-                                                            Log.e("Thông tin user3", user.email);
-                                                            Log.e("Thông tin user4", phoneNumber);
-                                                            Log.e("Thông tin user5", user.image);*/
                                                             Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                                                             intent.putExtra(Constants.KEY_USER, user);
                                                             startActivity(intent);
@@ -334,8 +334,13 @@ public class DetailRomeActivity extends AppCompatActivity {
 
                         imageList = new ArrayList<>();
                         List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
-                        for (String url : imageUrls) {
-                            imageList.add(new Image(url));
+                        if (imageUrls != null) {
+                            for (String url : imageUrls) {
+                                boolean isVideo = checkIfVideo(url); // Kiểm tra xem URL có phải là video hay không
+                                Image image = new Image(url, null, isVideo);
+
+                                imageList.add(image);
+                            }
                         }
                         adapter = new ImageAdapter(imageList, binding.viewPager2);
                         binding.viewPager2.setAdapter(adapter);
@@ -396,9 +401,9 @@ public class DetailRomeActivity extends AppCompatActivity {
         String time = sdf.format(new Date(year - 1900, month - 1, dayOfMonth, hourOfDay, minute, second));
 
         Map<String, Object> data = new HashMap<>();
-        data.put(Constants.KEY_COMMENTER, "hdUDaeIQeIbErYFNakZw");
-        data.put(Constants.KEY_COMMENTER_NAME, "Nguyễn Văn B");
-        data.put(Constants.KEY_COMMENTER_IMAGE, "2024_04_19_05_45_49");
+        data.put(Constants.KEY_COMMENTER, preferenceManager.getString(Constants.KEY_USER_ID));
+        data.put(Constants.KEY_COMMENTER_NAME, preferenceManager.getString(Constants.KEY_NAME));
+        data.put(Constants.KEY_COMMENTER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE_NOBASE64));
         data.put(Constants.KEY_COMMENT_MOTEL, motelId);
         data.put(Constants.KEY_TIME_COMMENT, time);
         data.put(Constants.KEY_CONTENT_COMMENT, binding.edtcmt.getText().toString());
@@ -430,8 +435,10 @@ public class DetailRomeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         commentItemList.clear();
                         if (task.isSuccessful()) {
+                            int sl = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (document.getString(Constants.KEY_COMMENT_MOTEL).equals(motelId)) {
+                                    String id = document.getId();
                                     String day = document.getString(Constants.KEY_TIME_COMMENT);
                                     String content = document.getString(Constants.KEY_CONTENT_COMMENT);
                                     String formattedTime = day;
@@ -446,10 +453,12 @@ public class DetailRomeActivity extends AppCompatActivity {
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
-                                    commentItemList.add(new CommentItem(avatar, name, formattedTime, content));
+                                    commentItemList.add(new CommentItem(id, avatar, name, formattedTime, content));
+                                    sl++;
                                 }
                             }
                             binding.recyclerViewBinhLuan.setAdapter(adapterCmt);
+                            binding.cmtcount.setText(sl + " bình luận");
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
@@ -486,5 +495,18 @@ public class DetailRomeActivity extends AppCompatActivity {
         previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private boolean checkIfVideo(String url) {
+        String fileExtension = getFileExtension(url);
+        return fileExtension.equalsIgnoreCase("mp4") || fileExtension.equalsIgnoreCase("mov");
+    }
+
+    private String getFileExtension(String url) {
+        int dotIndex = url.lastIndexOf(".");
+        if (dotIndex != -1 && dotIndex < url.length() - 1) {
+            return url.substring(dotIndex + 1).toLowerCase();
+        }
+        return "";
     }
 }

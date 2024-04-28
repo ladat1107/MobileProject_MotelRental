@@ -113,7 +113,7 @@ public class HomePageActivity extends AppCompatActivity {
         binding.viewallphobien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fillter = "Gần đây";
+                String fillter = "Tất cả";
                 int putType = 0;
                 Intent intent = new Intent(HomePageActivity.this, Fillter2Activity.class);
                 intent.putExtra("fillter", fillter);
@@ -212,8 +212,6 @@ public class HomePageActivity extends AppCompatActivity {
                            String imgRes = imageUrls.get(1);
 
                            MotelItem motel = new MotelItem(id, imgRes, title, motelAddress, like);
-
-                           // Thêm đối tượng Motel vào danh sách
                            motelList.add(motel);
                        }
                     }

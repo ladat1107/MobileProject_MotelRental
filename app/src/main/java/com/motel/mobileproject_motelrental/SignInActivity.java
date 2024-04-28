@@ -84,6 +84,7 @@ public class SignInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_EMAIL, documentSnapshot.getString(Constants.KEY_EMAIL));
                         preferenceManager.putString(Constants.KEY_PASSWORD, documentSnapshot.getString(Constants.KEY_PASSWORD));
                         preferenceManager.putString(Constants.KEY_PHONE_NUMBER, documentSnapshot.getString(Constants.KEY_PHONE_NUMBER));
+                        preferenceManager.putString(Constants.KEY_IMAGE_NOBASE64, documentSnapshot.getString(Constants.KEY_IMAGE));
                         endcodeImage(documentSnapshot.getString(Constants.KEY_IMAGE), bitmap -> {
                             if (bitmap != null) {
                                 Log.e("Step2", "");
@@ -159,9 +160,6 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     public String bitmapToBase64(Bitmap bitmap) {
         Log.e("Step3", "");
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -169,5 +167,4 @@ public class SignInActivity extends AppCompatActivity {
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
-
 }

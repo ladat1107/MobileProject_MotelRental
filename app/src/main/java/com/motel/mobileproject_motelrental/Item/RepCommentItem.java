@@ -1,16 +1,18 @@
 package com.motel.mobileproject_motelrental.Item;
 
-public class CommentItem {
+public class RepCommentItem {
     private String id;
     private String avatarResource;
     private String name;
+    private String repname;
     private String day;
     private String content;
 
-    public CommentItem(String id, String avatarResource, String name, String day, String content) {
+    public RepCommentItem(String id, String avatarResource, String name, String repname, String day, String content) {
         this.id = id;
         this.avatarResource = avatarResource;
         this.name = name;
+        this.repname = repname;
         this.day = day;
         this.content = content;
     }
@@ -20,6 +22,9 @@ public class CommentItem {
     }
     public String getName() {
         return name;
+    }
+    public String getRepname() {
+        return repname;
     }
     public String getDay() {
         return day;

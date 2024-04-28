@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="30dp"
     android:orientation="vertical"
     android:backgroundTint="@color/bgcolor">
 
@@ -43,12 +44,24 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/cmtrepname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@Nguyễn Văn A"
+        android:textStyle="italic"
+        android:textColor="@color/bluebutton"
+        android:textSize="12dp" />
+
+    <TextView
         android:id="@+id/cmtcontent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="This formula will generate a random paragraph that could be used as a review or feedback based on a rating."
         android:textSize="12dp" />
 
@@ -82,61 +95,6 @@
             android:layout_marginLeft="10dp"
             android:textColor="#a5a5a5"
             android:textSize="12dp" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRepComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:id="@+id/llrepcomment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/userrep"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/imgavatar"
-                android:background="@drawable/background_image"
-                app:riv_oval="true"
-                android:scaleType="centerCrop"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical">
-                <EditText
-                    android:id="@+id/edtrep"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ld_custom_edittext"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="50dp"
-                    android:textSize="15dp"
-                    android:hint="Nhập bình luận..."/>
-
-                <ImageView
-                    android:id="@+id/sendrepcmt"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/send"
-                    android:layout_marginTop="-33dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="right"/>
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 
     <ImageView

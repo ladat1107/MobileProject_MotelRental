@@ -64,6 +64,18 @@ public class Constants {
     public static final String KEY_TIME_COMMENT = "time comment";   // thòi gian bình luận                          timestamp
     public static final String KEY_CONTENT_COMMENT = "content comment"; // nội dung của bình luận                   string
 
+    public static final String KEY_COLLECTION_REP_COMMENTS = "repcomments"; // tên collection
+    public static final String KEY_REP_COMMENTER = "repcommenter";         // documentid của người bình luận
+    public static final String KEY_REP_COMMENTER_NAME = "repcommenter name"; // tên người bình luận                         string
+    public static final String KEY_REP_COMMENTER_IMAGE = "repcommenter image"; // ảnh đại diện người bình luận              string
+    public static final String KEY_REP_COMMENT_ID = "comment id"; //documentid của comment được rep             string
+    public static final String KEY_REP_COMMENT_NAME = "comment name";
+    public static final String KEY_REP_COMMENT_TIME = "repcomment time";
+    public static final String KEY_REP_COMMENT_LIKE = "repcomment like";
+    public static final String KEY_REP_COMMENT_CONTENT = "repcomment content"; // nội dung của bình luận
+
+
+
     public static final String KEY_COLLECTION_LIKES = "likemotels";  // tên collection
     public static final String KEY_MOTEL_LIKER = "liker";   //documentid của người like                         string
     public static final String KEY_LIKED_MOTEL = "liked motel"; //documentid của trọ                                string
@@ -89,4 +101,6 @@ public class Constants {
     public static final String KEY_SENDER_IMAGE = "senderImage";
     public static final String KEY_RECEIVER_IMAGE = "receiverImage";
     public static final String KEY_LAST_MESSAGE = "lastMessage";
+
+    public static final String KEY_IMAGE_NOBASE64 = "image no base64";
 }
