@@ -468,8 +468,6 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         }
     }
 
-
-
 }
 
 
