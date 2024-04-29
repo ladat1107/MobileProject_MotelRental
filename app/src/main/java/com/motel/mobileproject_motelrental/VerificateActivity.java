@@ -158,6 +158,7 @@ public class VerificateActivity extends AppCompatActivity {
             }
         }
         preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+        preferenceManager.putString(Constants.KEY_IMAGE_NOBASE64,ImageID);
         user.put(Constants.KEY_IMAGE, ImageID);
         database = FirebaseFirestore.getInstance();
         Log.e("mã hóa hình ảnh thành công", "â");
@@ -179,23 +180,22 @@ public class VerificateActivity extends AppCompatActivity {
             preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
             Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            Log.e("Preference_Log", "ID: " + preferenceManager.getString(Constants.KEY_USER_ID));
-            Log.e("Preference_Log", "Name: " + preferenceManager.getString(Constants.KEY_NAME));
-            Log.e("Preference_Log", "Gender: " + preferenceManager.getBoolean(Constants.KEY_GENDER));
-            Log.e("Preference_Log", "Birthday: " + preferenceManager.getString(Constants.KEY_BIRTHDAY));
-            Log.e("Preference_Log", "House Number: " + preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
-            Log.e("Preference_Log", "Ward: " + preferenceManager.getString(Constants.KEY_WARD));
-            Log.e("Preference_Log", "District: " + preferenceManager.getString(Constants.KEY_DISTRICT));
-            Log.e("Preference_Log", "City: " + preferenceManager.getString(Constants.KEY_CITY));
-            Log.e("Preference_Log", "Email: " + preferenceManager.getString(Constants.KEY_EMAIL));
-            Log.e("Preference_Log", "Password: " + preferenceManager.getString(Constants.KEY_PASSWORD));
-            Log.e("Preference_Log", "Phone Number: " + preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
-            Log.e("Preference_Log", "Image: " + preferenceManager.getString(Constants.KEY_IMAGE));
+//            Log.e("Preference_Log", "ID: " + preferenceManager.getString(Constants.KEY_USER_ID));
+//            Log.e("Preference_Log", "Name: " + preferenceManager.getString(Constants.KEY_NAME));
+//            Log.e("Preference_Log", "Gender: " + preferenceManager.getBoolean(Constants.KEY_GENDER));
+//            Log.e("Preference_Log", "Birthday: " + preferenceManager.getString(Constants.KEY_BIRTHDAY));
+//            Log.e("Preference_Log", "House Number: " + preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
+//            Log.e("Preference_Log", "Ward: " + preferenceManager.getString(Constants.KEY_WARD));
+//            Log.e("Preference_Log", "District: " + preferenceManager.getString(Constants.KEY_DISTRICT));
+//            Log.e("Preference_Log", "City: " + preferenceManager.getString(Constants.KEY_CITY));
+//            Log.e("Preference_Log", "Email: " + preferenceManager.getString(Constants.KEY_EMAIL));
+//            Log.e("Preference_Log", "Password: " + preferenceManager.getString(Constants.KEY_PASSWORD));
+//            Log.e("Preference_Log", "Phone Number: " + preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
+//            Log.e("Preference_Log", "Image: " + preferenceManager.getString(Constants.KEY_IMAGE));
             startActivity(intent);
             finish();
         }).addOnFailureListener(exception -> {
-            Log.e("That bai:", "Thuaaa");
-            showToast(exception.getMessage());
+            showToast("Đăng ký không thành công");
         });
     }
 

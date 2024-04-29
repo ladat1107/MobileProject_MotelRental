@@ -296,30 +296,37 @@ public class DetailRomeActivity extends AppCompatActivity {
                         likeCount = document.getLong(Constants.KEY_COUNT_LIKE);
                         getInforAuth(document.getString(Constants.KEY_POST_AUTHOR), id -> {
                             if (id != null) {
-                                db.collection(Constants.KEY_COLLECTION_USERS).document(id).get()
-                                        .addOnCompleteListener(task1 -> {
-                                            if (task1.isSuccessful() && task1.getResult() != null) {
-                                                DocumentSnapshot document1 = task1.getResult();
-                                                user.id = id;
-                                                phoneNumber = document1.getString(Constants.KEY_PHONE_NUMBER);
-                                                user.name = document1.getString(Constants.KEY_NAME);
-                                                user.email = document1.getString(Constants.KEY_EMAIL);
-                                                user.token = document1.getString(Constants.KEY_FCM_TOKEN);
-                                                //Log.e("ảnh: ", document1.getString(Constants.KEY_IMAGE));
-                                                endcodeImage(document1.getString(Constants.KEY_IMAGE), bitmap -> {
-                                                    if(bitmap!=null) {
-                                                        user.image = bitmapToBase64(bitmap);
-                                                        binding.btnNhanTin.setOnClickListener(v -> {
-                                                            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                                                            intent.putExtra(Constants.KEY_USER, user);
-                                                            startActivity(intent);
-                                                            finish();
-                                                        });
-                                                    }
-                                                });
+                                if(!id.equals(preferenceManager.getString(Constants.KEY_USER_ID)))
+                                {
+                                    db.collection(Constants.KEY_COLLECTION_USERS).document(id).get()
+                                            .addOnCompleteListener(task1 -> {
+                                                if (task1.isSuccessful() && task1.getResult() != null) {
+                                                    DocumentSnapshot document1 = task1.getResult();
+                                                    user.id = id;
+                                                    phoneNumber = document1.getString(Constants.KEY_PHONE_NUMBER);
+                                                    user.name = document1.getString(Constants.KEY_NAME);
+                                                    user.email = document1.getString(Constants.KEY_EMAIL);
+                                                    user.token = document1.getString(Constants.KEY_FCM_TOKEN);
+                                                    //Log.e("ảnh: ", document1.getString(Constants.KEY_IMAGE));
+                                                    endcodeImage(document1.getString(Constants.KEY_IMAGE), bitmap -> {
+                                                        if(bitmap!=null) {
+                                                            user.image = bitmapToBase64(bitmap);
+                                                            binding.btnNhanTin.setOnClickListener(v -> {
+                                                                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                                                                intent.putExtra(Constants.KEY_USER, user);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            });
+                                                        }
+                                                    });
 
-                                            }
-                                        });
+                                                }
+                                            });
+                                }else {
+                                    binding.btnNhanTin.setVisibility(View.GONE);
+                                    binding.btnLienHe.setVisibility(View.GONE);
+                                }
+
                             }
                         });
                         binding.txtLove.setText(likeCount + " lượt yêu thích");

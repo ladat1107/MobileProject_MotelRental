@@ -127,7 +127,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         Log.e("Quy trình: ", message);
     }
     private void signUp() {
-        //preferenceManager.putString(Constants.KEY_IMAGE, ImageID);
+        preferenceManager.putString(Constants.KEY_IMAGE_NOBASE64, ImageID);
         preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
         preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
         preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
