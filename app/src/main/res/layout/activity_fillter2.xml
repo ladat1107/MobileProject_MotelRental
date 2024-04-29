@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/bluebutton"
+        android:background="@drawable/bgheader"
         android:orientation="horizontal">
 
         <ImageView
@@ -91,12 +91,12 @@
                             android:paddingRight="20dp"
                             android:paddingLeft="20dp"
                             android:layout_marginBottom="10dp">
-                            <EditText
+                            <TextView
                                 android:id="@+id/edtKhuVuc"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="18dp"
-                                android:hint="Nhập khu vực..."
+                                android:hint="Tất cả khu vực..."
                                 android:background="@null"/>
                         </RelativeLayout>
                     </LinearLayout>
@@ -192,25 +192,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="-13dp"
+            android:layout_marginLeft="-15dp"
             app:backgroundTint="@color/white">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigation"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_menu" />
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnhome"
+            android:id="@+id/btnmap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             app:layout_anchor="@+id/bottomAppBar"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Floating"
-            app:srcCompat="@drawable/img_home"
+            app:srcCompat="@drawable/location"
             app:tint="@null" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

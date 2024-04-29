@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -153,18 +154,19 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     public void MenuClick(){
-        binding.btnhome.setOnClickListener(new View.OnClickListener() {
+        binding.bottomNavigation.setItemIconTintList(null);
+        binding.btnmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePageActivity.this, HomePageActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), MapActivity.class));
+                finish();
             }
         });
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if(id == R.id.map){
-                startActivity(new Intent(getApplicationContext(), MapActivity.class));
+            if(id == R.id.home){
+                startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
                 finish();
                 return true;
             } else if(id == R.id.message){

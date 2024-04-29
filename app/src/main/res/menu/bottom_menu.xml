@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/map"
-        android:title="Bản đồ"
-        android:icon="@drawable/img_map"/>
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/home"/>
     <item
         android:id="@+id/message"
         android:title="Tin nhắn"
-        android:icon="@drawable/img_message"/>
+        android:icon="@drawable/messageicon"/>
     <item
         android:id="@+id/fab"
         android:title=""
@@ -15,9 +15,9 @@
     <item
         android:id="@+id/love"
         android:title="Yêu thích"
-        android:icon="@drawable/img_love"/>
+        android:icon="@drawable/love"/>
     <item
         android:id="@+id/user"
         android:title="Tài khoản"
-        android:icon="@drawable/img_user"/>
+        android:icon="@drawable/user"/>
 </menu>
