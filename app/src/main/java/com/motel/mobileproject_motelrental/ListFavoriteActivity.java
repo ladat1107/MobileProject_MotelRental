@@ -71,19 +71,19 @@ public class ListFavoriteActivity extends AppCompatActivity {
         });
     }
     public void MenuClick(){
-        btnhome = findViewById(R.id.btnhome);
+        btnhome = findViewById(R.id.btnmap);
         btnhome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListFavoriteActivity.this, HomePageActivity.class);
+                Intent intent = new Intent(ListFavoriteActivity.this, MapActivity.class);
                 startActivity(intent);
             }
         });
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if(id == R.id.map){
-                startActivity(new Intent(getApplicationContext(), MapActivity.class));
+            if(id == R.id.home){
+                startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
                 finish();
                 return true;
             } else if(id == R.id.message){
