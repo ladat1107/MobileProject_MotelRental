@@ -66,16 +66,9 @@ public class Fillter2Activity extends AppCompatActivity {
             }
         });
 
-        binding.btnhome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Fillter2Activity.this, HomePageActivity.class);
-                startActivity(intent);
-            }
-        });
-
         FillChip(fillter, receivedArray);
         FillList(fillter, receivedArray);
+        MenuClick();
     }
 
     public void FillChip(String fillter, String[] receivedArray){
@@ -201,6 +194,38 @@ public class Fillter2Activity extends AppCompatActivity {
                 Intent intent = new Intent(Fillter2Activity.this, FillterActivity.class);
                 startActivity(intent);
             }
+        });
+    }
+
+    public void MenuClick(){
+        binding.btnmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MapActivity.class));
+                finish();
+            }
+        });
+
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if(id == R.id.home){
+                startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
+                finish();
+                return true;
+            } else if(id == R.id.message){
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+                return true;
+            } else if(id == R.id.love){
+                startActivity(new Intent(getApplicationContext(), ListFavoriteActivity.class));
+                finish();
+                return true;
+            } else if(id == R.id.user){
+                startActivity(new Intent(getApplicationContext(), AccountPageActivity.class));
+                finish();
+                return true;
+            }
+            return false;
         });
     }
 
