@@ -37,8 +37,20 @@
             android:text="Danh sách yêu thích"
             android:textColor="@color/white"
             android:textSize="22dp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/roboto_bold" />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/tvDanhSachTrong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="--Danh sách trống--"
+        android:textSize="30dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:layout_marginTop="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="visible" />
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,11 +58,13 @@
         android:elevation="7dp"
         tools:ignore="MissingConstraints">
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsvScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="100dp"
             android:background="@color/white"
+            android:visibility="gone"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
             <!-- ScrollView -->
             <ScrollView
@@ -60,53 +74,47 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewFavorite"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <include layout="@layout/info_motel_layout" />
-
-                        <include layout="@layout/info_motel_layout" />
-
-                        <include layout="@layout/info_motel_layout" />
-
-                        <include layout="@layout/info_motel_layout" />
-
-                        <include layout="@layout/info_motel_layout" />
-
-                        <include layout="@layout/info_motel_layout" />
-                    </LinearLayout>
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
             </ScrollView>
         </androidx.core.widget.NestedScrollView>
-
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
-            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="-15dp"
-            app:backgroundTint="@color/white">
+            android:layout_height="match_parent"
+            app:background="@null"
+            android:elevation="7dp"
+            tools:ignore="MissingConstraints">
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigation"
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottomAppBar"
+                style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/bottom_menu" />
-        </com.google.android.material.bottomappbar.BottomAppBar>
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="-15dp"
+                app:backgroundTint="@color/white">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnmap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            app:layout_anchor="@+id/bottomAppBar"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Floating"
-            app:srcCompat="@drawable/location"
-            app:tint="@null" />
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    app:labelVisibilityMode="labeled"
+                    app:menu="@menu/bottom_menu" />
+            </com.google.android.material.bottomappbar.BottomAppBar>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnhome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                app:layout_anchor="@+id/bottomAppBar"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Floating"
+                app:srcCompat="@drawable/img_home"
+                app:tint="@null" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

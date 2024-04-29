@@ -10,10 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,10 +43,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.motel.mobileproject_motelrental.Interface.BitmapCallback;
 import com.motel.mobileproject_motelrental.databinding.ActivityMainBinding;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Console;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,7 +60,6 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     ImageView imvAvatar;
     ImageButton btnChupAnh, btnXoaAnh;
     Uri photo;
-    ActivityMainBinding binding;
     ProgressDialog progressDialog;
     StorageReference storageReference;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -200,9 +204,5 @@ public class ChangeAvatarActivity extends AppCompatActivity {
                 imvAvatar.setImageURI(null);
             }
         });
-    }
-    private void ReturnAccountPage(){
-        Intent intent = new Intent(ChangeAvatarActivity.this, AccountPageActivity.class);
-        startActivity(intent);
     }
 }
