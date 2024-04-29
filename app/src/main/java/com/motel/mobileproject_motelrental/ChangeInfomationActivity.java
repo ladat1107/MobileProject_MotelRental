@@ -1,15 +1,10 @@
 package com.motel.mobileproject_motelrental;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,37 +12,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import com.google.android.material.textfield.TextInputLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -330,14 +309,6 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
                 edHoVaTen.requestFocus();
                 layoutHoVaTen.setBoxStrokeColor(Color.parseColor("#ff5d6c"));
                 layoutHoVaTen.setHelperText("Bắt buộc!");
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
-                return;
-            }
-            else if(edSoNha.getText().toString().isEmpty()){
-                edHoVaTen.requestFocus();
-                layoutSoNha.setBoxStrokeColor(Color.parseColor("#ff5d6c"));
-                layoutSoNha.setHelperText("Bắt buộc!");
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
                 return;

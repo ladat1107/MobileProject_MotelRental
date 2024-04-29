@@ -48,7 +48,7 @@
             android:text="Anh Vu"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/roboto_bold"/>
         <TextView
             android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
@@ -57,7 +57,8 @@
             android:layout_marginTop="71dp"
             android:text="Địa chỉ: Thủ Đức"
             android:textColor="@color/white"
-            android:textSize="12dp" />
+            android:textSize="12dp"
+            android:fontFamily="@font/roboto_regular"/>
         <TextView
             android:id="@+id/tvDateOfBirth"
             android:layout_width="wrap_content"
@@ -66,7 +67,8 @@
             android:layout_marginTop="50dp"
             android:text="Ngày sinh nhật: 15/4/2024"
             android:textColor="@color/white"
-            android:textSize="12dp" />
+            android:textSize="12dp"
+            android:fontFamily="@font/roboto_regular"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -80,6 +82,7 @@
             android:text="   Danh sách yêu thích"
             app:icon="@drawable/img_love_red"
             android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
             app:background="@null"
             app:iconTint="@color/red"
             android:textAllCaps="false"
@@ -93,11 +96,13 @@
             android:text="   Phòng đã đăng"
             app:icon="@drawable/img_home"
             android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
             app:background="@null"
             app:iconTint="@color/bluebutton"
             android:textAllCaps="false"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
         <Button
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="129dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/btnDangPhong"
@@ -111,6 +116,7 @@
             android:textAllCaps="false"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
         <Button
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="188dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/btnThayDoiThongTin"
@@ -124,6 +130,7 @@
             android:textAllCaps="false"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
         <Button
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="246dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/btnThayDoiMatKhau"
@@ -137,6 +144,7 @@
             android:textAllCaps="false"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
         <Button
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="304dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/btnDangXuat"
@@ -164,13 +172,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="-13dp"
+            android:layout_marginLeft="-15dp"
             app:backgroundTint="@color/white">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigation"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_menu" />
