@@ -39,12 +39,14 @@ import java.util.HashMap;
 
 public class AccountPageActivity extends AppCompatActivity {
 
+    private static final int STORAGE_PERMISSION_CODE_FOR_DANGTRO = 1004;
     Button btnDanhSachYeuThich, btnDangTro, btnTroDaDang, btnDoiThongTin, btnDangXuat, btnThayDoiMatKhau, btnDoiAvatar, btnHome;
     ImageView imgAvatar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     StorageReference storageReference;
     ActivityAccountPageBinding binding;
     PreferenceManager preferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,14 +70,18 @@ public class AccountPageActivity extends AppCompatActivity {
             DocumentReference documentReference = db.collection(Constants.KEY_COLLECTION_USERS).document(preferenceManager.getString(Constants.KEY_USER_ID));
             HashMap<String, Object> updates = new HashMap<>();
             updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-            documentReference.update(updates).addOnSuccessListener(unused -> {preferenceManager.clear();
-                startActivity(new Intent(getApplicationContext(),SignInActivity.class));}).addOnFailureListener(e -> showToast("Unable to sign out"));
+            documentReference.update(updates).addOnSuccessListener(unused -> {
+                preferenceManager.clear();
+                startActivity(new Intent(getApplicationContext(), SignInActivity.class));
+            }).addOnFailureListener(e -> showToast("Unable to sign out"));
         });
     }
+
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-    private void ShowInformation(){
+
+    private void ShowInformation() {
         imgAvatar = findViewById(R.id.imgAvatar);
         imgAvatar.setImageBitmap(getBitmapFromEncodedString(preferenceManager.getString(Constants.KEY_IMAGE)));
         binding.tvUserName.setText(preferenceManager.getString(Constants.KEY_NAME));
@@ -83,18 +89,20 @@ public class AccountPageActivity extends AppCompatActivity {
                 preferenceManager.getString(Constants.KEY_DISTRICT) + ", " + preferenceManager.getString(Constants.KEY_WARD));
         binding.tvDateOfBirth.setText("Ngày sinh nhật: " + preferenceManager.getString(Constants.KEY_BIRTHDAY));
     }
+
     private Bitmap getBitmapFromEncodedString(String encodedImage) {
         byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);;
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        ;
         return bitmap;
     }
+
     private void ChuyenSangDangTro() {
         btnDangTro = (Button) findViewById(R.id.btnDangPhong);
         btnDangTro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AccountPageActivity.this, OwnerTypeOfRoomActivity.class);
-                startActivity(intent);
+                requestStoreDT();
             }
         });
     }
@@ -164,7 +172,8 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         }
     }
-    public void MenuClick(){
+
+    public void MenuClick() {
         binding.bottomNavigation.setItemIconTintList(null);
         binding.btnmap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,19 +185,19 @@ public class AccountPageActivity extends AppCompatActivity {
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if(id == R.id.home){
+            if (id == R.id.home) {
                 startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
                 finish();
                 return true;
-            } else if(id == R.id.message){
+            } else if (id == R.id.message) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
                 return true;
-            } else if(id == R.id.love){
+            } else if (id == R.id.love) {
                 startActivity(new Intent(getApplicationContext(), ListFavoriteActivity.class));
                 finish();
                 return true;
-            } else if(id == R.id.user){
+            } else if (id == R.id.user) {
                 startActivity(new Intent(getApplicationContext(), AccountPageActivity.class));
                 finish();
                 return true;
@@ -196,6 +205,7 @@ public class AccountPageActivity extends AppCompatActivity {
             return false;
         });
     }
+
     private void endcodeImage(String ID, BitmapCallback callback) {
         storageReference = FirebaseStorage.getInstance().getReference().child("images/" + ID);
         try {
@@ -217,7 +227,7 @@ public class AccountPageActivity extends AppCompatActivity {
         }
     }
 
-    private void GetAvatarOnFireBase(){
+    private void GetAvatarOnFireBase() {
         DocumentReference docRef = db.collection("users").document(preferenceManager.getString(Constants.KEY_USER_ID));
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -240,6 +250,7 @@ public class AccountPageActivity extends AppCompatActivity {
             }
         });
     }
+
     public String bitmapToBase64(Bitmap bitmap) {
         Log.e("Step3", "");
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -247,6 +258,7 @@ public class AccountPageActivity extends AppCompatActivity {
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
+
     private void requestStore() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
@@ -255,6 +267,16 @@ public class AccountPageActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    private void requestStoreDT() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE_FOR_DANGTRO);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), OwnerTypeOfRoomActivity.class);
+            startActivity(intent);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -263,6 +285,11 @@ public class AccountPageActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 requestStore();
             }
+        } else if (requestCode == STORAGE_PERMISSION_CODE_FOR_DANGTRO) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                requestStoreDT();
+            }
         }
     }
+
 }
