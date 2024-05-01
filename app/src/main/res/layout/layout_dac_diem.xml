@@ -6,13 +6,13 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip_dacdiem"
-        style="@style/Widget.MaterialComponents.Chip.Entry"
+        style="@style/CustomChipStyle"
         android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Có gác"
         android:clickable="true"
-        android:textColor="#504F4F"
+        android:textColor="@color/bluebutton"
         app:chipBackgroundColor="@color/bgcolor"
         app:checkedIcon="@null"
         app:chipStrokeColor="@color/bluebutton"

@@ -112,7 +112,6 @@ public class DetailRomeActivity extends AppCompatActivity {
         FillComment();
         binding.btnLienHe.setOnClickListener(v ->
         {
-
             if (ContextCompat.checkSelfPermission(DetailRomeActivity.this, android.Manifest.permission.CALL_PHONE)
                     == PackageManager.PERMISSION_GRANTED) {
                 Log.e("gọi điện thoại", "phương án 1");
@@ -453,7 +452,9 @@ public class DetailRomeActivity extends AppCompatActivity {
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
-                                    commentItemList.add(new CommentItem(id, avatar, name, formattedTime, content));
+                                    String avatarRep = preferenceManager.getString(Constants.KEY_IMAGE_NOBASE64);
+                                    String nameRep = preferenceManager.getString(Constants.KEY_NAME);
+                                    commentItemList.add(new CommentItem(id, avatar, avatarRep, name, nameRep, formattedTime, content));
                                     sl++;
                                 }
                             }

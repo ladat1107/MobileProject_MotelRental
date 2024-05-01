@@ -74,6 +74,7 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
             @Override
             public void onClick(View v) {
                 ArrayList<String> infoFill = new ArrayList<>();
+                ArrayList<String> infoChip = new ArrayList<>();
                 //Lấy giá trị từ spinner
                 int numtinh = binding.cmbTinh.getSelectedItemPosition();
                 int numquan = binding.cmbQuan.getSelectedItemPosition();
@@ -109,38 +110,43 @@ public class FillterActivity extends AppCompatActivity implements Comparator<Str
 
                 // Lấy giá trị từ ListChip
                 if (binding.chiptulanh.isChecked()) {
-                    infoFill.add("Tủ lạnh");
+                    infoChip.add("Tủ lạnh");
                 }
                 if (binding.chipmaylanh.isChecked()) {
-                    infoFill.add("Máy lạnh");
+                    infoChip.add("Máy lạnh");
                 }
                 if (binding.chipmaygiat.isChecked()) {
-                    infoFill.add("Máy giặt");
+                    infoChip.add("Máy giặt");
                 }
                 if (binding.chipwifi.isChecked()) {
-                    infoFill.add("Wifi");
+                    infoChip.add("Wifi");
                 }
                 if (binding.chipgac.isChecked()) {
-                    infoFill.add("Có gác");
+                    infoChip.add("Có gác");
                 }
                 if (binding.chipgio.isChecked()) {
-                    infoFill.add("Giờ giấc quy định");
+                    infoChip.add("Giờ giấc quy định");
                 }
                 if (binding.chipdexe.isChecked()) {
-                    infoFill.add("Chỗ để xe");
+                    infoChip.add("Chỗ để xe");
                 }
 
-                String[] arrListChip = new String[infoFill.size()];
+                String[] arrListFill = new String[infoFill.size()];
                 for (int i = 0; i < infoFill.size(); i++) {
                     String chip = infoFill.get(i);
+                    arrListFill[i] = chip;
+                }
+
+                String[] arrListChip = new String[infoChip.size()];
+                for (int i = 0; i < infoChip.size(); i++) {
+                    String chip = infoChip.get(i);
                     arrListChip[i] = chip;
                 }
 
-                int putType = 1;
-
                 Intent intent = new Intent(FillterActivity.this, Fillter2Activity.class);
-                intent.putExtra("putType", putType);
-                intent.putExtra("infoFill", arrListChip);
+                intent.putExtra("putType", 1);
+                intent.putExtra("infoFill", arrListFill);
+                intent.putExtra("infoChip", arrListChip);
                 startActivity(intent);
             }
         });

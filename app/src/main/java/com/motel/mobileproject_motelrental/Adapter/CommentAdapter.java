@@ -45,7 +45,6 @@ import com.motel.mobileproject_motelrental.databinding.LayoutRepCommentBinding;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private List<CommentItem> commentItemList;
     boolean viewCmt = false;
-    String repname = "";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String TAG = "CommentAdapter";
 
@@ -63,7 +62,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         CommentItem commentItem = commentItemList.get(position);
-        repname = commentItem.getName();
         holder.bind(commentItem);
 
         holder.cmtRep.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +74,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     viewCmt = true;
 
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                    StorageReference pathReference = storageReference.child("images/" + commentItem.getAvatarResource());
+                    StorageReference pathReference = storageReference.child("images/" + commentItem.getAvatarRep());
 
                     pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
                         Picasso.get().load(uri).into(holder.userRep);
@@ -125,7 +123,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         public void onItemClick(int position) {
                             RepCommentItem commentItem = commentItemList.get(position);
                             holder.edtRep.setHint("Trả lời " + commentItem.getName());
-                            repname = commentItem.getName();
                         }
                     });
                 } else {
@@ -249,11 +246,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         Map<String, Object> data = new HashMap<>();
         data.put(Constants.KEY_REP_COMMENTER, commentItem.getId());
-        data.put(Constants.KEY_REP_COMMENTER_NAME, commentItem.getName());
+        data.put(Constants.KEY_REP_COMMENTER_NAME, commentItem.getNameRep());
         data.put(Constants.KEY_REP_COMMENTER_IMAGE, commentItem.getAvatarResource());
 
         data.put(Constants.KEY_REP_COMMENT_ID, commentItem.getId());
-        data.put(Constants.KEY_REP_COMMENT_NAME, repname);
+        data.put(Constants.KEY_REP_COMMENT_NAME, commentItem.getName());
         data.put(Constants.KEY_REP_COMMENT_TIME, time);
         data.put(Constants.KEY_REP_COMMENT_CONTENT, repContent);
         //còn xử lý
