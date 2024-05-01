@@ -153,7 +153,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
 
     private void openGalleryForMedia() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*"); // Cho phép tất cả các loại tệp
+        intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         pickMedia.launch(intent);
     }
