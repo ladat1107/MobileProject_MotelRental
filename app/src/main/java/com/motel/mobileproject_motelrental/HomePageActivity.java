@@ -147,6 +147,8 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
+        binding.bottomNavigation.setSelectedItemId(R.id.home);
+
         FillListBinhLuan();
         FillListPhoBien();
         FillListYeuThich();
