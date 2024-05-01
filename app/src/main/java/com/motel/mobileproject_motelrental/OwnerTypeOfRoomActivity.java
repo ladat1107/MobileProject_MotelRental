@@ -217,11 +217,10 @@ public class OwnerTypeOfRoomActivity extends AppCompatActivity {
     }
 
     public void showDialogBack() {
-        CustomDialog.showConfirmationDialog(this, R.drawable.img_ld_error, "THÔNG BÁO", "Không lưu thông tin trọ", false, new ConfirmationDialogListener() {
+        CustomDialog.showConfirmationDialog(this, R.drawable.ld_notification, "XÁC NHẬN", "Về trang chủ", false, new ConfirmationDialogListener() {
             @Override
             public void onOKClicked() {
                 clearPrefernce();
-                //onBackPressed();
                 Intent intent = new Intent(OwnerTypeOfRoomActivity.this, HomePageActivity.class);
                 startActivity(intent);
             }

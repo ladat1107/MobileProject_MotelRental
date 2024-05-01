@@ -2,7 +2,10 @@ package com.motel.mobileproject_motelrental;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.motel.mobileproject_motelrental.HomePageActivity.STORAGE_PERMISSION_CODE;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +42,6 @@ public class AccountPageActivity extends AppCompatActivity {
     Button btnDanhSachYeuThich, btnDangTro, btnTroDaDang, btnDoiThongTin, btnDangXuat, btnThayDoiMatKhau, btnDoiAvatar, btnHome;
     ImageView imgAvatar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageReference;
     ActivityAccountPageBinding binding;
     PreferenceManager preferenceManager;
@@ -97,11 +101,11 @@ public class AccountPageActivity extends AppCompatActivity {
 
     private void ChuyenSangDanhSachPhongDang() {
         btnTroDaDang = (Button) findViewById(R.id.btnPhongDaDang);
+
         btnTroDaDang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AccountPageActivity.this, RoomPostedListActivity.class);
-                startActivity(intent);
+                requestStore();
             }
         });
     }
@@ -242,5 +246,23 @@ public class AccountPageActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+    private void requestStore() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), RoomPostedListActivity.class);
+            startActivity(intent);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                requestStore();
+            }
+        }
     }
 }

@@ -5,32 +5,41 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".MapActivity">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:elevation="5dp"
+        android:src="@drawable/ld_backmap" />
 
     <SearchView
         android:id="@+id/searchViewHome"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="-45dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner_4"
         android:elevation="4dp"
         android:iconifiedByDefault="false"
         android:inputType="textAutoComplete"
-        android:queryHint="Search for a place..."
-        android:visibility="visible" />
+        android:queryHint="Search for a place..." />
 
     <fragment
         android:id="@+id/googleMapHome"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="160dp"
-        android:layout_marginTop="-65dp" />
+        android:layout_marginTop="-70dp"
+        android:layout_marginBottom="160dp" />
+
 
     <ImageView
         android:id="@+id/btnHienTai"
@@ -39,12 +48,13 @@
         android:layout_gravity="bottom|right"
         android:layout_marginTop="-260dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/ld_custom_edittext"
+        android:background="@drawable/ld_radiobutton_tron"
         android:src="@drawable/ld_aim" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_marginTop="59dp"/>
+        android:layout_marginTop="59dp" />
+
 </LinearLayout>

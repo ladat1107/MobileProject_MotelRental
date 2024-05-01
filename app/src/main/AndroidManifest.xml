@@ -51,7 +51,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDtwGeH4QGHxEGStp3FWK0JFKDG6GSZObs" />
-
+        <activity
+            android:name=".RoomPostedListActivity"
+            android:exported="false" />
         <activity
             android:name=".AccountPageActivity"
             android:exported="false" />

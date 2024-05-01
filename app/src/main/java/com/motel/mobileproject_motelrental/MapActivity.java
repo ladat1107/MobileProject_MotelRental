@@ -79,6 +79,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 getLastLocation();
             }
         });
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MapActivity.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
         binding.searchViewHome.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

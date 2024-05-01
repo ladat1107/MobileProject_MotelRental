@@ -2,9 +2,12 @@ package com.motel.mobileproject_motelrental;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -46,6 +49,7 @@ public class HomePageActivity extends AppCompatActivity {
     // add binding
     private ActivityHomePageBinding binding;
     private String TAG = "HomePageActivity";
+    static final int STORAGE_PERMISSION_CODE = 1003;
     PreferenceManager preferenceManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +64,7 @@ public class HomePageActivity extends AppCompatActivity {
         binding.dangtro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearPrefernce();
-                preferenceManager.putInt(Constants.KEY_COUNT_LIKE,0);
-                Intent intent = new Intent(getApplicationContext(), OwnerTypeOfRoomActivity.class);
-                startActivity(intent);
+                    requestStore();
             }
         });
         binding.timtro.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +156,26 @@ public class HomePageActivity extends AppCompatActivity {
         MenuClick();
     }
 
+    private void requestStore() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomePageActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        } else {
+            clearPrefernce();
+            preferenceManager.putInt(Constants.KEY_COUNT_LIKE, 0);
+            Intent intent = new Intent(getApplicationContext(), OwnerTypeOfRoomActivity.class);
+            startActivity(intent);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                requestStore();
+            }
+        }
+    }
     public void MenuClick(){
         binding.bottomNavigation.setItemIconTintList(null);
         binding.btnmap.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +185,6 @@ public class HomePageActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if(id == R.id.home){
