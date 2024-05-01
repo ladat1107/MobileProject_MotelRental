@@ -1,6 +1,7 @@
 package com.motel.mobileproject_motelrental;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,12 +38,12 @@ import java.util.List;
 import java.util.Map;
 
 public class RoomPostedListActivity extends AppCompatActivity {
-
     private ActivityRoomPostedListBinding binding;
     private String TAG = "ActivityRoomPostedListBinding";
     int putType = 0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     PreferenceManager preferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +117,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
                         List<String> imageUrls = (List<String>) document.get(Constants.KEY_IMAGE_LIST);
                         String imgRes = imageUrls.get(0);
 
-                        InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0 ,status);
+                        InfoMotelItem motel = new InfoMotelItem(id, imgRes, title, like, price, motelAddress, 0, status);
                         motelList.add(motel);
 
                         sl++;
@@ -207,9 +210,9 @@ public class RoomPostedListActivity extends AppCompatActivity {
                 popupMenu.show();
             }
         });
-
-
     }
+
+
 
 
 }
