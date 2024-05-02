@@ -63,6 +63,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(RoomPostedListActivity.this, AccountPageActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -165,6 +166,7 @@ public class RoomPostedListActivity extends AppCompatActivity {
                             Intent intent = new Intent(RoomPostedListActivity.this, OwnerTypeOfRoomActivity.class);
                             intent.putExtra("motelId", motelId);
                             startActivity(intent);
+                            finish();
                             return true;
                         } else if (id == R.id.action_view) {
                             Intent intent = new Intent(RoomPostedListActivity.this, DetailRomeActivity.class);

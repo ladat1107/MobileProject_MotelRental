@@ -163,8 +163,8 @@
             <Spinner
                 android:id="@+id/cmbTinh"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ld_custom_edittext"
+                android:layout_height="53dp"
+                android:background="@drawable/hn_background_spinner"
                 android:completionThreshold="1"
                 android:ems="10"
                 android:layout_marginTop="7dp"
@@ -180,8 +180,8 @@
             <Spinner
                 android:id="@+id/cmbQuan"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ld_custom_edittext"
+                android:layout_height="53dp"
+                android:background="@drawable/hn_background_spinner"
                 android:completionThreshold="1"
                 android:ems="10"
                 android:layout_marginTop="7dp"
@@ -192,14 +192,13 @@
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
-                android:textSize="16dp" />
-
+                android:textSize="16dp" />]'
             <Spinner
                 android:id="@+id/cmbXa"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="53dp"
                 android:layout_weight="1"
-                android:background="@drawable/ld_custom_edittext"
+                android:background="@drawable/hn_background_spinner"
                 android:completionThreshold="1"
                 android:ems="10"
                 android:layout_marginTop="7dp"

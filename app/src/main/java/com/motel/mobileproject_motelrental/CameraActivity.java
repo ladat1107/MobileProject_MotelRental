@@ -193,6 +193,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
                             clearPrefernce();
                             Intent intent = new Intent(CameraActivity.this, HomePageActivity.class);
                             startActivity(intent);
+                            finish();
                             Log.d(TAG, "Dữ liệu thêm thành công");
                         } else {
                             Log.e(TAG, "Thêm thất bại", task.getException());

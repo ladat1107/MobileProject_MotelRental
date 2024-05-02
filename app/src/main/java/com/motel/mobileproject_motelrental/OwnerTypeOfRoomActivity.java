@@ -223,6 +223,7 @@ public class OwnerTypeOfRoomActivity extends AppCompatActivity {
                 clearPrefernce();
                 Intent intent = new Intent(OwnerTypeOfRoomActivity.this, HomePageActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override
