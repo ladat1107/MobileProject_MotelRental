@@ -272,6 +272,7 @@ public class AccountPageActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE_FOR_DANGTRO);
         } else {
+            preferenceManager.putInt(Constants.KEY_COUNT_LIKE, 0);
             Intent intent = new Intent(getApplicationContext(), OwnerTypeOfRoomActivity.class);
             startActivity(intent);
         }
