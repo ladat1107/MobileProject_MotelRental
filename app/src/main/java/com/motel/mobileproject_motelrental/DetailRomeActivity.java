@@ -346,13 +346,20 @@ public class DetailRomeActivity extends AppCompatActivity {
 
                         binding.txtDescription.setText(document.getString(Constants.KEY_DESCRIPTION));
 
-                        if (document.getLong(Constants.KEY_PRICE_PARKING) >= 0)
-                            binding.bedroom.setText("Bãi đậu xe");
-                        else binding.bedroom.setText("Không chỗ để xe");
+                        long priceElec = document.getLong(Constants.KEY_ELECTRICITY_PRICE);
+                        String formattedPriceElec = decimalFormat.format(priceElec);
+                        if(priceElec > 0) binding.electric.setText(formattedPriceElec + "/số");
+                        else binding.electric.setText("Không có");
 
-                        if (document.getBoolean(Constants.KEY_NO_HOST) == true)
-                            binding.bathroom.setText("Chung chủ");
-                        else binding.bathroom.setText("Không chung chủ");
+                        long priceWater = document.getLong(Constants.KEY_WATER_PRICE);
+                        String formattedPriceWater = decimalFormat.format(priceWater);
+                        if(priceWater > 0) binding.water.setText(formattedPriceWater + "/m3");
+                        else binding.water.setText("Không có");
+
+                        long priceWifi = document.getLong(Constants.KEY_PRICE_WIFI);
+                        String formattedPriceWifi = decimalFormat.format(priceWifi);
+                        if(priceWifi > 0) binding.wifi.setText(formattedPriceWifi + "/tháng");
+                        else binding.wifi.setText("Không có");
 
                         binding.area.setText(document.getLong(Constants.KEY_ACREAGE) + " m2");
 
@@ -365,10 +372,13 @@ public class DetailRomeActivity extends AppCompatActivity {
                             listTag.add(new TagItem("Máy giặt"));
                         if (document.getBoolean(Constants.KEY_GARET) == true)
                             listTag.add(new TagItem("Gác lửng"));
-                        if (document.getLong(Constants.KEY_PRICE_WIFI) >= 0)
-                            listTag.add(new TagItem("Wifi"));
+                        if (document.getLong(Constants.KEY_PRICE_PARKING) >= 0)
+                            listTag.add(new TagItem("Bãi đậu xe"));
                         if (document.getString(Constants.KEY_START_TIME) == null)
                             listTag.add(new TagItem("Giờ giấc tự do"));
+                        if(document.getBoolean(Constants.KEY_NO_HOST) == true)
+                            listTag.add(new TagItem("Chung chủ"));
+                        else listTag.add(new TagItem("Không chung chủ"));
 
                         TagAdapter adapterTag = new TagAdapter(listTag);
                         adapterTag.attachToFlowLayout(binding.flowtag);

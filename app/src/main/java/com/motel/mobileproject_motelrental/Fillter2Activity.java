@@ -251,14 +251,8 @@ public class Fillter2Activity extends AppCompatActivity {
     }
 
     public void handelFilterPage(Query query, String fillter, String[] receivedArray, String[] chipArray, InfoMotelAdapter adapterInfo, List<InfoMotelItem> motelList) {
-
-        Log.e(TAG, "handelFilterPage: " + fillter);
-        Log.e(TAG, "handelFilterPage: " + Arrays.toString(receivedArray));
-        Log.e(TAG, "handelFilterPage: " + Arrays.toString(chipArray));
-
         int tinh = Integer.parseInt(receivedArray[2]);
         int quan = Integer.parseInt(receivedArray[3]);
-
         int minValue = Integer.parseInt(receivedArray[4]);
         int maxValue = Integer.parseInt(receivedArray[5]);
 
@@ -279,7 +273,7 @@ public class Fillter2Activity extends AppCompatActivity {
             if (chipArray[i].equals("Tủ lạnh")) {
                 listChipType.add("fridge");
             } else if (chipArray[i].equals("Máy lạnh")) {
-                listChipType.add("air conditioning");
+                listChipType.add("air conditioner");
             } else if (chipArray[i].equals("Máy giặt")) {
                 listChipType.add("washing machine");
             } else if (chipArray[i].equals("Wifi")) {
