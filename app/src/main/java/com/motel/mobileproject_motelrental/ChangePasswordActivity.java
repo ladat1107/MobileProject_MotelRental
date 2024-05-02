@@ -131,6 +131,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                 return;
             }
+            else if(etNewPass.getText().toString().length() < 6){
+                etNewPass.requestFocus();
+                layoutNewPass.setBoxStrokeColor(Color.parseColor("#ff5d6c"));
+                layoutNewPass.setHelperText("Mật khẩu phải lớn hơn 6 ký tự!");
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                return;
+            }
             else if(etRepeatPass.getText().toString().isEmpty()) {
                 etRepeatPass.requestFocus();
                 layoutRepeatPass.setBoxStrokeColor(Color.parseColor("#ff5d6c"));
