@@ -1,0 +1,69 @@
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_empty="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" /> <!-- Màu đỏ khi trong trạng thái lỗi -->
+            <size android:height="41dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/red" /> <!-- Có thể chỉnh sửa màu viền tùy ý -->
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    <!-- Trạng thái khi được nhấn -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <size android:height="41dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/ld_edittext" />
+
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <size android:height="41dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/ld_edittext" />
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    <item android:state_hovered="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <size android:height="41dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/ld_edittext" />
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <size android:height="41dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/ld_edittext" />
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    <!-- Trạng thái mặc định -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <size android:height="41dp"/>
+            <stroke
+                android:width="1dp"
+                android:color="@color/dark_gray">
+            </stroke>
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+
+</selector>
+

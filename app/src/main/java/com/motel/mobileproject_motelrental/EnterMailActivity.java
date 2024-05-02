@@ -50,7 +50,6 @@ public class EnterMailActivity extends AppCompatActivity {
                             if (task.isSuccessful() && task.getResult() != null
                                     && !task.getResult().getDocuments().isEmpty()) {
                                 binding.tbError.setVisibility(View.INVISIBLE);
-                                Log.e(TAG, "EnterMailActivity: "+task.getResult().getDocuments().get(0).getId());
                                 Intent intent = new Intent(getApplicationContext(), VerificateActivity.class);
                                 intent.putExtra("email", binding.inputEmail.getText().toString());
                                 intent.putExtra("userID", task.getResult().getDocuments().get(0).getId());

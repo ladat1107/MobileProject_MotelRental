@@ -1,7 +1,10 @@
 package com.motel.mobileproject_motelrental;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -14,20 +17,28 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.motel.mobileproject_motelrental.Interface.BitmapCallback;
 import com.motel.mobileproject_motelrental.databinding.ActivityResetPasswordBinding;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
     private static String TAG = "ResetPasswordActivity";
     private ActivityResetPasswordBinding binding;
     PreferenceManager preferenceManager;
+    StorageReference storageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityResetPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Log.e(TAG, "ResetPasswordActivity: " + getIntent().getStringExtra("userID"));
         preferenceManager = new PreferenceManager(getApplicationContext());
         setListener();
 
@@ -42,8 +53,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 binding.tbError.setText("Mật khẩu mới & xác nhận mật khẩu không trùng khớp");
                 binding.tbError.setVisibility(View.VISIBLE);
             } else {
-                Log.e(TAG, "ResetPasswordActivity: " + getIntent().getStringExtra("userID"));
-                Log.e(TAG, "ResetPasswordActivity: " + getIntent().getStringExtra("email"));
+
                 binding.tbError.setVisibility(View.INVISIBLE);
                 FirebaseFirestore database = FirebaseFirestore.getInstance();
                 database.collection(Constants.KEY_COLLECTION_USERS).document(getIntent().getStringExtra("userID"))
@@ -76,11 +86,18 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_CITY, documentSnapshot.getString(Constants.KEY_CITY));
                         preferenceManager.putString(Constants.KEY_EMAIL, documentSnapshot.getString(Constants.KEY_EMAIL));
                         preferenceManager.putString(Constants.KEY_PASSWORD, documentSnapshot.getString(Constants.KEY_PASSWORD));
-                        preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
+                        preferenceManager.putString(Constants.KEY_IMAGE_NOBASE64, documentSnapshot.getString(Constants.KEY_IMAGE));
                         preferenceManager.putString(Constants.KEY_PHONE_NUMBER, documentSnapshot.getString(Constants.KEY_PHONE_NUMBER));
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                        endcodeImage(documentSnapshot.getString(Constants.KEY_IMAGE), bitmap -> {
+                            if (bitmap != null) {
+                                String base64String = bitmapToBase64(bitmap);
+                                preferenceManager.putString(Constants.KEY_IMAGE, base64String);
+                                Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     } else {
                         loading(false);
                         showToast("Đăng nhập thất bại");
@@ -100,5 +117,29 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+    private void endcodeImage(String ID, BitmapCallback callback) {
+        storageReference = FirebaseStorage.getInstance().getReference().child("images/" + ID);
+        try {
+            File localfile = File.createTempFile("tempfile", ".jpg");
+            storageReference.getFile(localfile).addOnSuccessListener(taskSnapshot -> {
+                Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
+
+                // Gọi callback và chuyển bitmap tới nó
+                if (callback != null) {
+                    callback.onBitmapLoaded(bitmap);
+                }
+            }).addOnFailureListener(exception -> {
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 }

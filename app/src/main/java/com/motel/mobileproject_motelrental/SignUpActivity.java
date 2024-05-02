@@ -108,7 +108,6 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     }
 
     private void uploadImage(Uri file) {
-        log("Vào up ảnh");
         if (file == null) {
             if (!preferenceManager.getBoolean(Constants.KEY_GENDER))
                 ImageID = "avatar-nam.jpg";
@@ -116,10 +115,8 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
                 ImageID = "avatar-nu.jpg";
         } else {
             ImageID = UUID.randomUUID().toString();
-            Log.e(TAG, "uploadImage: " + ImageID);
             StorageReference ref = storageReference.child("images/" + ImageID);
             ref.putFile(file).addOnSuccessListener(taskSnapshot -> {
-                log("Upload thành công");
             }).addOnFailureListener(e -> Toast.makeText(SignUpActivity.this, "Failed!" + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
     }
@@ -127,7 +124,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         Log.e("Quy trình: ", message);
     }
     private void signUp() {
-        //preferenceManager.putString(Constants.KEY_IMAGE, ImageID);
+        preferenceManager.putString(Constants.KEY_IMAGE_NOBASE64, ImageID);
         preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
         preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
         preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
@@ -143,45 +140,7 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         intent.putExtra("uriImage", imageUri);
         intent.putExtra("type", "DangKy");
         startActivity(intent);
-//        loading(true);
-////        Log.e(TAG,"signUp: "+ImageID);
-//        database = FirebaseFirestore.getInstance();
-//        HashMap<String, Object> user = new HashMap<>();
-//        user.put(Constants.KEY_NAME, binding.inputName.getText().toString());
-//        user.put(Constants.KEY_GENDER, selectedGender);
-//        user.put(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
-//        user.put(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
-//        user.put(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
-//        user.put(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
-//        user.put(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
-//        user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-//        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-//        user.put(Constants.KEY_IMAGE, ImageID);
-//        user.put(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
-//        user.put(Constants.KEY_STATUS_USER, true);
-//        database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(documentReference -> {
-//            loading(false);
-//            showToast("Thành công");
-//            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-//            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-//            preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
-//            preferenceManager.putBoolean(Constants.KEY_GENDER, selectedGender);
-//            preferenceManager.putString(Constants.KEY_BIRTHDAY, binding.datePickerButton.getText().toString());
-//            preferenceManager.putString(Constants.KEY_HOUSE_NUMBER, binding.inputSoNha.getText().toString());
-//            preferenceManager.putString(Constants.KEY_WARD, binding.cmbXa.getSelectedItem().toString());
-//            preferenceManager.putString(Constants.KEY_DISTRICT, binding.cmbQuan.getSelectedItem().toString());
-//            preferenceManager.putString(Constants.KEY_CITY, binding.cmbTinh.getSelectedItem().toString());
-//            preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-//            preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-//            preferenceManager.putString(Constants.KEY_IMAGE, ImageID);
-//            preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.editTextCarrierNumber.getText().toString());
-//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//        }).addOnFailureListener(exception -> {
-//            loading(false);
-//            showToast(exception.getMessage());
-//        });
+
     }
 
     private void loading(Boolean isLoading) {
@@ -195,14 +154,6 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
     }
 
     private Boolean isValidSignUpDetails() {
-
-//        //Gán ảnh theo giới tính nếu không chọn ảnh
-//        if (imageUri == null) {
-//            if (!selectedGender)
-//                ImageID = "avatar-nam.jpg";
-//            else
-//                ImageID = "avatar-nu.jpg";
-//        }
         if (binding.inputName.getText().toString().trim().isEmpty()) {
             showToast("Nhập họ tên");
             return false;
@@ -247,7 +198,6 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         if (result.getResultCode() == RESULT_OK) {
             if (result.getData() != null) {
                 imageUri = result.getData().getData();
-                Log.e(TAG, "ActivityResultLauncher: " + imageUri.toString());
                 binding.textAddImage.setVisibility(View.GONE);
                 Glide.with(getApplicationContext()).load(imageUri).into(binding.imageProfile);
             }

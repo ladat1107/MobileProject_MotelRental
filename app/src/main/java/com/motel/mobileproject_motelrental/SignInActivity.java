@@ -87,16 +87,12 @@ public class SignInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_IMAGE_NOBASE64, documentSnapshot.getString(Constants.KEY_IMAGE));
                         endcodeImage(documentSnapshot.getString(Constants.KEY_IMAGE), bitmap -> {
                             if (bitmap != null) {
-                                Log.e("Step2", "");
                                 String base64String = bitmapToBase64(bitmap);
                                 preferenceManager.putString(Constants.KEY_IMAGE, base64String);
-                                Log.e("Step4", "");
-                                Log.e("Step5", "");
                                 Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
-                                Log.e("Step6", "");
                             }
                         });
                     } else {
@@ -142,7 +138,6 @@ public class SignInActivity extends AppCompatActivity {
         try {
             File localfile = File.createTempFile("tempfile", ".jpg");
             storageReference.getFile(localfile).addOnSuccessListener(taskSnapshot -> {
-                Log.e("Step 1", "");
                 Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
 
                 // Gọi callback và chuyển bitmap tới nó
@@ -151,7 +146,6 @@ public class SignInActivity extends AppCompatActivity {
                 }
             }).addOnFailureListener(exception -> {
                 // Xử lý lỗi nếu quá trình tải xuống thất bại
-                Log.e("TAG", "Download failed: " + exception.getMessage());
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -159,7 +153,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public String bitmapToBase64(Bitmap bitmap) {
-        Log.e("Step3", "");
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
