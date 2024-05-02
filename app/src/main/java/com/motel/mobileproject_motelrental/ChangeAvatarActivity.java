@@ -71,8 +71,15 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(getApplicationContext());
         ChangeAvatarAction();
     }
+    private Bitmap getBitmapFromEncodedString(String encodedImage) {
+        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        ;
+        return bitmap;
+    }
     private void ChangeAvatarAction(){
         imvAvatar = findViewById(R.id.imgAvatar);
+        imvAvatar.setImageBitmap(getBitmapFromEncodedString(preferenceManager.getString(Constants.KEY_IMAGE)));
         GetBack();
         GetAvatarByCapture();
         DeleteImage();
