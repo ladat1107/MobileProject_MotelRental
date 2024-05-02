@@ -31,8 +31,8 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager2"
                     android:layout_width="match_parent"
-                    android:background="@color/bgcolor"
-                    android:layout_height="220dp" />
+                    android:layout_height="220dp"
+                    android:background="@color/bgcolor" />
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -85,6 +85,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="90dp"
                                 android:orientation="vertical">
+
                                 <TextView
                                     android:id="@+id/txtTitle"
                                     android:layout_width="match_parent"
@@ -94,6 +95,7 @@
                                     android:text="Nhà trọ view sông hồ"
                                     android:textSize="20dp"
                                     android:textStyle="bold" />
+
                                 <TextView
                                     android:id="@+id/txtLove"
                                     android:layout_width="wrap_content"
@@ -169,22 +171,24 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:layout_marginTop="10dp"
                                 android:backgroundTint="@color/bluebutton"
                                 android:text=" Xem trên bản đồ "
                                 android:textColor="@color/white"
-                                android:layout_marginTop="10dp"
                                 app:icon="@drawable/img_address_2"
                                 app:iconTint="@null" />
+
                             <TextView
                                 android:id="@+id/tvHideLa"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
+
                             <TextView
                                 android:id="@+id/tvHideLo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
                         </LinearLayout>
 
                         <RelativeLayout
@@ -253,6 +257,29 @@
                             android:layout_marginRight="20dp"
                             android:text="Phòng trọ nhỏ bé ấy là một góc nhỏ đậm chất ấm cúng và gần gũi. Khi bước vào, ánh sáng mềm mại từ cửa sổ nhỏ bên cạnh lan tỏa, tạo nên một không gian dễ chịu và thoáng đãng." />
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Diện tích:"
+                                android:textSize="20dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/area"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="200 m2"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -272,78 +299,83 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="20dp"
                                     android:gravity="center"
                                     android:orientation="vertical">
+
                                     <ImageView
                                         android:layout_width="30dp"
                                         android:layout_height="25dp"
                                         android:layout_marginTop="10dp"
-                                        android:src="@drawable/parking" />
+                                        android:src="@drawable/img_wifi" />
 
                                     <TextView
-                                        android:id="@+id/bedroom"
+                                        android:id="@+id/wifi"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="10dp"
                                         android:text="1 phòng ngủ"
                                         android:textSize="15dp" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:gravity="center"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginLeft="20dp"
+                                    android:gravity="center"
                                     android:orientation="vertical">
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:layout_marginTop="5dp"
-                                    android:src="@drawable/people" />
 
-                                <TextView
-                                    android:id="@+id/bathroom"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:text="1 phòng tắm"
-                                    android:textSize="15dp" />
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginTop="5dp"
+                                        android:src="@drawable/lightning" />
+
+                                    <TextView
+                                        android:id="@+id/electric"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:text="1 phòng tắm"
+                                        android:textSize="15dp" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginLeft="20dp"
                                     android:gravity="center"
-                                    android:layout_marginLeft="30dp"
                                     android:orientation="vertical">
-                                <ImageView
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
-                                    android:layout_marginTop="10dp"
-                                    android:src="@drawable/img_area" />
 
-                                <TextView
-                                    android:id="@+id/area"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:text="200 m2"
-                                    android:textSize="15dp" />
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginTop="5dp"
+                                        android:src="@drawable/waterdrop" />
+
+                                    <TextView
+                                        android:id="@+id/water"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:text="1 phòng tắm"
+                                        android:textSize="15dp" />
                                 </LinearLayout>
                             </LinearLayout>
 
-                            <com.nex3z.flowlayout.FlowLayout
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                            <com.nex3z.flowlayout.FlowLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/flowtag"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="20dp"
                                 app:flChildSpacingForLastRow="align"
-                                app:flRowSpacing="8dp"
-                                android:id="@+id/flowtag">
-                            </com.nex3z.flowlayout.FlowLayout>
+                                app:flRowSpacing="8dp"></com.nex3z.flowlayout.FlowLayout>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -380,43 +412,47 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:orientation="vertical">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:orientation="horizontal">
+
                                 <com.makeramen.roundedimageview.RoundedImageView
                                     android:id="@+id/usercmt"
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
-                                    android:src="@drawable/imgavatar"
                                     android:background="@drawable/background_image"
-                                    app:riv_oval="true"
-                                    android:scaleType="centerCrop"/>
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/imgavatar"
+                                    app:riv_oval="true" />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:orientation="vertical">
+
                                     <EditText
                                         android:id="@+id/edtcmt"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:background="@drawable/ld_custom_edittext"
+                                        android:hint="Nhập bình luận..."
                                         android:paddingLeft="10dp"
-                                        android:paddingBottom="10dp"
                                         android:paddingTop="10dp"
                                         android:paddingRight="50dp"
-                                        android:hint="Nhập bình luận..."/>
+                                        android:paddingBottom="10dp" />
 
                                     <ImageView
                                         android:id="@+id/sendcmt"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp"
-                                        android:src="@drawable/send"
+                                        android:layout_gravity="right"
                                         android:layout_marginTop="-38dp"
                                         android:layout_marginRight="10dp"
-                                        android:layout_gravity="right"/>
+                                        android:src="@drawable/send" />
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -424,7 +460,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewBinhLuan"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -434,16 +470,16 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnYeuThich"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="35dp"
             android:backgroundTint="@color/white"
             android:baselineAlignBottom="false"
             android:src="@drawable/img_love"
             app:fabSize="normal"
-            app:layout_anchorGravity="bottom|end"
-            android:layout_marginRight="35dp"
             app:layout_anchor="@id/app_bar_layout"
-            android:id="@+id/btnYeuThich"
+            app:layout_anchorGravity="bottom|end"
             app:tint="@null" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -451,33 +487,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="5dp"
+        android:background="@color/white"
         android:gravity="right"
-        android:paddingRight="10dp"
-        android:background="@color/white">
+        android:orientation="horizontal"
+        android:paddingRight="10dp">
+
         <Button
             android:id="@+id/btnLienHe"
             style="@style/Widget.Material3.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@drawable/rounded_button"
-            app:icon = "@drawable/ic_phone"
-            app:backgroundTint="@color/red"
             android:fontFamily="@font/roboto_bold"
+            android:text="Liên hệ"
             android:textSize="15dp"
-            android:text="Liên hệ"/>
+            app:backgroundTint="@color/red"
+            app:icon="@drawable/ic_phone" />
+
         <Button
             android:id="@+id/btnNhanTin"
-            android:layout_marginStart="10dp"
             style="@style/Widget.Material3.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_marginStart="10dp"
             android:background="@drawable/rounded_button"
-            app:icon = "@drawable/ic_chat"
-            app:backgroundTint = "@null"
             android:fontFamily="@font/roboto_bold"
+            android:text="Nhắn tin"
             android:textSize="15sp"
-            android:text="Nhắn tin"/>
+            app:backgroundTint="@null"
+            app:icon="@drawable/ic_chat" />
     </LinearLayout>
 </LinearLayout>
