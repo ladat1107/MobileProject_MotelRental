@@ -91,7 +91,6 @@ public class VerificateActivity extends AppCompatActivity {
             }
 
         } else {
-            code = null;
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
