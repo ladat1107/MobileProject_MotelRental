@@ -338,7 +338,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="Bàn luận nhiều"
+                                android:text="Được quan tâm"
                                 android:textSize="18dp"
                                 android:textStyle="bold" />
 
