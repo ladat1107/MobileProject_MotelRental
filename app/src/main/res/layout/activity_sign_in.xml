@@ -95,12 +95,22 @@
 
 
         </LinearLayout>
-
+        <TextView
+            android:id="@+id/forgetPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Quên mật khẩu?"
+            android:textColor="@color/bluesee"
+            android:textSize="15sp" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="20dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSignIn"
@@ -124,17 +134,7 @@
 
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/forgetPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Quên mật khẩu?"
-            android:textColor="@color/bluesee"
-            android:textSize="15sp" />
+
 
         <TextView
             android:id="@+id/textCreateNewAccount"
