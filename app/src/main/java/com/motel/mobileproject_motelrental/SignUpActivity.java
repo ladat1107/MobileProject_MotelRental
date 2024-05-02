@@ -186,6 +186,9 @@ public class SignUpActivity extends AppCompatActivity implements Comparator<Stri
         } else if (!binding.inputPassword.getText().toString().equals(binding.inputConfirmPassword.getText().toString())) {
             showToast("Mật khẩu & xác nhận mật khẩu phải giống nhau");
             return false;
+        } else if (binding.inputPassword.getText().length()< 6) {
+            showToast("Mật khẩu phải lớn hơn hoặc bằng 6 ký tự");
+            return false;
         }
         return true;
     }

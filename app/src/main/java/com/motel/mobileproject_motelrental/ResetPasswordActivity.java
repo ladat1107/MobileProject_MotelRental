@@ -5,15 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -52,6 +48,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
             if (!binding.inputPassword.getText().toString().equals(binding.inputConfirmPassword.getText().toString())) {
                 binding.tbError.setText("Mật khẩu mới & xác nhận mật khẩu không trùng khớp");
                 binding.tbError.setVisibility(View.VISIBLE);
+            } else if (binding.inputPassword.getText().length() < 6) {
+                showToast("Mật khẩu phải lớn hơn hoặc bằng 6 ký tự");
             } else {
 
                 binding.tbError.setVisibility(View.INVISIBLE);
@@ -118,6 +116,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
     private void endcodeImage(String ID, BitmapCallback callback) {
         storageReference = FirebaseStorage.getInstance().getReference().child("images/" + ID);
         try {
