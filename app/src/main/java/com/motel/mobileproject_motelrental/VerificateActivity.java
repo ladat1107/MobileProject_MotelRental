@@ -62,7 +62,6 @@ public class VerificateActivity extends AppCompatActivity {
     private void initState() {
 
         code = generateRandomCode.RandomCode();
-        Log.e(TAG, "code: " + code);
         new SendMail().buttonSendEmail(getIntent().getStringExtra("email"), code);
         CountDownTimer();
     }
@@ -75,10 +74,7 @@ public class VerificateActivity extends AppCompatActivity {
                 binding.inputCode4.getText().toString() +
                 binding.inputCode5.getText().toString() +
                 binding.inputCode6.getText().toString();
-        Log.e(TAG, "inputCode: " + inputCode);
         if (code != null && code.equals(inputCode)) {
-            Log.e(TAG, "Xác thực thành công");
-            Log.e(TAG, "VerificateActivity: " + getIntent().getStringExtra("userID"));
             binding.progressBar.setVisibility(View.INVISIBLE);
             code = null;
             if (getIntent().getStringExtra("type").equals("DoiMatKhau")) {
@@ -95,14 +91,12 @@ public class VerificateActivity extends AppCompatActivity {
             }
 
         } else {
-            log("Xác thực thất bại!");
             code = null;
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
     private void signUp() throws FileNotFoundException {
-        log("Bắt đầu đăng ký");
         preferenceManager = new PreferenceManager(getApplicationContext());
         uploadImage(getIntent().getParcelableExtra("uriImage"));
     }
@@ -112,7 +106,6 @@ public class VerificateActivity extends AppCompatActivity {
     }
 
     public String bitmapToBase64(Bitmap bitmap) {
-        Log.e("Step3", "");
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
@@ -124,34 +117,25 @@ public class VerificateActivity extends AppCompatActivity {
     }
 
     private void uploadImage(Uri file) {
-        log("Vào upload");
         if (file == null) {
-            log("file == null");
             if (!preferenceManager.getBoolean(Constants.KEY_GENDER))
                 ImageID = "avatar-nam.jpg";
             else
                 ImageID = "avatar-nu.jpg";
             endcodeImage(ImageID, bitmap -> {
                 if (bitmap != null) {
-                    log("Mã hóa ảnh");
                     encodedImage = bitmapToBase64(bitmap);
                 }
             });
         } else {
-            log("file != null");
             ImageID = UUID.randomUUID().toString();
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             StorageReference ref = storageReference.child("images/" + ImageID);
-            log(file.toString());
-            log("Bắt đầu upload ảnh");
             ref.putFile(file).addOnSuccessListener(taskSnapshot -> {
-                log("Upload ảnh thành công");
             });
             try {
-                log("Bắt đầu lấy ảnh");
                 InputStream inputStream = getContentResolver().openInputStream(file);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                log("Mã hóa ảnh");
                 encodedImage = bitmapToBase64(bitmap);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -161,7 +145,6 @@ public class VerificateActivity extends AppCompatActivity {
         preferenceManager.putString(Constants.KEY_IMAGE_NOBASE64,ImageID);
         user.put(Constants.KEY_IMAGE, ImageID);
         database = FirebaseFirestore.getInstance();
-        Log.e("mã hóa hình ảnh thành công", "â");
         user.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
         user.put(Constants.KEY_GENDER, preferenceManager.getBoolean(Constants.KEY_GENDER));
         user.put(Constants.KEY_BIRTHDAY, preferenceManager.getString(Constants.KEY_BIRTHDAY));
@@ -180,18 +163,7 @@ public class VerificateActivity extends AppCompatActivity {
             preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
             Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            Log.e("Preference_Log", "ID: " + preferenceManager.getString(Constants.KEY_USER_ID));
-//            Log.e("Preference_Log", "Name: " + preferenceManager.getString(Constants.KEY_NAME));
-//            Log.e("Preference_Log", "Gender: " + preferenceManager.getBoolean(Constants.KEY_GENDER));
-//            Log.e("Preference_Log", "Birthday: " + preferenceManager.getString(Constants.KEY_BIRTHDAY));
-//            Log.e("Preference_Log", "House Number: " + preferenceManager.getString(Constants.KEY_HOUSE_NUMBER));
-//            Log.e("Preference_Log", "Ward: " + preferenceManager.getString(Constants.KEY_WARD));
-//            Log.e("Preference_Log", "District: " + preferenceManager.getString(Constants.KEY_DISTRICT));
-//            Log.e("Preference_Log", "City: " + preferenceManager.getString(Constants.KEY_CITY));
-//            Log.e("Preference_Log", "Email: " + preferenceManager.getString(Constants.KEY_EMAIL));
-//            Log.e("Preference_Log", "Password: " + preferenceManager.getString(Constants.KEY_PASSWORD));
-//            Log.e("Preference_Log", "Phone Number: " + preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
-//            Log.e("Preference_Log", "Image: " + preferenceManager.getString(Constants.KEY_IMAGE));
+
             startActivity(intent);
             finish();
         }).addOnFailureListener(exception -> {
@@ -211,8 +183,6 @@ public class VerificateActivity extends AppCompatActivity {
                     callback.onBitmapLoaded(bitmap);
                 }
             }).addOnFailureListener(exception -> {
-                // Xử lý lỗi nếu quá trình tải xuống thất bại
-                Log.e("TAG", "Download failed: " + exception.getMessage());
             });
         } catch (IOException e) {
             throw new RuntimeException(e);

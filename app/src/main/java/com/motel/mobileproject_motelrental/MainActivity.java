@@ -89,6 +89,7 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         {
             Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 
@@ -171,15 +172,12 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         try {
             File localfile = File.createTempFile("tempfile", ".jpg");
             storageReference.getFile(localfile).addOnSuccessListener(taskSnapshot -> {
-//                Log.e("Step 1", "");
                 String str = bitmapToBase64(BitmapFactory.decodeFile(localfile.getAbsolutePath()));
                 // Gọi callback và chuyển bitmap tới nó
                 if (callback != null) {
                     callback.onStringLoaded(str);
                 }
             }).addOnFailureListener(exception -> {
-                // Xử lý lỗi nếu quá trình tải xuống thất bại
-                Log.e("TAG", "Download failed: " + exception.getMessage());
             });
         } catch (IOException e) {
             throw new RuntimeException(e);

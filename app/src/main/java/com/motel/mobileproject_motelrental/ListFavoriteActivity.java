@@ -47,7 +47,6 @@ public class ListFavoriteActivity extends AppCompatActivity {
         nestedScrollView = findViewById(R.id.nsvScrollView);
         rvFavorite = findViewById(R.id.recyclerViewFavorite);
         preferenceManager = new PreferenceManager(getApplicationContext());
-        GetBack();
         MenuClick();
         ListYeuThich();
         adapterInfo.setOnItemRecycleClickListener(new OnItemClickListener() {
@@ -61,15 +60,7 @@ public class ListFavoriteActivity extends AppCompatActivity {
             }
         });
     }
-    private void GetBack(){
-        btnBack = (Button) findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
+
     public void MenuClick(){
         btnhome = findViewById(R.id.btnmap);
         btnhome.setOnClickListener(new View.OnClickListener() {
@@ -85,11 +76,11 @@ public class ListFavoriteActivity extends AppCompatActivity {
             if(id == R.id.home){
                 startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
                 finish();
-                return true;
+                return false;
             } else if(id == R.id.message){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
-                return true;
+                return false;
             } else if(id == R.id.love){
                 startActivity(new Intent(getApplicationContext(), ListFavoriteActivity.class));
                 finish();
@@ -97,7 +88,7 @@ public class ListFavoriteActivity extends AppCompatActivity {
             } else if(id == R.id.user){
                 startActivity(new Intent(getApplicationContext(), AccountPageActivity.class));
                 finish();
-                return true;
+                return false;
             }
             return false;
         });

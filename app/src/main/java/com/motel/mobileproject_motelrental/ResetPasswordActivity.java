@@ -123,7 +123,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         try {
             File localfile = File.createTempFile("tempfile", ".jpg");
             storageReference.getFile(localfile).addOnSuccessListener(taskSnapshot -> {
-                Log.e("Step 1", "");
                 Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
 
                 // Gọi callback và chuyển bitmap tới nó
@@ -131,8 +130,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     callback.onBitmapLoaded(bitmap);
                 }
             }).addOnFailureListener(exception -> {
-                // Xử lý lỗi nếu quá trình tải xuống thất bại
-                Log.e("TAG", "Download failed: " + exception.getMessage());
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -140,7 +137,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     public String bitmapToBase64(Bitmap bitmap) {
-        Log.e("Step3", "");
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
