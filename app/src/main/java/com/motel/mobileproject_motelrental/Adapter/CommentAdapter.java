@@ -70,7 +70,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 if (viewCmt == false) {
                     holder.llrepcomment.setVisibility(View.VISIBLE);
                     holder.cmtRep.setImageResource(R.drawable.messageblue);
-                    holder.edtRep.setHint("Trả lời " + commentItem.getName());
+                    //holder.edtRep.setHint("Trả lời " + commentItem.getName());
                     viewCmt = true;
 
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
