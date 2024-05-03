@@ -283,7 +283,7 @@ public class Fillter2Activity extends AppCompatActivity {
             } else if (chipArray[i].equals("Giờ giấc quy định")) {
                 listChipType.add("starttime");
             } else if (chipArray[i].equals("Chỗ để xe")) {
-                listChipType.add("car park");
+                listChipType.add("parking");
             }
         }
         long finalType = type;
