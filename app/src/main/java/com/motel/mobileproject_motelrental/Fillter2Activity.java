@@ -277,7 +277,7 @@ public class Fillter2Activity extends AppCompatActivity {
             } else if (chipArray[i].equals("Máy giặt")) {
                 listChipType.add("washing machine");
             } else if (chipArray[i].equals("Wifi")) {
-                listChipType.add("Wireless");
+                listChipType.add("wifi");
             } else if (chipArray[i].equals("Có gác")) {
                 listChipType.add("garet");
             } else if (chipArray[i].equals("Giờ giấc quy định")) {

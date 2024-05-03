@@ -118,7 +118,7 @@ public class CameraActivity extends AppCompatActivity implements GalleryAdapter.
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), BasicInformationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddDetailRoomActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
