@@ -366,6 +366,7 @@ public class DetailRomeActivity extends AppCompatActivity {
                         long priceWifi = document.getLong(Constants.KEY_PRICE_WIFI);
                         String formattedPriceWifi = decimalFormat.format(priceWifi);
                         if(priceWifi > 0) binding.wifi.setText(formattedPriceWifi + "/tháng");
+                        else if(priceWifi == 0) binding.wifi.setText("Miễn phí.");
                         else binding.wifi.setText("Không có");
 
                         binding.area.setText(document.getLong(Constants.KEY_ACREAGE) + " m2");
@@ -381,8 +382,13 @@ public class DetailRomeActivity extends AppCompatActivity {
                             listTag.add(new TagItem("Gác lửng"));
                         if (document.getLong(Constants.KEY_PRICE_PARKING) >= 0)
                             listTag.add(new TagItem("Bãi đậu xe"));
-                        if (document.getString(Constants.KEY_START_TIME) == null)
+
+                        if (document.getString(Constants.KEY_START_TIME) == null){
                             listTag.add(new TagItem("Giờ giấc tự do"));
+                        }else{
+                            listTag.add(new TagItem("Từ " + document.getString(Constants.KEY_START_TIME) + " - " + document.getString(Constants.KEY_END_TIME)));
+                        }
+
                         if(document.getBoolean(Constants.KEY_NO_HOST) == true)
                             listTag.add(new TagItem("Chung chủ"));
                         else listTag.add(new TagItem("Không chung chủ"));
