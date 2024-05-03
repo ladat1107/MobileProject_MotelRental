@@ -53,10 +53,10 @@ public class RepCommentAdapter extends RecyclerView.Adapter<RepCommentAdapter.Re
                     listener.onItemClick(position);
                     if (viewCmt == false) {
                         viewCmt = true;
-                        holder.cmtrep.setImageResource(R.drawable.messageblue);
+                        /*holder.cmtrep.setImageResource(R.drawable.messageblue);*/
                     } else {
                         viewCmt = false;
-                        holder.cmtrep.setImageResource(R.drawable.message);
+                       /* holder.cmtrep.setImageResource(R.drawable.message);*/
                     }
                 }
             }

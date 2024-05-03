@@ -125,7 +125,7 @@
                     android:paddingTop="5dp"
                     android:paddingRight="50dp"
                     android:textSize="15dp"
-                    android:hint="Nhập bình luận..."/>
+                    android:hint="Nhập trả lời..."/>
 
                 <ImageView
                     android:id="@+id/sendrepcmt"

@@ -71,6 +71,7 @@ public class ListFavoriteActivity extends AppCompatActivity {
             }
         });
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        bottomNavigation.setSelectedItemId(R.id.love);
         bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if(id == R.id.home){

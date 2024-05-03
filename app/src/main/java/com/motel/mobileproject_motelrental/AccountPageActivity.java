@@ -75,6 +75,7 @@ public class AccountPageActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), SignInActivity.class));
             }).addOnFailureListener(e -> showToast("Unable to sign out"));
         });
+
     }
 
     private void showToast(String message) {
@@ -175,6 +176,7 @@ public class AccountPageActivity extends AppCompatActivity {
 
     public void MenuClick() {
         binding.bottomNavigation.setItemIconTintList(null);
+        binding.bottomNavigation.setSelectedItemId(R.id.user);
         binding.btnmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
