@@ -373,15 +373,19 @@ public class DetailRomeActivity extends AppCompatActivity {
 
                         List<TagItem> listTag = new ArrayList<>();
                         if (document.getLong(Constants.KEY_COUNT_FRIDGE) > 0)
-                            listTag.add(new TagItem("Tủ lạnh"));
+                            listTag.add(new TagItem( document.getLong(Constants.KEY_COUNT_FRIDGE) + " Tủ lạnh"));
                         if (document.getLong(Constants.KEY_COUNT_AIRCONDITIONER) > 0)
-                            listTag.add(new TagItem("Điều hòa"));
+                            listTag.add(new TagItem(document.getLong(Constants.KEY_COUNT_AIRCONDITIONER) + " Điều hòa"));
                         if (document.getLong(Constants.KEY_COUNT_WASHING_MACHINE) > 0)
-                            listTag.add(new TagItem("Máy giặt"));
+                            listTag.add(new TagItem(document.getLong(Constants.KEY_COUNT_WASHING_MACHINE) + " Máy giặt"));
                         if (document.getBoolean(Constants.KEY_GARET) == true)
                             listTag.add(new TagItem("Gác lửng"));
-                        if (document.getLong(Constants.KEY_PRICE_PARKING) >= 0)
-                            listTag.add(new TagItem("Bãi đậu xe"));
+
+                        long priceParking = document.getLong(Constants.KEY_PRICE_PARKING);
+                        if (document.getLong(Constants.KEY_PRICE_PARKING) >= 0){
+                            String formattedPriceParking = decimalFormat.format(priceParking);
+                            listTag.add(new TagItem("Bãi đậu xe: " + formattedPriceParking + "/tháng."));
+                        }
 
                         if (document.getString(Constants.KEY_START_TIME) == null){
                             listTag.add(new TagItem("Giờ giấc tự do"));
