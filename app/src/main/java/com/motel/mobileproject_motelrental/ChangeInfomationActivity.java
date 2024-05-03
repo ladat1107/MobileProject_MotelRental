@@ -3,6 +3,7 @@ package com.motel.mobileproject_motelrental;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -99,6 +100,8 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(ChangeInfomationActivity.this, AccountPageActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -296,6 +299,7 @@ public class ChangeInfomationActivity extends AppCompatActivity implements Compa
                 UpdateUserInformation();
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(btnChinhSua.getWindowToken(), 0);
+
             }
         });
     }
